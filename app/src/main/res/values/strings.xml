@@ -1,3 +1,47 @@
 <resources>
 	<string name="app_name">Movie Catalogue</string>
+	<string name="movie_title">Movie Title</string>
+	<string name="movie_genres">Movie Genres</string>
+
+	<array name="data_poster">
+		<item>@drawable/poster_lion_king</item>
+		<item>@drawable/poster_mib_international</item>
+		<item>@drawable/poster_avengers_endgame</item>
+		<item>@drawable/poster_aladdin</item>
+		<item>@drawable/poster_spiderman_ffh</item>
+		<item>@drawable/poster_pets_2</item>
+		<item>@drawable/poster_detective_pikachu</item>
+		<item>@drawable/poster_captain_marvel</item>
+		<item>@drawable/poster_alita</item>
+		<item>@drawable/poster_dragon</item>
+		<item>@drawable/poster_glass</item>
+	</array>
+
+	<string-array name="data_title">
+		<item>The Lion King</item>
+		<item>Men in Black: International</item>
+		<item>Avengers: Endgame</item>
+		<item>Aladdin</item>
+		<item>Spider-Man: Far from Home</item>
+		<item>The Secret Life of Pets 2</item>
+		<item>Pokemon Detective Pikachu</item>
+		<item>Captain Marvel</item>
+		<item>Alita: Battle Angel</item>
+		<item>How to Train Your Dragon: The Hidden World</item>
+		<item>Glass</item>
+	</string-array>
+
+	<string-array name="data_genres">
+		<item>Adventure, Animation, Family, Drama, Action</item>
+		<item>Action, Comedy, Science Fiction, Adventure</item>
+		<item>Adventure, Science Fiction, Action</item>
+		<item>Adventure, Fantasy, Romance, Comedy, Family</item>
+		<item>Action, Adventure, Science Fiction</item>
+		<item>Adventure, Animation, Comedy, Family</item>
+		<item>Action, Adventure, Fantasy</item>
+		<item>Action, Adventure, Science Fiction</item>
+		<item>Action, Science Fiction, Thriller, Adventure</item>
+		<item>Animation, Family, Adventure</item>
+		<item>Thriller, Drama, Science Fiction</item>
+	</string-array>
 </resources>
