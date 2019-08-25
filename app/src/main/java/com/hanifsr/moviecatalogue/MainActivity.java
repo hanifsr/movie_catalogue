@@ -2,6 +2,7 @@ package com.hanifsr.moviecatalogue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 	private TypedArray dataPoster;
-	private String[] dataTitle, dataGenres;
+	private String[] dataTitle, dataGenres, dataDateRelease, dataRating, dataRuntime, dataOverview;
 	private MovieAdapter movieAdapter;
 	private ArrayList<Movie> movies;
 
@@ -33,7 +34,19 @@ public class MainActivity extends AppCompatActivity {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(MainActivity.this, movies.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+				// Toast.makeText(MainActivity.this, movies.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+				Movie movie = new Movie();
+				movie.setPoster(movies.get(position).getPoster());
+				movie.setTitle(movies.get(position).getTitle());
+				movie.setGenres(movies.get(position).getGenres());
+				movie.setDateRelease(movies.get(position).getDateRelease());
+				movie.setRating(movies.get(position).getRating());
+				movie.setRuntime(movies.get(position).getRuntime());
+				movie.setOverview(movies.get(position).getOverview());
+
+				Intent intent = new Intent(MainActivity.this, MovieDetail.class);
+				intent.putExtra(MovieDetail.EXTRA_MOVIE, movie);
+				startActivity(intent);
 			}
 		});
 	}
@@ -46,14 +59,22 @@ public class MainActivity extends AppCompatActivity {
 			movie.setPoster(dataPoster.getResourceId(i, -1));
 			movie.setTitle(dataTitle[i]);
 			movie.setGenres(dataGenres[i]);
+			movie.setDateRelease(dataDateRelease[i]);
+			movie.setRating(dataRating[i]);
+			movie.setRuntime(dataRuntime[i]);
+			movie.setOverview(dataOverview[i]);
 			movies.add(movie);
 		}
 		movieAdapter.setMovies(movies);
 	}
 
 	private void prepare() {
+		dataPoster = getResources().obtainTypedArray(R.array.data_poster);
 		dataTitle = getResources().getStringArray(R.array.data_title);
 		dataGenres = getResources().getStringArray(R.array.data_genres);
-		dataPoster = getResources().obtainTypedArray(R.array.data_poster);
+		dataDateRelease = getResources().getStringArray(R.array.data_date_release);
+		dataRating = getResources().getStringArray(R.array.data_rating);
+		dataRuntime = getResources().getStringArray(R.array.data_runtime);
+		dataOverview = getResources().getStringArray(R.array.data_overview);
 	}
 }

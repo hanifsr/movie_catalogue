@@ -1,7 +1,11 @@
 <resources>
 	<string name="app_name">Movie Catalogue</string>
-	<string name="movie_title">Movie Title</string>
-	<string name="movie_genres">Movie Genres</string>
+	<string name="movie_title">Title</string>
+	<string name="movie_genres">Genres</string>
+	<string name="movie_date_release">Date Release</string>
+	<string name="movie_rating">Rating</string>
+	<string name="movie_runtime">Runtime</string>
+	<string name="movie_overview">Overview</string>
 
 	<array name="data_poster">
 		<item>@drawable/poster_lion_king</item>
@@ -24,7 +28,7 @@
 		<item>Aladdin</item>
 		<item>Spider-Man: Far from Home</item>
 		<item>The Secret Life of Pets 2</item>
-		<item>Pokemon Detective Pikachu</item>
+		<item>Pokémon Detective Pikachu</item>
 		<item>Captain Marvel</item>
 		<item>Alita: Battle Angel</item>
 		<item>How to Train Your Dragon: The Hidden World</item>
@@ -43,5 +47,61 @@
 		<item>Action, Science Fiction, Thriller, Adventure</item>
 		<item>Animation, Family, Adventure</item>
 		<item>Thriller, Drama, Science Fiction</item>
+	</string-array>
+
+	<string-array name="data_date_release">
+		<item>July 19, 2019</item>
+		<item>June 14, 2019</item>
+		<item>April 26, 2019</item>
+		<item>May 24, 2019</item>
+		<item>July 2, 2019</item>
+		<item>June 7, 2019</item>
+		<item>May 10, 2019</item>
+		<item>March 8, 2019</item>
+		<item>February 14, 2019</item>
+		<item>February 22, 2019</item>
+		<item>January 18, 2019</item>
+	</string-array>
+
+	<string-array name="data_rating">
+		<item>PG</item>
+		<item>PG-13</item>
+		<item>PG-13</item>
+		<item>PG</item>
+		<item>PG-13</item>
+		<item>PG</item>
+		<item>PG</item>
+		<item>PG-13</item>
+		<item>PG-13</item>
+		<item>PG</item>
+		<item>PG-13</item>
+	</string-array>
+
+	<string-array name="data_runtime">
+		<item>1h 58m</item>
+		<item>1h 55m</item>
+		<item>3h 1m</item>
+		<item>2h 8m</item>
+		<item>2h 9m</item>
+		<item>1h 26m</item>
+		<item>1h 45m</item>
+		<item>2h 4m</item>
+		<item>2h 2m</item>
+		<item>1h 44m</item>
+		<item>2h 9m</item>
+	</string-array>
+
+	<string-array name="data_overview">
+		<item>Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub\'s arrival. Scar, Mufasa\'s brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba\'s exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.</item>
+		<item>The Men in Black have always protected the Earth from the scum of the universe. In this new adventure, they tackle their biggest, most global threat to date: a mole in the Men in Black organization.</item>
+		<item>After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos actions and restore order to the universe once and for all, no matter what consequences may be in store.</item>
+		<item>A kindhearted street urchin named Aladdin embarks on a magical adventure after finding a lamp that releases a wisecracking genie while a power-hungry Grand Vizier vies for the same lamp that has the power to make their deepest wishes come true.</item>
+		<item>Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.</item>
+		<item>Max the terrier must cope with some major life changes when his owner gets married and has a baby. When the family takes a trip to the countryside, nervous Max has numerous run-ins with canine-intolerant cows, hostile foxes and a scary turkey. Luckily for Max, he soon catches a break when he meets Rooster, a gruff farm dog who tries to cure the lovable pooch of his neuroses.</item>
+		<item>In a world where people collect pocket-size monsters (Pokémon) to do battle, a boy comes across an intelligent monster who seeks to be a detective.</item>
+		<item>The story follows Carol Danvers as she becomes one of the universe’s most powerful heroes when Earth is caught in the middle of a galactic war between two alien races. Set in the 1990s, Captain Marvel is an all-new adventure from a previously unseen period in the history of the Marvel Cinematic Universe.</item>
+		<item>When Alita awakens with no memory of who she is in a future world she does not recognize, she is taken in by Ido, a compassionate doctor who realizes that somewhere in this abandoned cyborg shell is the heart and soul of a young woman with an extraordinary past.</item>
+		<item>As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.</item>
+		<item>In a series of escalating encounters, former security guard David Dunn uses his supernatural abilities to track Kevin Wendell Crumb, a disturbed man who has twenty-four personalities. Meanwhile, the shadowy presence of Elijah Price emerges as an orchestrator who holds secrets critical to both men.</item>
 	</string-array>
 </resources>
