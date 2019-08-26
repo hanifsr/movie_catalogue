@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class MovieAdapter extends BaseAdapter {
@@ -66,7 +68,8 @@ public class MovieAdapter extends BaseAdapter {
 		void bind(Movie movie) {
 			tvTitle.setText(movie.getTitle());
 			tvGenres.setText(movie.getGenres());
-			ivPoster.setImageResource(movie.getPoster());
+			// ivPoster.setImageResource(movie.getPoster());
+			Glide.with(context).load(movie.getPoster()).into(ivPoster);
 		}
 	}
 }
