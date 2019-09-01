@@ -6,8 +6,10 @@
 	<string name="movie_rating">Rating</string>
 	<string name="movie_runtime">Runtime</string>
 	<string name="movie_overview">Overview</string>
+	<string name="movies">Movies</string>
+	<string name="tv_shows">TV Shows</string>
 
-	<array name="data_poster">
+	<array name="data_movie_poster">
 		<item>@drawable/poster_lion_king</item>
 		<item>@drawable/poster_mib_international</item>
 		<item>@drawable/poster_avengers_endgame</item>
@@ -21,7 +23,7 @@
 		<item>@drawable/poster_glass</item>
 	</array>
 
-	<string-array name="data_title">
+	<string-array name="data_movie_title">
 		<item>The Lion King</item>
 		<item>Men in Black: International</item>
 		<item>Avengers: Endgame</item>
@@ -35,7 +37,7 @@
 		<item>Glass</item>
 	</string-array>
 
-	<string-array name="data_genres">
+	<string-array name="data_movie_genres">
 		<item>Adventure, Animation, Family, Drama, Action</item>
 		<item>Action, Comedy, Science Fiction, Adventure</item>
 		<item>Adventure, Science Fiction, Action</item>
@@ -49,7 +51,7 @@
 		<item>Thriller, Drama, Science Fiction</item>
 	</string-array>
 
-	<string-array name="data_date_release">
+	<string-array name="data_movie_date_release">
 		<item>July 19, 2019</item>
 		<item>June 14, 2019</item>
 		<item>April 26, 2019</item>
@@ -63,7 +65,7 @@
 		<item>January 18, 2019</item>
 	</string-array>
 
-	<string-array name="data_rating">
+	<string-array name="data_movie_rating">
 		<item>PG</item>
 		<item>PG-13</item>
 		<item>PG-13</item>
@@ -77,7 +79,7 @@
 		<item>PG-13</item>
 	</string-array>
 
-	<string-array name="data_runtime">
+	<string-array name="data_movie_runtime">
 		<item>1h 58m</item>
 		<item>1h 55m</item>
 		<item>3h 1m</item>
@@ -91,7 +93,7 @@
 		<item>2h 9m</item>
 	</string-array>
 
-	<string-array name="data_overview">
+	<string-array name="data_movie_overview">
 		<item>Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub\'s arrival. Scar, Mufasa\'s brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba\'s exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.</item>
 		<item>The Men in Black have always protected the Earth from the scum of the universe. In this new adventure, they tackle their biggest, most global threat to date: a mole in the Men in Black organization.</item>
 		<item>After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos actions and restore order to the universe once and for all, no matter what consequences may be in store.</item>
@@ -104,4 +106,7 @@
 		<item>As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.</item>
 		<item>In a series of escalating encounters, former security guard David Dunn uses his supernatural abilities to track Kevin Wendell Crumb, a disturbed man who has twenty-four personalities. Meanwhile, the shadowy presence of Elijah Price emerges as an orchestrator who holds secrets critical to both men.</item>
 	</string-array>
+
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="movie_poster">Movie Poster</string>
 </resources>

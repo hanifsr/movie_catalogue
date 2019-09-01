@@ -1,4 +1,4 @@
-package com.hanifsr.moviecatalogue;
+package com.hanifsr.moviecatalogue.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
 	private int poster;
-	private String title, overview, genres, dateRelease, rating, runtime;
+	private String title, genres, dateRelease, rating, runtime, overview;
 
 	public int getPoster() {
 		return poster;
@@ -22,14 +22,6 @@ public class Movie implements Parcelable {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getOverview() {
-		return overview;
-	}
-
-	public void setOverview(String overview) {
-		this.overview = overview;
 	}
 
 	public String getGenres() {
@@ -64,6 +56,14 @@ public class Movie implements Parcelable {
 		this.runtime = runtime;
 	}
 
+	public String getOverview() {
+		return overview;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -73,11 +73,11 @@ public class Movie implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.poster);
 		dest.writeString(this.title);
-		dest.writeString(this.overview);
 		dest.writeString(this.genres);
 		dest.writeString(this.dateRelease);
 		dest.writeString(this.rating);
 		dest.writeString(this.runtime);
+		dest.writeString(this.overview);
 	}
 
 	public Movie() {
@@ -86,11 +86,11 @@ public class Movie implements Parcelable {
 	protected Movie(Parcel in) {
 		this.poster = in.readInt();
 		this.title = in.readString();
-		this.overview = in.readString();
 		this.genres = in.readString();
 		this.dateRelease = in.readString();
 		this.rating = in.readString();
 		this.runtime = in.readString();
+		this.overview = in.readString();
 	}
 
 	public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
