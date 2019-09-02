@@ -1,8 +1,5 @@
 package com.hanifsr.moviecatalogue.ui.movies;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -15,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
@@ -59,13 +55,13 @@ public class MoviesFragment extends Fragment {
 
 		for (int i = 0; i < dataTitle.length; i++) {
 			Movie movie = new Movie();
-			movie.setPoster(dataPoster.getResourceId(i, -1));
-			movie.setTitle(dataTitle[i]);
-			movie.setGenres(dataGenres[i]);
-			movie.setDateRelease(dataDateRelease[i]);
-			movie.setRating(dataRating[i]);
-			movie.setRuntime(dataRuntime[i]);
-			movie.setOverview(dataOverview[i]);
+			movie.setMoviePoster(dataPoster.getResourceId(i, -1));
+			movie.setMovieTitle(dataTitle[i]);
+			movie.setMovieGenres(dataGenres[i]);
+			movie.setMovieDateRelease(dataDateRelease[i]);
+			movie.setMovieRating(dataRating[i]);
+			movie.setMovieRuntime(dataRuntime[i]);
+			movie.setMovieOverview(dataOverview[i]);
 			movies.add(movie);
 		}
 	}
@@ -75,16 +71,16 @@ public class MoviesFragment extends Fragment {
 		MovieAdapter movieAdapter = new MovieAdapter(movies);
 		recyclerView.setAdapter(movieAdapter);
 
-		movieAdapter.setOnItemClickCallback(new MovieAdapter.OnItemClickCallback() {
+		movieAdapter.setOnMovieItemClickCallback(new MovieAdapter.OnMovieItemClickCallback() {
 			@Override
-			public void onItemClicked(Movie movie) {
+			public void onMovieItemClicked(Movie movie) {
 				showSelectedMovie(movie);
 			}
 		});
 	}
 
 	private void showSelectedMovie(Movie movie) {
-//		Toast.makeText(this.getActivity(), movie.getPoster(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this.getActivity(), movie.getMoviePoster(), Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(this.getActivity(), MovieDetail.class);
 		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie);
 		startActivity(intent);

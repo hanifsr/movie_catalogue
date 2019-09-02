@@ -20,26 +20,26 @@ public class MovieDetail extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movie_detail);
 
-		ivPoster = findViewById(R.id.iv_poster_detail);
-		tvTitle = findViewById(R.id.tv_title_detail);
-		tvGenres = findViewById(R.id.tv_genres_detail);
-		tvDateRelease = findViewById(R.id.tv_date_release_detail);
-		tvRating = findViewById(R.id.tv_rating_detail);
-		tvRuntime = findViewById(R.id.tv_runtime_detail);
-		tvOverview = findViewById(R.id.tv_overview_detail);
+		ivPoster = findViewById(R.id.iv_movie_poster_detail);
+		tvTitle = findViewById(R.id.tv_movie_title_detail);
+		tvGenres = findViewById(R.id.tv_movie_genres_detail);
+		tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
+		tvRating = findViewById(R.id.tv_movie_rating_detail);
+		tvRuntime = findViewById(R.id.tv_movie_runtime_detail);
+		tvOverview = findViewById(R.id.tv_movie_overview_detail);
 
 		Movie movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 
-		// ivPoster.setImageResource(movie.getPoster());
-		Glide.with(this).load(movie.getPoster()).into(ivPoster);
-		tvTitle.setText(movie.getTitle());
-		tvGenres.setText(movie.getGenres());
-		tvDateRelease.setText(movie.getDateRelease());
-		tvRating.setText(movie.getRating());
-		tvRuntime.setText(movie.getRuntime());
-		tvOverview.setText(movie.getOverview());
+		// ivPoster.setImageResource(movie.getMoviePoster());
+		Glide.with(this).load(movie.getMoviePoster()).into(ivPoster);
+		tvTitle.setText(movie.getMovieTitle());
+		tvGenres.setText(movie.getMovieGenres());
+		tvDateRelease.setText(movie.getMovieDateRelease());
+		tvRating.setText(movie.getMovieRating());
+		tvRuntime.setText(movie.getMovieRuntime());
+		tvOverview.setText(movie.getMovieOverview());
 
-		setActionBarTitle(movie.getTitle());
+		setActionBarTitle(movie.getMovieTitle());
 	}
 
 	private void setActionBarTitle(String title) {

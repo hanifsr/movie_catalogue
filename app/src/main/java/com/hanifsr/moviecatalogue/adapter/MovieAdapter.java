@@ -15,13 +15,13 @@ import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
 	private ArrayList<Movie> movieArrayList;
-	private OnItemClickCallback onItemClickCallback;
+	private OnMovieItemClickCallback onMovieItemClickCallback;
 
-	public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
-		this.onItemClickCallback = onItemClickCallback;
+	public void setOnMovieItemClickCallback(OnMovieItemClickCallback onMovieItemClickCallback) {
+		this.onMovieItemClickCallback = onMovieItemClickCallback;
 	}
 
 	public MovieAdapter(ArrayList<Movie> movieArrayList) {
@@ -30,26 +30,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListViewHold
 
 	@NonNull
 	@Override
-	public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+	public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
-		return new ListViewHolder(view);
+		return new MovieViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
+	public void onBindViewHolder(@NonNull final MovieViewHolder holder, int position) {
 		Movie movie = movieArrayList.get(position);
 
 		Glide.with(holder.itemView.getContext())
-				.load(movie.getPoster())
+				.load(movie.getMoviePoster())
 				.into(holder.ivPoster);
 
-		holder.tvTitle.setText(movie.getTitle());
-		holder.tvGenre.setText(movie.getGenres());
+		holder.tvTitle.setText(movie.getMovieTitle());
+		holder.tvGenre.setText(movie.getMovieGenres());
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onItemClickCallback.onItemClicked(movieArrayList.get(holder.getAdapterPosition()));
+				onMovieItemClickCallback.onMovieItemClicked(movieArrayList.get(holder.getAdapterPosition()));
 			}
 		});
 	}
@@ -59,21 +59,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListViewHold
 		return movieArrayList.size();
 	}
 
-	public class ListViewHolder extends RecyclerView.ViewHolder {
+	public class MovieViewHolder extends RecyclerView.ViewHolder {
 
 		ImageView ivPoster;
 		TextView tvTitle, tvGenre;
 
-		public ListViewHolder(@NonNull View itemView) {
+		public MovieViewHolder(@NonNull View itemView) {
 			super(itemView);
 
-			ivPoster = itemView.findViewById(R.id.iv_poster);
-			tvTitle = itemView.findViewById(R.id.tv_title);
-			tvGenre = itemView.findViewById(R.id.tv_genre);
+			ivPoster = itemView.findViewById(R.id.iv_movie_poster);
+			tvTitle = itemView.findViewById(R.id.tv_movie_title);
+			tvGenre = itemView.findViewById(R.id.tv_movie_genre);
 		}
 	}
 
-	public interface OnItemClickCallback {
-		void onItemClicked(Movie movie);
+	public interface OnMovieItemClickCallback {
+		void onMovieItemClicked(Movie movie);
 	}
 }

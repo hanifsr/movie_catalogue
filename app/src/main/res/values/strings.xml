@@ -1,11 +1,11 @@
 <resources>
 	<string name="app_name">Movie Catalogue</string>
-	<string name="movie_title">Title</string>
-	<string name="movie_genres">Genres</string>
-	<string name="movie_date_release">Date Release</string>
-	<string name="movie_rating">Rating</string>
-	<string name="movie_runtime">Runtime</string>
-	<string name="movie_overview">Overview</string>
+	<string name="title">Title</string>
+	<string name="genres">Genres</string>
+	<string name="date_release">Date Release</string>
+	<string name="rating">Rating</string>
+	<string name="runtime">Runtime</string>
+	<string name="overview">Overview</string>
 	<string name="movies">Movies</string>
 	<string name="tv_shows">TV Shows</string>
 
@@ -107,6 +107,86 @@
 		<item>In a series of escalating encounters, former security guard David Dunn uses his supernatural abilities to track Kevin Wendell Crumb, a disturbed man who has twenty-four personalities. Meanwhile, the shadowy presence of Elijah Price emerges as an orchestrator who holds secrets critical to both men.</item>
 	</string-array>
 
+	<array name="data_tv_poster">
+		<item>@drawable/poster_adventure_time</item>
+		<item>@drawable/poster_aot</item>
+		<item>@drawable/poster_chernobyl</item>
+		<item>@drawable/poster_death_note</item>
+		<item>@drawable/poster_dragonball_super</item>
+		<item>@drawable/poster_one_piece</item>
+		<item>@drawable/poster_opm</item>
+		<item>@drawable/poster_pandora</item>
+		<item>@drawable/poster_supergirl</item>
+		<item>@drawable/poster_tawog</item>
+	</array>
+
+	<string-array name="data_tv_title">
+		<item>Adventure Time</item>
+		<item>Attack on Titan</item>
+		<item>Chernobyl</item>
+		<item>Death Note</item>
+		<item>Dragon Ball Super</item>
+		<item>One Piece</item>
+		<item>One-Punch Man</item>
+		<item>Pandora</item>
+		<item>Supergirl</item>
+		<item>The Amazing World of Gumball</item>
+	</string-array>
+
+	<string-array name="data_tv_genres">
+		<item>Fantasy, Animation, Comedy</item>
+		<item>Animation, Sci-Fi &amp; Fantasy, Drama, War &amp; Politics, Mystery, Action &amp; Adventure</item>
+		<item>Drama</item>
+		<item>Animation, Mystery</item>
+		<item>Animation, Mystery, Action &amp; Adventure, Comedy</item>
+		<item>Action &amp; Adventure, Comedy, Animation</item>
+		<item>Action &amp; Adventure, Animation, Comedy</item>
+		<item>Action &amp; Adventure, Sci-Fi &amp; Fantasy</item>
+		<item>Action, Adventure, Drama, Science Fiction</item>
+		<item>Family, Sci-Fi &amp; Fantasy, Animation, Comedy</item>
+	</string-array>
+
+	<string-array name="data_tv_rating">
+		<item>TV-PG</item>
+		<item>TV-MA</item>
+		<item>TV-MA</item>
+		<item>TV-14</item>
+		<item>TV-14</item>
+		<item>12</item>
+		<item>MA15+</item>
+		<item>14</item>
+		<item>TV-PG</item>
+		<item>-</item>
+	</string-array>
+
+	<string-array name="data_tv_runtime">
+		<item>11m</item>
+		<item>24m</item>
+		<item>70m, 60m</item>
+		<item>22m</item>
+		<item>24m</item>
+		<item>25m</item>
+		<item>24m</item>
+		<item>42m</item>
+		<item>42m</item>
+		<item>11m</item>
+	</string-array>
+
+	<string-array name="data_tv_overview">
+		<item>They\'re not righteous, they\'re wrongteous! Hook up with Finn and Jake as they travel the Land of Ooo searching for adventure. But remember, adventure isn\'t always easy. Sometimes you\'ve got to battle fire gnomes that torture old ladies, save a smelly hot dog princess from the Ice King, and thaw out a bunch of frozen businessmen. What the cabbage?!</item>
+		<item>Several hundred years ago, humans were nearly exterminated by Titans. Titans are typically several stories tall, seem to have no intelligence, devour human beings and, worst of all, seem to do it for the pleasure rather than as a food source. A small percentage of humanity survived by walling themselves in a city protected by extremely high walls, even taller than the biggest Titans. Flash forward to the present and the city has not seen a Titan in over 100 years. Teenage boy Eren and his foster sister Mikasa witness something horrific as the city walls are destroyed by a Colossal Titan that appears out of thin air. As the smaller Titans flood the city, the two kids watch in horror as their mother is eaten alive. Eren vows that he will murder every single Titan and take revenge for all of mankind.</item>
+		<item>A dramatization of the true story of one of the worst man-made catastrophes in history, the catastrophic nuclear accident at Chernobyl. A tale of the brave men and women who sacrificed to save Europe from unimaginable disaster.</item>
+		<item>Light Yagami is an ace student with great prospects—and he\'s bored out of his mind. But all that changes when he finds the Death Note, a notebook dropped by a rogue Shinigami death god. Any human whose name is written in the notebook dies, and Light has vowed to use the power of the Death Note to rid the world of evil. But will Light succeed in his noble goal, or will the Death Note turn him into the very thing he fights against?</item>
+		<item>Set just after the events of the Buu Saga of Dragon Ball Z, a deadly threat awakens once more. People lived in peace without knowing who the true heroes were during the devastating battle against Majin Buu. The powerful Dragon Balls have prevented any permanent damage, and our heroes also continue to live a normal life. In the far reaches of the universe, however, a powerful being awakens early from his slumber, curious about a prophecy of his defeat.</item>
+		<item>Years ago, the fearsome pirate king Gol D. Roger was executed, leaving a huge pile of treasure and the famous "One Piece" behind. Whoever claims the "One Piece" will be named the new pirate king. Monkey D. Luffy, a boy who consumed one of the "Devil's Fruits", has it in his head that he\'ll follow in the footsteps of his idol, the pirate Shanks, and find the One Piece. It helps, of course, that his body has the properties of rubber and he\'s surrounded by a bevy of skilled fighters and thieves to help him along the way. Monkey D. Luffy brings a bunch of his crew followed by, Roronoa Zoro, Nami, Usopp, Sanji, Tony-Tony Chopper, Nico Robin, Franky, and Brook. They will do anything to get the One Piece and become King of the Pirates!</item>
+		<item>Saitama is a hero who only became a hero for fun. After three years of “special” training, though, he\'s become so strong that he\'s practically invincible. In fact, he\'s too strong—even his mightiest opponents are taken out with a single punch, and it turns out that being devastatingly powerful is actually kind of a bore. With his passion for being a hero lost along with his hair, yet still faced with new enemies every day, how much longer can he keep it going?</item>
+		<item>In the year 2199, a young woman who has lost everything finds a new life at Earth\'s Space Training Academy where she learns to defend the galaxy from intergalactic threats.</item>
+		<item>Twenty-four-year-old Kara Zor-El, who was taken in by the Danvers family when she was 13 after being sent away from Krypton, must learn to embrace her powers after previously hiding them. The Danvers teach her to be careful with her powers, until she has to reveal them during an unexpected disaster, setting her on her journey of heroism.</item>
+		<item>The life of Gumball Watterson, a 12-year old cat who attends middle school in Elmore. Accompanied by his pet, adoptive brother, and best friend Darwin Watterson, he frequently finds himself involved in various shenanigans around the city, during which he interacts with various family members: Anais, Richard, and Nicole Watterson, and other various citizens.</item>
+	</string-array>
+
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 	<string name="movie_poster">Movie Poster</string>
+	<string name="tv_show_poster">TV Show Poster</string>
+	<string name="change_language_setting">Change Language Setting</string>
 </resources>

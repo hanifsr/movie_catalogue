@@ -4,6 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
+
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
 		tools:context=".MovieDetail">
 
 		<ImageView
-			android:id="@+id/iv_poster_detail"
+			android:id="@+id/iv_movie_poster_detail"
 			android:layout_width="200dp"
 			android:layout_height="300dp"
 			android:scaleType="fitXY"
@@ -24,120 +25,119 @@
 			android:contentDescription="@string/movie_poster" />
 
 		<TextView
-			android:id="@+id/tv_title_detail"
+			android:id="@+id/tv_movie_title_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/activity_vertical_margin"
-			android:text="@string/movie_title"
+			android:text="@string/title"
 			android:textSize="18sp"
+			android:textAlignment="center"
 			android:textStyle="bold"
-			app:layout_constraintEnd_toEndOf="@+id/iv_poster_detail"
-			app:layout_constraintStart_toStartOf="@+id/iv_poster_detail"
-			app:layout_constraintTop_toBottomOf="@+id/iv_poster_detail" />
+			android:textColor="@android:color/black"
+			app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster_detail"
+			app:layout_constraintStart_toStartOf="@+id/iv_movie_poster_detail"
+			app:layout_constraintTop_toBottomOf="@+id/iv_movie_poster_detail" />
 
 		<TextView
-			android:id="@+id/tv_genres_detail"
+			android:id="@+id/tv_movie_genres_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/movie_genres"
+			android:text="@string/genres"
 			android:textSize="16sp"
-			app:layout_constraintEnd_toEndOf="@+id/tv_title_detail"
-			app:layout_constraintStart_toStartOf="@+id/tv_title_detail"
-			app:layout_constraintTop_toBottomOf="@+id/tv_title_detail" />
+			android:textAlignment="center"
+			android:textStyle="bold"
+			app:layout_constraintEnd_toEndOf="@+id/tv_movie_title_detail"
+			app:layout_constraintStart_toStartOf="@+id/tv_movie_title_detail"
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_title_detail" />
 
 		<TextView
-			android:id="@+id/date_release_text"
+			android:id="@+id/movie_date_release_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
-			android:text="@string/movie_date_release"
+			android:text="@string/date_release"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
-			app:layout_constraintEnd_toStartOf="@+id/rating_text"
+			app:layout_constraintEnd_toStartOf="@+id/movie_rating_text"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/tv_genres_detail" />
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
 
 		<TextView
-			android:id="@+id/tv_date_release_detail"
+			android:id="@+id/tv_movie_date_release_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/date_release_text"
-			android:layout_toEndOf="@id/iv_poster_detail"
-			android:text="@string/movie_date_release"
+			android:text="@string/date_release"
 			android:textSize="14sp"
-			app:layout_constraintEnd_toEndOf="@+id/date_release_text"
-			app:layout_constraintStart_toStartOf="@+id/date_release_text"
-			app:layout_constraintTop_toBottomOf="@+id/date_release_text" />
+			app:layout_constraintEnd_toEndOf="@+id/movie_date_release_text"
+			app:layout_constraintStart_toStartOf="@+id/movie_date_release_text"
+			app:layout_constraintTop_toBottomOf="@+id/movie_date_release_text" />
 
 		<TextView
-			android:id="@+id/rating_text"
+			android:id="@+id/movie_rating_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
-			android:text="@string/movie_rating"
+			android:text="@string/rating"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
-			app:layout_constraintEnd_toEndOf="@+id/tv_genres_detail"
-			app:layout_constraintStart_toStartOf="@+id/tv_genres_detail"
-			app:layout_constraintTop_toBottomOf="@+id/tv_genres_detail" />
+			app:layout_constraintEnd_toEndOf="@+id/tv_movie_genres_detail"
+			app:layout_constraintStart_toStartOf="@+id/tv_movie_genres_detail"
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
 
 		<TextView
-			android:id="@+id/tv_rating_detail"
+			android:id="@+id/tv_movie_rating_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/movie_rating"
+			android:text="@string/rating"
 			android:textSize="14sp"
-			app:layout_constraintEnd_toEndOf="@+id/rating_text"
-			app:layout_constraintStart_toStartOf="@+id/rating_text"
-			app:layout_constraintTop_toBottomOf="@+id/rating_text" />
+			app:layout_constraintEnd_toEndOf="@+id/movie_rating_text"
+			app:layout_constraintStart_toStartOf="@+id/movie_rating_text"
+			app:layout_constraintTop_toBottomOf="@+id/movie_rating_text" />
 
 		<TextView
-			android:id="@+id/runtime_text"
+			android:id="@+id/movie_runtime_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
-			android:text="@string/movie_runtime"
+			android:text="@string/runtime"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/rating_text"
-			app:layout_constraintTop_toBottomOf="@+id/tv_genres_detail" />
+			app:layout_constraintStart_toEndOf="@+id/movie_rating_text"
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
 
 		<TextView
-			android:id="@+id/tv_runtime_detail"
+			android:id="@+id/tv_movie_runtime_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/runtime_text"
-			android:layout_toEndOf="@id/iv_poster_detail"
-			android:text="@string/movie_runtime"
+			android:text="@string/runtime"
 			android:textSize="14sp"
-			app:layout_constraintEnd_toEndOf="@+id/runtime_text"
-			app:layout_constraintStart_toStartOf="@+id/runtime_text"
-			app:layout_constraintTop_toBottomOf="@+id/runtime_text" />
+			app:layout_constraintEnd_toEndOf="@+id/movie_runtime_text"
+			app:layout_constraintStart_toStartOf="@+id/movie_runtime_text"
+			app:layout_constraintTop_toBottomOf="@+id/movie_runtime_text" />
 
 		<TextView
-			android:id="@+id/overview_text"
+			android:id="@+id/movie_overview_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/iv_poster_detail"
 			android:layout_marginTop="16dp"
-			android:text="@string/movie_overview"
+			android:text="@string/overview"
 			android:textColor="@android:color/black"
-			android:textSize="18sp"
-			app:layout_constraintEnd_toEndOf="@+id/tv_rating_detail"
-			app:layout_constraintStart_toStartOf="@+id/tv_rating_detail"
-			app:layout_constraintTop_toBottomOf="@+id/tv_rating_detail" />
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_rating_detail" />
 
 		<TextView
-			android:id="@+id/tv_overview_detail"
+			android:id="@+id/tv_movie_overview_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/overview_text"
-			android:text="@string/movie_overview"
+			android:text="@string/overview"
 			android:textSize="14sp"
-			app:layout_constraintEnd_toEndOf="@+id/overview_text"
-			app:layout_constraintStart_toStartOf="@+id/overview_text"
-			app:layout_constraintTop_toBottomOf="@+id/overview_text" />
+			app:layout_constraintEnd_toEndOf="@+id/movie_overview_text"
+			app:layout_constraintStart_toStartOf="@+id/movie_overview_text"
+			app:layout_constraintTop_toBottomOf="@+id/movie_overview_text" />
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

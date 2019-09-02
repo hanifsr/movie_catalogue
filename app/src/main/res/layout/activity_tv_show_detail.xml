@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/activity_vertical_margin"
+		tools:context=".TvShowDetail">
+
+		<ImageView
+			android:id="@+id/iv_tvshow_poster_detail"
+			android:layout_width="200dp"
+			android:layout_height="300dp"
+			android:scaleType="fitXY"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintVertical_bias="0.0"
+			tools:src="@android:color/darker_gray"
+			android:contentDescription="@string/tv_show_poster" />
+
+		<TextView
+			android:id="@+id/tv_tvshow_title_detail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/activity_vertical_margin"
+			android:text="@string/title"
+			android:textSize="18sp"
+			android:textAlignment="center"
+			android:textStyle="bold"
+			android:textColor="@android:color/black"
+			app:layout_constraintEnd_toEndOf="@+id/iv_tvshow_poster_detail"
+			app:layout_constraintStart_toStartOf="@+id/iv_tvshow_poster_detail"
+			app:layout_constraintTop_toBottomOf="@+id/iv_tvshow_poster_detail" />
+
+		<TextView
+			android:id="@+id/tv_tvshow_genres_detail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/genres"
+			android:textSize="16sp"
+			android:textAlignment="center"
+			android:textStyle="bold"
+			app:layout_constraintEnd_toEndOf="@+id/tv_tvshow_title_detail"
+			app:layout_constraintStart_toStartOf="@+id/tv_tvshow_title_detail"
+			app:layout_constraintTop_toBottomOf="@+id/tv_tvshow_title_detail" />
+
+		<TextView
+			android:id="@+id/tvshow_rating_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="64dp"
+			android:layout_marginTop="8dp"
+			android:text="@string/rating"
+			android:textColor="@android:color/black"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toStartOf="@+id/iv_tvshow_poster_detail"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tv_tvshow_genres_detail" />
+
+		<TextView
+			android:id="@+id/tv_tvshow_rating_detail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/rating"
+			android:textSize="14sp"
+			app:layout_constraintEnd_toEndOf="@+id/tvshow_rating_text"
+			app:layout_constraintStart_toStartOf="@+id/tvshow_rating_text"
+			app:layout_constraintTop_toBottomOf="@+id/tvshow_rating_text" />
+
+		<TextView
+			android:id="@+id/tvshow_runtime_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginEnd="64dp"
+			android:text="@string/runtime"
+			android:textColor="@android:color/black"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@+id/iv_tvshow_poster_detail"
+			app:layout_constraintTop_toBottomOf="@+id/tv_tvshow_genres_detail" />
+
+		<TextView
+			android:id="@+id/tv_tvshow_runtime_detail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/runtime"
+			android:textSize="14sp"
+			app:layout_constraintEnd_toEndOf="@+id/tvshow_runtime_text"
+			app:layout_constraintStart_toStartOf="@+id/tvshow_runtime_text"
+			app:layout_constraintTop_toBottomOf="@+id/tvshow_runtime_text" />
+
+		<TextView
+			android:id="@+id/tvshow_overview_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			android:text="@string/overview"
+			android:textColor="@android:color/black"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tv_tvshow_rating_detail" />
+
+		<TextView
+			android:id="@+id/tv_tvshow_overview_detail"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/overview"
+			android:textSize="14sp"
+			app:layout_constraintEnd_toEndOf="@+id/tvshow_overview_text"
+			app:layout_constraintStart_toStartOf="@+id/tvshow_overview_text"
+			app:layout_constraintTop_toBottomOf="@+id/tvshow_overview_text" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

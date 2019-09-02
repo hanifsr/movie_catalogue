@@ -7,23 +7,23 @@
 	android:background="?android:attr/selectableItemBackground">
 
 	<ImageView
-		android:id="@+id/iv_movie_poster"
+		android:id="@+id/iv_tvshow_poster"
 		android:layout_width="100dp"
 		android:layout_height="150dp"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
 		android:scaleType="fitXY"
-		android:contentDescription="@string/movie_poster"
+		android:contentDescription="@string/tv_show_poster"
 		tools:src="@android:color/darker_gray" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
-		android:layout_toEndOf="@id/iv_movie_poster"
+		android:layout_toEndOf="@id/iv_tvshow_poster"
 		android:orientation="vertical">
 
 		<TextView
-			android:id="@+id/tv_movie_title"
+			android:id="@+id/tv_tvshow_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="8dp"
@@ -32,7 +32,7 @@
 			tools:text="@string/title"/>
 
 		<TextView
-			android:id="@+id/tv_movie_genre"
+			android:id="@+id/tv_tvshow_genre"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:ellipsize="end"
