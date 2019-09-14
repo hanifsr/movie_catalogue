@@ -1,22 +1,17 @@
 package com.hanifsr.moviecatalogue.ui.tvshows;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.TvShowDetail;
@@ -34,7 +29,12 @@ public class TvShowsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
+		return inflater.inflate(R.layout.fragment_tv_shows, container, false);
+	}
+
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
 		recyclerView = view.findViewById(R.id.rv_tvshows);
 		recyclerView.setHasFixedSize(true);
@@ -42,8 +42,6 @@ public class TvShowsFragment extends Fragment {
 		prepare();
 		addItem();
 		showRecyclerList();
-
-		return view;
 	}
 
 	private void prepare() {

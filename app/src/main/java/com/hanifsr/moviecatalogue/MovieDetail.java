@@ -1,10 +1,10 @@
 package com.hanifsr.moviecatalogue;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.hanifsr.moviecatalogue.model.Movie;
@@ -12,21 +12,19 @@ import com.hanifsr.moviecatalogue.model.Movie;
 public class MovieDetail extends AppCompatActivity {
 
 	public static final String EXTRA_MOVIE = "extra_movie";
-	private ImageView ivPoster;
-	private TextView tvTitle, tvGenres, tvDateRelease, tvRating, tvRuntime, tvOverview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movie_detail);
 
-		ivPoster = findViewById(R.id.iv_movie_poster_detail);
-		tvTitle = findViewById(R.id.tv_movie_title_detail);
-		tvGenres = findViewById(R.id.tv_movie_genres_detail);
-		tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
-		tvRating = findViewById(R.id.tv_movie_rating_detail);
-		tvRuntime = findViewById(R.id.tv_movie_runtime_detail);
-		tvOverview = findViewById(R.id.tv_movie_overview_detail);
+		ImageView ivPoster = findViewById(R.id.iv_movie_poster_detail);
+		TextView tvTitle = findViewById(R.id.tv_movie_title_detail);
+		TextView tvGenres = findViewById(R.id.tv_movie_genres_detail);
+		TextView tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
+		TextView tvRating = findViewById(R.id.tv_movie_rating_detail);
+		TextView tvRuntime = findViewById(R.id.tv_movie_runtime_detail);
+		TextView tvOverview = findViewById(R.id.tv_movie_overview_detail);
 
 		Movie movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
 

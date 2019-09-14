@@ -59,12 +59,12 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowView
 		return tvShowArrayList.size();
 	}
 
-	public class TvShowViewHolder extends RecyclerView.ViewHolder {
+	class TvShowViewHolder extends RecyclerView.ViewHolder {
 
 		ImageView ivPoster;
 		TextView tvTitle, tvGenre;
 
-		public TvShowViewHolder(@NonNull View itemView) {
+		TvShowViewHolder(@NonNull View itemView) {
 			super(itemView);
 
 			ivPoster = itemView.findViewById(R.id.iv_tvshow_poster);

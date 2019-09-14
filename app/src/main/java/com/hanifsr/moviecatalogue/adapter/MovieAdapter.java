@@ -59,12 +59,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		return movieArrayList.size();
 	}
 
-	public class MovieViewHolder extends RecyclerView.ViewHolder {
+	class MovieViewHolder extends RecyclerView.ViewHolder {
 
 		ImageView ivPoster;
 		TextView tvTitle, tvGenre;
 
-		public MovieViewHolder(@NonNull View itemView) {
+		MovieViewHolder(@NonNull View itemView) {
 			super(itemView);
 
 			ivPoster = itemView.findViewById(R.id.iv_movie_poster);

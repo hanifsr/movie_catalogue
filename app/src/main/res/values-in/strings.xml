@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Movie Catalogue</string>
+	<string name="app_name">Katalog Film</string>
 	<string name="title">Judul</string>
 	<string name="genres">Genre</string>
 	<string name="date_release">Tanggal Rilis</string>
@@ -186,7 +186,6 @@
 		<item>Kehidupan Gumball Watterson, kucing berumur 12 tahun yang menghadiri sekolah menengah di Elmore. Ditemani oleh hewan peliharaannya, saudara angkatnya, dan sahabatnya yaitu Darwin Watterson. Ia sering terlibat dalam berbagai aksi buruk di sekitar kota, di mana ia berinteraksi dengan berbagai anggota keluarga: Anais, Richard, dan Nicole Watterson, dan berbagai warga lainnya.</item>
 	</string-array>
 
-	<string name="hello_blank_fragment">Halo blank fragment</string>
 	<string name="movie_poster">Poster Film</string>
 	<string name="tv_show_poster">Poster Serial TV</string>
 	<string name="change_language_setting">Ubah Pengaturan Bahasa</string>
