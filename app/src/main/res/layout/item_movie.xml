@@ -1,57 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:padding="@dimen/activity_vertical_margin"
-	android:background="?android:attr/selectableItemBackground">
-
-	<ImageView
-		android:id="@+id/iv_movie_poster"
-		android:layout_width="100dp"
-		android:layout_height="150dp"
-		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		android:scaleType="fitXY"
-		android:contentDescription="@string/movie_poster"
-		tools:src="@android:color/darker_gray" />
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_toEndOf="@id/iv_movie_poster"
-		android:orientation="vertical">
-
-		<TextView
-			android:id="@+id/tv_movie_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			android:textSize="16sp"
-			android:textStyle="bold"
-			tools:text="@string/title"/>
-
-		<TextView
-			android:id="@+id/tv_movie_genre"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:ellipsize="end"
-			android:maxLines="2"
-			tools:text="@string/genres"/>
-
-	</LinearLayout>
-
-</RelativeLayout -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_gravity="center"
-	android:layout_marginTop="6dp"
-	android:layout_marginBottom="6dp"
 	android:layout_marginLeft="@dimen/activity_horizontal_margin"
+	android:layout_marginTop="6dp"
 	android:layout_marginRight="@dimen/activity_horizontal_margin"
+	android:layout_marginBottom="6dp"
 	app:cardCornerRadius="8dp">
 
 	<RelativeLayout
@@ -68,8 +25,8 @@
 				android:id="@+id/iv_movie_poster"
 				android:layout_width="100dp"
 				android:layout_height="150dp"
-				android:scaleType="fitXY"
 				android:contentDescription="@string/movie_poster"
+				android:scaleType="fitXY"
 				tools:src="@android:color/darker_gray" />
 
 		</androidx.cardview.widget.CardView>
@@ -78,28 +35,28 @@
 			android:id="@+id/tv_movie_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/activity_vertical_margin"
 			android:layout_marginLeft="@dimen/activity_horizontal_margin"
+			android:layout_marginTop="@dimen/activity_vertical_margin"
 			android:layout_marginRight="@dimen/activity_horizontal_margin"
 			android:layout_marginBottom="8dp"
 			android:layout_toEndOf="@+id/cv_movie_poster"
 			android:textSize="16sp"
 			android:textStyle="bold"
-			tools:text="@string/title"/>
+			tools:text="@string/title" />
 
 		<TextView
 			android:id="@+id/tv_movie_genre"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_below="@id/tv_movie_title"
 			android:layout_marginLeft="@dimen/activity_horizontal_margin"
 			android:layout_marginRight="@dimen/activity_horizontal_margin"
 			android:layout_toEndOf="@+id/cv_movie_poster"
-			android:layout_below="@id/tv_movie_title"
-			android:textSize="12sp"
-			android:textStyle="italic"
 			android:ellipsize="end"
 			android:maxLines="2"
-			tools:text="@string/genres"/>
+			android:textSize="12sp"
+			android:textStyle="italic"
+			tools:text="@string/genres" />
 
 	</RelativeLayout>
 

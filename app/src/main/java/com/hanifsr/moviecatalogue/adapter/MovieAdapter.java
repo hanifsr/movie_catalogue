@@ -17,16 +17,22 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-	private ArrayList<Movie> movieArrayList;
+	private ArrayList<Movie> movieArrayList = new ArrayList<>();
 	private OnMovieItemClickCallback onMovieItemClickCallback;
+
+	public void setData(ArrayList<Movie> items) {
+		movieArrayList.clear();
+		movieArrayList.addAll(items);
+		notifyDataSetChanged();
+	}
 
 	public void setOnMovieItemClickCallback(OnMovieItemClickCallback onMovieItemClickCallback) {
 		this.onMovieItemClickCallback = onMovieItemClickCallback;
 	}
 
-	public MovieAdapter(ArrayList<Movie> movieArrayList) {
+	/*public MovieAdapter(ArrayList<Movie> movieArrayList) {
 		this.movieArrayList = movieArrayList;
-	}
+	}*/
 
 	@NonNull
 	@Override
@@ -40,11 +46,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		Movie movie = movieArrayList.get(position);
 
 		Glide.with(holder.itemView.getContext())
-				.load(movie.getMoviePoster())
+				.load(movie.getPosterPath())
 				.into(holder.ivPoster);
 
-		holder.tvTitle.setText(movie.getMovieTitle());
-		holder.tvGenre.setText(movie.getMovieGenres());
+		holder.tvTitle.setText(movie.getTitle());
+		holder.tvGenre.setText(movie.getGenres());
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override

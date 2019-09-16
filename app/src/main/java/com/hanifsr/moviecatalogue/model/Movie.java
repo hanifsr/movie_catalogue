@@ -5,63 +5,74 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-	private int moviePoster;
-	private String movieTitle, movieGenres, movieDateRelease, movieRating, movieRuntime, movieOverview;
+	private int id;
+	private String posterPath, title, genres, dateRelease, userScore, runtime, overview;
 
-	public int getMoviePoster() {
-		return moviePoster;
+	public Movie() {
 	}
 
-	public void setMoviePoster(int moviePoster) {
-		this.moviePoster = moviePoster;
+	public int getId() {
+		return id;
 	}
 
-	public String getMovieTitle() {
-		return movieTitle;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setMovieTitle(String movieTitle) {
-		this.movieTitle = movieTitle;
+	public String getPosterPath() {
+		return posterPath;
 	}
 
-	public String getMovieGenres() {
-		return movieGenres;
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
 	}
 
-	public void setMovieGenres(String movieGenres) {
-		this.movieGenres = movieGenres;
+	public String getTitle() {
+		return title;
 	}
 
-	public String getMovieDateRelease() {
-		return movieDateRelease;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setMovieDateRelease(String movieDateRelease) {
-		this.movieDateRelease = movieDateRelease;
+	public String getGenres() {
+		return genres;
 	}
 
-	public String getMovieRating() {
-		return movieRating;
+	public void setGenres(String genres) {
+		this.genres = genres;
 	}
 
-	public void setMovieRating(String movieRating) {
-		this.movieRating = movieRating;
+	public String getDateRelease() {
+		return dateRelease;
 	}
 
-	public String getMovieRuntime() {
-		return movieRuntime;
+	public void setDateRelease(String dateRelease) {
+		this.dateRelease = dateRelease;
 	}
 
-	public void setMovieRuntime(String movieRuntime) {
-		this.movieRuntime = movieRuntime;
+	public String getUserScore() {
+		return userScore;
 	}
 
-	public String getMovieOverview() {
-		return movieOverview;
+	public void setUserScore(String userScore) {
+		this.userScore = userScore;
 	}
 
-	public void setMovieOverview(String movieOverview) {
-		this.movieOverview = movieOverview;
+	public String getRuntime() {
+		return runtime;
+	}
+
+	public void setRuntime(String runtime) {
+		this.runtime = runtime;
+	}
+
+	public String getOverview() {
+		return overview;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
 	}
 
 	@Override
@@ -71,26 +82,25 @@ public class Movie implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(this.moviePoster);
-		dest.writeString(this.movieTitle);
-		dest.writeString(this.movieGenres);
-		dest.writeString(this.movieDateRelease);
-		dest.writeString(this.movieRating);
-		dest.writeString(this.movieRuntime);
-		dest.writeString(this.movieOverview);
-	}
-
-	public Movie() {
+		dest.writeInt(this.id);
+		dest.writeString(this.posterPath);
+		dest.writeString(this.title);
+		dest.writeString(this.genres);
+		dest.writeString(this.dateRelease);
+		dest.writeString(this.userScore);
+		dest.writeString(this.runtime);
+		dest.writeString(this.overview);
 	}
 
 	protected Movie(Parcel in) {
-		this.moviePoster = in.readInt();
-		this.movieTitle = in.readString();
-		this.movieGenres = in.readString();
-		this.movieDateRelease = in.readString();
-		this.movieRating = in.readString();
-		this.movieRuntime = in.readString();
-		this.movieOverview = in.readString();
+		this.id = in.readInt();
+		this.posterPath = in.readString();
+		this.title = in.readString();
+		this.genres = in.readString();
+		this.dateRelease = in.readString();
+		this.userScore = in.readString();
+		this.runtime = in.readString();
+		this.overview = in.readString();
 	}
 
 	public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

@@ -3,16 +3,16 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:padding="@dimen/activity_vertical_margin"
-	android:background="?android:attr/selectableItemBackground">
+	android:background="?android:attr/selectableItemBackground"
+	android:padding="@dimen/activity_vertical_margin">
 
 	<ImageView
 		android:id="@+id/iv_tvshow_poster"
 		android:layout_width="100dp"
 		android:layout_height="150dp"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		android:scaleType="fitXY"
 		android:contentDescription="@string/tv_show_poster"
+		android:scaleType="fitXY"
 		tools:src="@android:color/darker_gray" />
 
 	<LinearLayout
@@ -29,7 +29,7 @@
 			android:layout_marginBottom="8dp"
 			android:textSize="16sp"
 			android:textStyle="bold"
-			tools:text="@string/title"/>
+			tools:text="@string/title" />
 
 		<TextView
 			android:id="@+id/tv_tvshow_genre"
@@ -37,7 +37,7 @@
 			android:layout_height="wrap_content"
 			android:ellipsize="end"
 			android:maxLines="2"
-			tools:text="@string/genres"/>
+			tools:text="@string/genres" />
 
 	</LinearLayout>
 
