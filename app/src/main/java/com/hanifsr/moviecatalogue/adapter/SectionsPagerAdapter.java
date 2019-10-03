@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.hanifsr.moviecatalogue.R;
-import com.hanifsr.moviecatalogue.ui.movies.MoviesFragment;
+import com.hanifsr.moviecatalogue.ui.favourites.sections.SectionsFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -26,7 +26,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	@NonNull
 	@Override
 	public Fragment getItem(int position) {
-		return MoviesFragment.newInstance(position);
+		return SectionsFragment.newInstance(position);
 	}
 
 	@Nullable

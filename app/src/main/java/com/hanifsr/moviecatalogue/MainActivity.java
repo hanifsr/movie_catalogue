@@ -7,29 +7,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.tabs.TabLayout;
-import com.hanifsr.moviecatalogue.adapter.SectionsPagerAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hanifsr.moviecatalogue.database.MovieHelper;
 
 public class MainActivity extends AppCompatActivity {
+
+	private MovieHelper MOVIE_HELPER;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Toolbar toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		BottomNavigationView navView = findViewById(R.id.nav_view);
+		AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+				R.id.navigation_movies, R.id.navigation_tv_shows, R.id.navigation_favourites)
+				.build();
+		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+		NavigationUI.setupWithNavController(navView, navController);
 
-		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+		getSupportActionBar().setElevation(0);
 
-		ViewPager viewPager = findViewById(R.id.view_pager);
-		viewPager.setAdapter(sectionsPagerAdapter);
-
-		TabLayout tabs = findViewById(R.id.tabs);
-		tabs.setupWithViewPager(viewPager);
+		MOVIE_HELPER = MovieHelper.getInstance(getApplicationContext());
+		MOVIE_HELPER.open();
 	}
 
 	@Override
@@ -45,5 +51,11 @@ public class MainActivity extends AppCompatActivity {
 			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MOVIE_HELPER.close();
 	}
 }

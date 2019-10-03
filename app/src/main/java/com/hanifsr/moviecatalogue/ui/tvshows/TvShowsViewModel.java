@@ -1,4 +1,4 @@
-package com.hanifsr.moviecatalogue.ui.movies;
+package com.hanifsr.moviecatalogue.ui.tvshows;
 
 import android.util.Log;
 
@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MoviesViewModel extends ViewModel {
+public class TvShowsViewModel extends ViewModel {
 
 	private static final String API_KEY = BuildConfig.TMDB_API_KEY;
 
@@ -38,8 +38,8 @@ public class MoviesViewModel extends ViewModel {
 			language = "en-US";
 		}
 
-		String genreUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY + "&language=" + language;
-		String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + API_KEY + "&language=" + language + "&page=1";
+		String genreUrl = "https://api.themoviedb.org/3/genre/tv/list?api_key=" + API_KEY + "&language=" + language;
+		String url = "https://api.themoviedb.org/3/tv/popular?api_key=" + API_KEY + "&language=" + language + "&page=1";
 
 		client.get(genreUrl, new AsyncHttpResponseHandler() {
 			@Override
@@ -103,8 +103,8 @@ public class MoviesViewModel extends ViewModel {
 			String posterPath = "https://image.tmdb.org/t/p/w500/" + jsonObject.getString("poster_path");
 			movie.setPosterPath(posterPath);
 
-			movie.setTitle(jsonObject.getString("title"));
-			movie.setDateRelease(jsonObject.getString("release_date"));
+			movie.setTitle(jsonObject.getString("name"));
+			movie.setDateRelease(jsonObject.getString("first_air_date"));
 
 			movie.setUserScore(jsonObject.getString("vote_average"));
 			movie.setOverview(jsonObject.getString("overview"));

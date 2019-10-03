@@ -11,11 +11,10 @@
 		android:roundIcon="@mipmap/ic_launcher_new_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".TvShowDetail" android:parentActivityName=".MainActivity"></activity>
 		<activity
 			android:name=".MovieDetail"
 			android:parentActivityName=".MainActivity" />
-		<activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/AppTheme.NoActionBar">
+		<activity android:name=".MainActivity" android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

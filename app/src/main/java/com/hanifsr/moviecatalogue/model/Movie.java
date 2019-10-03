@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
 	private int id;
-	private String posterPath, title, genres, dateRelease, userScore, runtime, overview;
+	private String posterPath, title, genres, dateRelease, userScore, overview;
 
 	public Movie() {
 	}
@@ -59,14 +59,6 @@ public class Movie implements Parcelable {
 		this.userScore = userScore;
 	}
 
-	public String getRuntime() {
-		return runtime;
-	}
-
-	public void setRuntime(String runtime) {
-		this.runtime = runtime;
-	}
-
 	public String getOverview() {
 		return overview;
 	}
@@ -88,18 +80,16 @@ public class Movie implements Parcelable {
 		dest.writeString(this.genres);
 		dest.writeString(this.dateRelease);
 		dest.writeString(this.userScore);
-		dest.writeString(this.runtime);
 		dest.writeString(this.overview);
 	}
 
-	protected Movie(Parcel in) {
+	private Movie(Parcel in) {
 		this.id = in.readInt();
 		this.posterPath = in.readString();
 		this.title = in.readString();
 		this.genres = in.readString();
 		this.dateRelease = in.readString();
 		this.userScore = in.readString();
-		this.runtime = in.readString();
 		this.overview = in.readString();
 	}
 

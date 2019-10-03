@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
@@ -22,24 +23,15 @@ import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
 
+import static com.hanifsr.moviecatalogue.database.MovieHelper.INSTANCE;
+
 public class MoviesFragment extends Fragment {
 
-	private static final String ARG_SECTION_NUMBER = "section_number";
-
 	private RecyclerView recyclerView;
-	private String[] dataTitle, dataGenres, dataDateRelease, dataRating, dataRuntime, dataOverview;
-	private ArrayList<Movie> movies;
 	private MovieAdapter movieAdapter;
 	private ProgressBar progressBar;
 
-	public static MoviesFragment newInstance(int index) {
-		MoviesFragment moviesFragment = new MoviesFragment();
-		Bundle bundle = new Bundle();
-		bundle.putInt(ARG_SECTION_NUMBER, index);
-		moviesFragment.setArguments(bundle);
-		return moviesFragment;
-	}
-
+	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_movies, container, false);
 	}
@@ -48,16 +40,19 @@ public class MoviesFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		int index = 0;
-		if (getArguments() != null) {
-			index = getArguments().getInt(ARG_SECTION_NUMBER);
-		}
-
 		progressBar = view.findViewById(R.id.progress_bar);
+		showLoading(true);
+
+		movieAdapter = new MovieAdapter();
+		movieAdapter.notifyDataSetChanged();
+
+		recyclerView = view.findViewById(R.id.rv_movies);
+		recyclerView.setHasFixedSize(true);
+
+		showRecyclerList();
 
 		MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
-		moviesViewModel.setMovie(index);
-		showLoading(true);
+		moviesViewModel.setMovie();
 
 		moviesViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override
@@ -68,84 +63,27 @@ public class MoviesFragment extends Fragment {
 				}
 			}
 		});
-
-		movieAdapter = new MovieAdapter();
-		movieAdapter.notifyDataSetChanged();
-
-		recyclerView = view.findViewById(R.id.rv_movies);
-//		recyclerView.setHasFixedSize(true);
-
-		// prepare(index);
-		// addItem(index);
-		showRecyclerList(index);
 	}
 
-	private void prepare(int index) {
-		if (index == 0) {
-//			dataPoster = getResources().obtainTypedArray(R.array.data_movie_poster);
-			dataTitle = getResources().getStringArray(R.array.data_movie_title);
-			dataGenres = getResources().getStringArray(R.array.data_movie_genres);
-			dataDateRelease = getResources().getStringArray(R.array.data_movie_date_release);
-			dataRating = getResources().getStringArray(R.array.data_movie_rating);
-			dataRuntime = getResources().getStringArray(R.array.data_movie_runtime);
-			dataOverview = getResources().getStringArray(R.array.data_movie_overview);
-		} else if (index == 1) {
-//			dataPoster = getResources().obtainTypedArray(R.array.data_tv_poster);
-			dataTitle = getResources().getStringArray(R.array.data_tv_title);
-			dataGenres = getResources().getStringArray(R.array.data_tv_genres);
-			dataRating = getResources().getStringArray(R.array.data_tv_rating);
-			dataRuntime = getResources().getStringArray(R.array.data_tv_runtime);
-			dataOverview = getResources().getStringArray(R.array.data_tv_overview);
-		}
-	}
-
-	private void addItem(int index) {
-		movies = new ArrayList<>();
-
-		if (index == 0) {
-			for (int i = 0; i < dataTitle.length; i++) {
-				Movie movie = new Movie();
-				// movie.setPosterPath(dataPoster.getResourceId(i, -1));
-				movie.setTitle(dataTitle[i]);
-				movie.setGenres(dataGenres[i]);
-				movie.setDateRelease(dataDateRelease[i]);
-				movie.setUserScore(dataRating[i]);
-				movie.setRuntime(dataRuntime[i]);
-				movie.setOverview(dataOverview[i]);
-				movies.add(movie);
-			}
-		} else if (index == 1) {
-			for (int i = 0; i < dataTitle.length; i++) {
-				Movie movie = new Movie();
-				// movie.setPosterPath(dataPoster.getResourceId(i, -1));
-				movie.setTitle(dataTitle[i]);
-				movie.setGenres(dataGenres[i]);
-				movie.setUserScore(dataRating[i]);
-				movie.setRuntime(dataRuntime[i]);
-				movie.setOverview(dataOverview[i]);
-				movies.add(movie);
-			}
-		}
-	}
-
-	private void showRecyclerList(final int index) {
+	private void showRecyclerList() {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-//		MovieAdapter movieAdapter = new MovieAdapter(movies);
 		recyclerView.setAdapter(movieAdapter);
 
 		movieAdapter.setOnMovieItemClickCallback(new MovieAdapter.OnMovieItemClickCallback() {
 			@Override
-			public void onMovieItemClicked(Movie movie) {
-				showSelectedMovie(movie, index);
+			public void onMovieItemClicked(Movie movie, int position) {
+				showSelectedMovie(movie, position);
 			}
 		});
 	}
 
-	private void showSelectedMovie(Movie movie, int index) {
+	private void showSelectedMovie(Movie movie, int position) {
 		Intent intent = new Intent(this.getActivity(), MovieDetail.class);
-		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie);
-		intent.putExtra(MovieDetail.EXTRA_INDEX, index);
-		startActivity(intent);
+		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie.getId());
+		intent.putExtra(MovieDetail.EXTRA_POSITION, position);
+		intent.putExtra(MovieDetail.EXTRA_INDEX, 0);
+		intent.putExtra(MovieDetail.EXTRA_FAVOURITE, INSTANCE.getMovie(movie.getId()));
+		startActivityForResult(intent, MovieDetail.REQUEST_DELETE);
 	}
 
 	private void showLoading(Boolean state) {
@@ -154,5 +92,21 @@ public class MoviesFragment extends Fragment {
 		} else {
 			progressBar.setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
+				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+				showSnackbarMessage(getString(R.string.delete_message_success, title));
+			}
+		}
+	}
+
+	private void showSnackbarMessage(String message) {
+		Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
 	}
 }

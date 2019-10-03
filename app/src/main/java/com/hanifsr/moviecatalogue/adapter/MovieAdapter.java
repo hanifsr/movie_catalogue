@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-	private ArrayList<Movie> movieArrayList = new ArrayList<>();
+	private final ArrayList<Movie> movieArrayList = new ArrayList<>();
 	private OnMovieItemClickCallback onMovieItemClickCallback;
 
 	public void setData(ArrayList<Movie> items) {
@@ -26,13 +26,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		notifyDataSetChanged();
 	}
 
+	public void addItem(Movie movie) {
+		movieArrayList.add(movie);
+		notifyItemInserted(movieArrayList.size() - 1);
+	}
+
+	public void removeItem(int position) {
+		movieArrayList.remove(position);
+		notifyItemRemoved(position);
+		notifyItemRangeChanged(position, movieArrayList.size());
+	}
+
 	public void setOnMovieItemClickCallback(OnMovieItemClickCallback onMovieItemClickCallback) {
 		this.onMovieItemClickCallback = onMovieItemClickCallback;
 	}
-
-	/*public MovieAdapter(ArrayList<Movie> movieArrayList) {
-		this.movieArrayList = movieArrayList;
-	}*/
 
 	@NonNull
 	@Override
@@ -55,7 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onMovieItemClickCallback.onMovieItemClicked(movieArrayList.get(holder.getAdapterPosition()));
+				onMovieItemClickCallback.onMovieItemClicked(movieArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition());
 			}
 		});
 	}
@@ -80,6 +87,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	}
 
 	public interface OnMovieItemClickCallback {
-		void onMovieItemClicked(Movie movie);
+		void onMovieItemClicked(Movie movie, int position);
 	}
 }

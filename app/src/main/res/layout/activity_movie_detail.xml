@@ -40,7 +40,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/activity_vertical_margin"
-			android:text="@string/title"
+			tools:text="@string/title"
 			android:textAlignment="center"
 			android:textColor="@android:color/black"
 			android:textSize="18sp"
@@ -53,7 +53,7 @@
 			android:id="@+id/tv_movie_genres_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/genres"
+			tools:text="@string/genres"
 			android:textAlignment="center"
 			android:textSize="16sp"
 			android:textStyle="bold"
@@ -70,6 +70,7 @@
 			android:text="@string/date_release"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
+			android:visibility="gone"
 			app:layout_constraintEnd_toStartOf="@+id/movie_overview_text"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
@@ -78,7 +79,7 @@
 			android:id="@+id/tv_movie_date_release_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/date_release"
+			tools:text="@string/date_release"
 			android:textSize="14sp"
 			app:layout_constraintEnd_toEndOf="@+id/movie_date_release_text"
 			app:layout_constraintStart_toStartOf="@+id/movie_date_release_text"
@@ -92,6 +93,7 @@
 			android:text="@string/rating"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
+			android:visibility="gone"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toEndOf="@+id/movie_overview_text"
 			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
@@ -100,33 +102,11 @@
 			android:id="@+id/tv_movie_rating_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/rating"
+			tools:text="@string/rating"
 			android:textSize="14sp"
 			app:layout_constraintEnd_toEndOf="@+id/movie_rating_text"
 			app:layout_constraintStart_toStartOf="@+id/movie_rating_text"
 			app:layout_constraintTop_toBottomOf="@+id/movie_rating_text" />
-
-		<!--<TextView
-			android:id="@+id/movie_runtime_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:text="@string/runtime"
-			android:textColor="@android:color/black"
-			android:textSize="16sp"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/movie_rating_text"
-			app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_detail" />
-
-		<TextView
-			android:id="@+id/tv_movie_runtime_detail"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/runtime"
-			android:textSize="14sp"
-			app:layout_constraintEnd_toEndOf="@+id/movie_runtime_text"
-			app:layout_constraintStart_toStartOf="@+id/movie_runtime_text"
-			app:layout_constraintTop_toBottomOf="@+id/movie_runtime_text" />-->
 
 		<TextView
 			android:id="@+id/movie_overview_text"
@@ -136,7 +116,9 @@
 			android:text="@string/overview"
 			android:textColor="@android:color/black"
 			android:textSize="16sp"
+			android:visibility="gone"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_bias="0.498"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/tv_movie_rating_detail" />
 
@@ -144,11 +126,22 @@
 			android:id="@+id/tv_movie_overview_detail"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/overview"
+			tools:text="@string/overview"
 			android:textSize="14sp"
 			app:layout_constraintEnd_toEndOf="@+id/movie_overview_text"
 			app:layout_constraintStart_toStartOf="@+id/movie_overview_text"
 			app:layout_constraintTop_toBottomOf="@+id/movie_overview_text" />
+
+		<Button
+			android:id="@+id/btn_favourite"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/add_to_favourite"
+			android:visibility="gone"
+			style="@style/Widget.AppCompat.Button.Colored"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tv_movie_overview_detail" />
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
