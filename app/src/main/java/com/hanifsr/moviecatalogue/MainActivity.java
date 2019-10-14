@@ -17,7 +17,7 @@ import com.hanifsr.moviecatalogue.database.MovieHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-	private MovieHelper MOVIE_HELPER;
+	private MovieHelper movieHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 		NavigationUI.setupWithNavController(navView, navController);
 
-		getSupportActionBar().setElevation(0);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setElevation(0);
+		}
 
-		MOVIE_HELPER = MovieHelper.getInstance(getApplicationContext());
-		MOVIE_HELPER.open();
+		movieHelper = MovieHelper.getInstance(getApplicationContext());
+		movieHelper.open();
 	}
 
 	@Override
@@ -56,6 +58,6 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		MOVIE_HELPER.close();
+		movieHelper.close();
 	}
 }

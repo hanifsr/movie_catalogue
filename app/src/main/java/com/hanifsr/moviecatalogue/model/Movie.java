@@ -3,10 +3,50 @@ package com.hanifsr.moviecatalogue.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
 public class Movie implements Parcelable {
 
+	@SerializedName("id")
+	@Expose
 	private int id;
-	private String posterPath, title, genres, dateRelease, userScore, overview;
+
+	@SerializedName("poster_path")
+	@Expose
+	private String posterPath;
+
+	@SerializedName(value = "title", alternate = "name")
+	@Expose
+	private String title;
+
+	@SerializedName(value = "release_date", alternate = "first_air_date")
+	@Expose
+	private String dateRelease;
+
+	@SerializedName("vote_average")
+	@Expose
+	private String userScore;
+
+	@SerializedName("overview")
+	@Expose
+	private String overview;
+
+	@SerializedName("genre_ids")
+	@Expose
+	private ArrayList<Integer> genreIds;
+
+	@SerializedName("backdrop_path")
+	@Expose
+	private String backdropPath;
+
+	@SerializedName("genres")
+	@Expose
+	private ArrayList<Genre> genresDetail;
+
+	private String genresHelper;
 
 	public Movie() {
 	}
@@ -35,14 +75,6 @@ public class Movie implements Parcelable {
 		this.title = title;
 	}
 
-	public String getGenres() {
-		return genres;
-	}
-
-	public void setGenres(String genres) {
-		this.genres = genres;
-	}
-
 	public String getDateRelease() {
 		return dateRelease;
 	}
@@ -67,6 +99,38 @@ public class Movie implements Parcelable {
 		this.overview = overview;
 	}
 
+	public ArrayList<Integer> getGenreIds() {
+		return genreIds;
+	}
+
+	public void setGenreIds(ArrayList<Integer> genreIds) {
+		this.genreIds = genreIds;
+	}
+
+	public String getBackdropPath() {
+		return backdropPath;
+	}
+
+	public void setBackdropPath(String backdropPath) {
+		this.backdropPath = backdropPath;
+	}
+
+	public ArrayList<Genre> getGenresDetail() {
+		return genresDetail;
+	}
+
+	public void setGenresDetail(ArrayList<Genre> genresDetail) {
+		this.genresDetail = genresDetail;
+	}
+
+	public String getGenresHelper() {
+		return genresHelper;
+	}
+
+	public void setGenresHelper(String genresHelper) {
+		this.genresHelper = genresHelper;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -77,7 +141,7 @@ public class Movie implements Parcelable {
 		dest.writeInt(this.id);
 		dest.writeString(this.posterPath);
 		dest.writeString(this.title);
-		dest.writeString(this.genres);
+		dest.writeString(this.genresHelper);
 		dest.writeString(this.dateRelease);
 		dest.writeString(this.userScore);
 		dest.writeString(this.overview);
@@ -87,7 +151,7 @@ public class Movie implements Parcelable {
 		this.id = in.readInt();
 		this.posterPath = in.readString();
 		this.title = in.readString();
-		this.genres = in.readString();
+		this.genresHelper = in.readString();
 		this.dateRelease = in.readString();
 		this.userScore = in.readString();
 		this.overview = in.readString();

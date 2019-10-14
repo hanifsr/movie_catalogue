@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,21 +29,20 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 	public static final String EXTRA_MOVIE = "extra_movie";
 	public static final String EXTRA_POSITION = "extra_position";
 	public static final String EXTRA_INDEX = "extra_index";
-	public static final String EXTRA_FAVOURITE = "extra_favourite";
 	public static final String EXTRA_TITLE = "extra_title";
+
+	private String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w780/";
 
 	public static final int REQUEST_DELETE = 200;
 	public static final int RESULT_DELETE = 201;
 
 	private ProgressBar progressBar;
-	private TextView tvDateReleaseText;
-	private TextView tvRatingText;
-	private TextView tvOverviewText;
 	private Button btnFavourite;
+	private RatingBar ratingBar;
 
 	private int position;
 	private int index;
-	private boolean isFavourite = false;
+	private int isFavourite;
 
 	private Movie movie;
 
@@ -52,17 +52,15 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		setContentView(R.layout.activity_movie_detail);
 
 		progressBar = findViewById(R.id.progress_bar_detail);
-		tvDateReleaseText = findViewById(R.id.movie_date_release_text);
-		tvRatingText = findViewById(R.id.movie_rating_text);
-		tvOverviewText = findViewById(R.id.movie_overview_text);
 		btnFavourite = findViewById(R.id.btn_favourite);
+		ratingBar = findViewById(R.id.rating_bar_movie);
 		showLoading(true);
 
 		final ImageView ivPoster = findViewById(R.id.iv_movie_poster_detail);
+		final ImageView ivBackdrop = findViewById(R.id.iv_movie_backdrop);
 		final TextView tvTitle = findViewById(R.id.tv_movie_title_detail);
 		final TextView tvGenres = findViewById(R.id.tv_movie_genres_detail);
 		final TextView tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
-		final TextView tvRating = findViewById(R.id.tv_movie_rating_detail);
 		final TextView tvOverview = findViewById(R.id.tv_movie_overview_detail);
 
 		btnFavourite.setOnClickListener(this);
@@ -70,10 +68,10 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		int movieId = getIntent().getIntExtra(EXTRA_MOVIE, 0);
 		position = getIntent().getIntExtra(EXTRA_POSITION, 0);
 		index = getIntent().getIntExtra(EXTRA_INDEX, 0);
-		isFavourite = getIntent().getIntExtra(EXTRA_FAVOURITE, 0) == 1;
-
-		if (index == 1) {
-			tvDateReleaseText.setText(R.string.first_air_date);
+		if (index == 0) {
+			isFavourite = INSTANCE.getMovie(movieId);
+		} else if (index == 1) {
+			isFavourite = INSTANCE.getTvShow(movieId);
 		}
 
 		DetailViewModel detailViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
@@ -83,11 +81,12 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 			public void onChanged(Movie movie) {
 				String dateRelease = dateFormat(movie.getDateRelease());
 
-				Glide.with(MovieDetail.this).load(movie.getPosterPath()).into(ivPoster);
+				Glide.with(MovieDetail.this).load(IMAGE_BASE_URL + movie.getBackdropPath()).into(ivBackdrop);
+				Glide.with(MovieDetail.this).load(IMAGE_BASE_URL + movie.getPosterPath()).into(ivPoster);
 				tvTitle.setText(movie.getTitle());
-				tvGenres.setText(movie.getGenres());
+				tvGenres.setText(movie.getGenresHelper());
 				tvDateRelease.setText(dateRelease);
-				tvRating.setText(movie.getUserScore());
+				ratingBar.setRating(Float.parseFloat(movie.getUserScore()) / 2);
 
 				if (movie.getOverview().isEmpty()) {
 					tvOverview.setText(R.string.no_overview);
@@ -102,7 +101,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 			}
 		});
 
-		if (isFavourite) {
+		if (isFavourite == 1) {
 			btnFavourite.setText(R.string.remove_from_favourite);
 		} else {
 			btnFavourite.setText(R.string.add_to_favourite);
@@ -120,16 +119,12 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		if (state) {
 			progressBar.setVisibility(View.VISIBLE);
 
-			tvDateReleaseText.setVisibility(View.GONE);
-			tvRatingText.setVisibility(View.GONE);
-			tvOverviewText.setVisibility(View.GONE);
+			ratingBar.setVisibility(View.GONE);
 			btnFavourite.setVisibility(View.GONE);
 		} else {
 			progressBar.setVisibility(View.GONE);
 
-			tvDateReleaseText.setVisibility(View.VISIBLE);
-			tvRatingText.setVisibility(View.VISIBLE);
-			tvOverviewText.setVisibility(View.VISIBLE);
+			ratingBar.setVisibility(View.VISIBLE);
 			btnFavourite.setVisibility(View.VISIBLE);
 		}
 	}
@@ -153,7 +148,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 			intent.putExtra(EXTRA_POSITION, position);
 			intent.putExtra(EXTRA_TITLE, movie.getTitle());
 
-			if (isFavourite) {
+			if (isFavourite == 1) {
 				int result = 0;
 				if (index == 0) {
 					result = INSTANCE.deleteMovie(movie.getId());
@@ -162,7 +157,6 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 				}
 
 				if (result > 0) {
-					isFavourite = false;
 					btnFavourite.setText(R.string.add_to_favourite);
 					setResult(RESULT_DELETE, intent);
 					finish();
@@ -178,7 +172,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 				}
 
 				if (result > 0) {
-					isFavourite = true;
+					isFavourite = 1;
 					btnFavourite.setText(R.string.remove_from_favourite);
 					showSnackbarMessage(getString(R.string.insert_message_success, movie.getTitle()), v);
 				} else {

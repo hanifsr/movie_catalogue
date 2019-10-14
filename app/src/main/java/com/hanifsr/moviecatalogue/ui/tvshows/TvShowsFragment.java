@@ -19,11 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
+import com.hanifsr.moviecatalogue.interfaces.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
-
-import static com.hanifsr.moviecatalogue.database.MovieHelper.INSTANCE;
 
 public class TvShowsFragment extends Fragment {
 
@@ -52,9 +51,9 @@ public class TvShowsFragment extends Fragment {
 		showRecyclerList();
 
 		TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
-		tvShowsViewModel.setMovie();
+		tvShowsViewModel.setTvShows();
 
-		tvShowsViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
+		tvShowsViewModel.getTvShows().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override
 			public void onChanged(ArrayList<Movie> movies) {
 				if (movies != null) {
@@ -69,10 +68,10 @@ public class TvShowsFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 		recyclerView.setAdapter(movieAdapter);
 
-		movieAdapter.setOnMovieItemClickCallback(new MovieAdapter.OnMovieItemClickCallback() {
+		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
 			@Override
 			public void onMovieItemClicked(Movie movie, int position) {
-				showSelectedMovie(movie,position);
+				showSelectedMovie(movie, position);
 			}
 		});
 	}
@@ -82,7 +81,6 @@ public class TvShowsFragment extends Fragment {
 		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie.getId());
 		intent.putExtra(MovieDetail.EXTRA_POSITION, position);
 		intent.putExtra(MovieDetail.EXTRA_INDEX, 1);
-		intent.putExtra(MovieDetail.EXTRA_FAVOURITE, INSTANCE.getTvShow(movie.getId()));
 		startActivityForResult(intent, MovieDetail.REQUEST_DELETE);
 	}
 

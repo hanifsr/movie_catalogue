@@ -2,7 +2,6 @@ package com.hanifsr.moviecatalogue.ui.favourites.sections;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
+import com.hanifsr.moviecatalogue.interfaces.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
-
-import static com.hanifsr.moviecatalogue.database.MovieHelper.INSTANCE;
 
 public class SectionsFragment extends Fragment {
 
@@ -48,7 +46,7 @@ public class SectionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
 		int index = 0;
@@ -68,11 +66,7 @@ public class SectionsFragment extends Fragment {
 		showRecyclerList(index);
 
 		SectionsViewModel sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
-		if (index == 0) {
-			sectionsViewModel.setMovie(INSTANCE.getAllMovie());
-		} else if (index == 1) {
-			sectionsViewModel.setMovie(INSTANCE.getAllTvShow());
-		}
+		sectionsViewModel.setMovie(index);
 
 		sectionsViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override
@@ -89,7 +83,7 @@ public class SectionsFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 		recyclerView.setAdapter(movieAdapter);
 
-		movieAdapter.setOnMovieItemClickCallback(new MovieAdapter.OnMovieItemClickCallback() {
+		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
 			@Override
 			public void onMovieItemClicked(Movie movie, int position) {
 				showSelectedMovie(movie, index, position);
@@ -102,9 +96,7 @@ public class SectionsFragment extends Fragment {
 		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie.getId());
 		intent.putExtra(MovieDetail.EXTRA_POSITION, position);
 		intent.putExtra(MovieDetail.EXTRA_INDEX, index);
-		intent.putExtra(MovieDetail.EXTRA_FAVOURITE, 1);
 		startActivityForResult(intent, MovieDetail.REQUEST_DELETE);
-//		startActivity(intent);
 	}
 
 	private void showLoading(Boolean state) {

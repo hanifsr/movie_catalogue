@@ -77,7 +77,7 @@ public class MovieHelper {
 				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MOVIE_ID)));
 				movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(POSTER_PATH)));
 				movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));
-				movie.setGenres(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
+				movie.setGenresHelper(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
 				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(DATE_RELEASE)));
 				movie.setUserScore(cursor.getString(cursor.getColumnIndexOrThrow(USER_SCORE)));
 				movie.setOverview(cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW)));
@@ -109,7 +109,7 @@ public class MovieHelper {
 		args.put(MOVIE_ID, movie.getId());
 		args.put(POSTER_PATH, movie.getPosterPath());
 		args.put(TITLE, movie.getTitle());
-		args.put(GENRES, movie.getGenres());
+		args.put(GENRES, movie.getGenresHelper());
 		args.put(DATE_RELEASE, movie.getDateRelease());
 		args.put(USER_SCORE, movie.getUserScore());
 		args.put(OVERVIEW, movie.getOverview());
@@ -139,7 +139,7 @@ public class MovieHelper {
 				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(SHOW_ID)));
 				movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(POSTER_PATH)));
 				movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));
-				movie.setGenres(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
+				movie.setGenresHelper(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
 				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(FIRST_AIR_DATE)));
 				movie.setUserScore(cursor.getString(cursor.getColumnIndexOrThrow(USER_SCORE)));
 				movie.setOverview(cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW)));
@@ -171,7 +171,7 @@ public class MovieHelper {
 		args.put(SHOW_ID, movie.getId());
 		args.put(POSTER_PATH, movie.getPosterPath());
 		args.put(TITLE, movie.getTitle());
-		args.put(GENRES, movie.getGenres());
+		args.put(GENRES, movie.getGenresHelper());
 		args.put(FIRST_AIR_DATE, movie.getDateRelease());
 		args.put(USER_SCORE, movie.getUserScore());
 		args.put(OVERVIEW, movie.getOverview());

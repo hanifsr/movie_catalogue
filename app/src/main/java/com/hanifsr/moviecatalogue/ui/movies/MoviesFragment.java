@@ -19,11 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
+import com.hanifsr.moviecatalogue.interfaces.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
-
-import static com.hanifsr.moviecatalogue.database.MovieHelper.INSTANCE;
 
 public class MoviesFragment extends Fragment {
 
@@ -52,7 +51,7 @@ public class MoviesFragment extends Fragment {
 		showRecyclerList();
 
 		MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
-		moviesViewModel.setMovie();
+		moviesViewModel.setMovies();
 
 		moviesViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override
@@ -69,7 +68,7 @@ public class MoviesFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 		recyclerView.setAdapter(movieAdapter);
 
-		movieAdapter.setOnMovieItemClickCallback(new MovieAdapter.OnMovieItemClickCallback() {
+		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
 			@Override
 			public void onMovieItemClicked(Movie movie, int position) {
 				showSelectedMovie(movie, position);
@@ -82,7 +81,6 @@ public class MoviesFragment extends Fragment {
 		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie.getId());
 		intent.putExtra(MovieDetail.EXTRA_POSITION, position);
 		intent.putExtra(MovieDetail.EXTRA_INDEX, 0);
-		intent.putExtra(MovieDetail.EXTRA_FAVOURITE, INSTANCE.getMovie(movie.getId()));
 		startActivityForResult(intent, MovieDetail.REQUEST_DELETE);
 	}
 

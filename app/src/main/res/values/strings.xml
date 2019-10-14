@@ -20,4 +20,6 @@
 	<string name="delete_message_failed">Failed to remove %1$s from Favourite</string>
 	<string name="insert_message_success">%1$s has been added to Favourite</string>
 	<string name="insert_message_failed">Failed to add %1$s to Favourite</string>
+	<string name="movie_backdrop">Movie Backdrop</string>
+	<string name="empty_favourites">Favourites is empty! Try add a movie or tv show to Favourites.</string>
 </resources>

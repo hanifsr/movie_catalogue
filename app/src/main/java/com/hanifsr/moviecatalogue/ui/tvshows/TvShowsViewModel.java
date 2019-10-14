@@ -1,5 +1,6 @@
 package com.hanifsr.moviecatalogue.ui.tvshows;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.collection.SimpleArrayMap;
@@ -7,124 +8,74 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.hanifsr.moviecatalogue.BuildConfig;
+import com.hanifsr.moviecatalogue.interfaces.OnGetGenresCallback;
+import com.hanifsr.moviecatalogue.interfaces.OnGetMoviesCallback;
+import com.hanifsr.moviecatalogue.model.Genre;
 import com.hanifsr.moviecatalogue.model.Movie;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.hanifsr.moviecatalogue.model.MovieRepository;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import cz.msebera.android.httpclient.Header;
-
 public class TvShowsViewModel extends ViewModel {
 
-	private static final String API_KEY = BuildConfig.TMDB_API_KEY;
+	private static final String TAG = "GGWP";
 
-	private MutableLiveData<ArrayList<Movie>> movieList = new MutableLiveData<>();
+	private MovieRepository movieRepository;
+
+	private MutableLiveData<ArrayList<Movie>> tvShowList = new MutableLiveData<>();
 	private SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
-	void setMovie() {
-		AsyncHttpClient client = new AsyncHttpClient();
-		final ArrayList<Movie> listItems = new ArrayList<>();
+	LiveData<ArrayList<Movie>> getTvShows() {
+		return tvShowList;
+	}
 
-		String language;
-		if (Locale.getDefault().toString().equals("in_ID")) {
-			language = "id-ID";
-		} else {
-			language = "en-US";
-		}
+	void setTvShows() {
+		movieRepository = MovieRepository.getInstance();
 
-		String genreUrl = "https://api.themoviedb.org/3/genre/tv/list?api_key=" + API_KEY + "&language=" + language;
-		String url = "https://api.themoviedb.org/3/tv/popular?api_key=" + API_KEY + "&language=" + language + "&page=1";
+		final String language = Locale.getDefault().toString().equals("in_ID") ? "id-ID" : "en-US" ;
 
-		client.get(genreUrl, new AsyncHttpResponseHandler() {
+		movieRepository.getTvShowGenres(language, new OnGetGenresCallback() {
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				try {
-					String result = new String(responseBody);
-					JSONObject responseObject = new JSONObject(result);
-					JSONArray list = responseObject.getJSONArray("genres");
-
-					for (int i = 0; i < list.length(); i++) {
-						JSONObject genreObject = list.getJSONObject(i);
-						genreList.put(genreObject.getInt("id"), genreObject.getString("name"));
-					}
-				} catch (Exception e) {
-					Log.d("ExceptionGenre", e.getMessage());
+			public void onSuccess(ArrayList<Genre> genres) {
+				for (Genre genre : genres) {
+					genreList.put(genre.getId(), genre.getName());
 				}
+				getTvShowsRetrofit(language);
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				Log.d("onFailureGenre", error.getMessage());
+			public void onError(Throwable error) {
+				Log.d(TAG, error.getMessage());
 			}
 		});
 
-		client.get(url, new AsyncHttpResponseHandler() {
+
+	}
+
+	private void getTvShowsRetrofit(String language) {
+		final ArrayList<Movie> tvShowArrayList = new ArrayList<>();
+
+		movieRepository.getTvShows(language, new OnGetMoviesCallback() {
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				try {
-					String result = new String(responseBody);
-					JSONObject responseObject = new JSONObject(result);
-					JSONArray list = responseObject.getJSONArray("results");
-
-					for (int i = 0; i < list.length(); i++) {
-						JSONObject movieObject = list.getJSONObject(i);
-						listItems.add(addItems(movieObject));
+			public void onSuccess(ArrayList<Movie> movies) {
+				for (Movie movie : movies) {
+					ArrayList<String> movieGenres = new ArrayList<>();
+					for (Integer genreIds : movie.getGenreIds()) {
+						if (genreList.containsKey(genreIds)) {
+							movieGenres.add(genreList.get(genreIds));
+						}
 					}
-
-					movieList.postValue(listItems);
-				} catch (Exception e) {
-					Log.d("ExceptionMovie", e.getMessage());
+					movie.setGenresHelper(TextUtils.join(", ", movieGenres));
+					tvShowArrayList.add(movie);
 				}
+				tvShowList.postValue(tvShowArrayList);
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				Log.d("onFailureMovie", error.getMessage());
+			public void onError(Throwable error) {
+				Log.d(TAG, error.getMessage());
 			}
 		});
-	}
-
-	LiveData<ArrayList<Movie>> getMovies() {
-		return movieList;
-	}
-
-	private Movie addItems(JSONObject jsonObject) {
-		Movie movie = new Movie();
-
-		try {
-			movie.setId(jsonObject.getInt("id"));
-
-			String posterPath = "https://image.tmdb.org/t/p/w500/" + jsonObject.getString("poster_path");
-			movie.setPosterPath(posterPath);
-
-			movie.setTitle(jsonObject.getString("name"));
-			movie.setDateRelease(jsonObject.getString("first_air_date"));
-
-			movie.setUserScore(jsonObject.getString("vote_average"));
-			movie.setOverview(jsonObject.getString("overview"));
-
-			StringBuilder movieGenre = new StringBuilder();
-			JSONArray genreIds = jsonObject.getJSONArray("genre_ids");
-			for (int j = 0; j < genreIds.length(); j++) {
-				if (genreList.containsKey(genreIds.getInt(j))) {
-					if (j == 0) {
-						movieGenre.append(genreList.get(genreIds.getInt(j)));
-					} else {
-						movieGenre.append(", ").append(genreList.get(genreIds.getInt(j)));
-					}
-				}
-			}
-			movie.setGenres(movieGenre.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return movie;
 	}
 }

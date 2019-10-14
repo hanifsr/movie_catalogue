@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hanifsr.moviecatalogue.R;
+import com.hanifsr.moviecatalogue.interfaces.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.model.Movie;
 
 import java.util.ArrayList;
@@ -20,15 +21,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	private final ArrayList<Movie> movieArrayList = new ArrayList<>();
 	private OnMovieItemClickCallback onMovieItemClickCallback;
 
-	public void setData(ArrayList<Movie> items) {
+	public void setData(ArrayList<Movie> movies) {
 		movieArrayList.clear();
-		movieArrayList.addAll(items);
+		movieArrayList.addAll(movies);
 		notifyDataSetChanged();
-	}
-
-	public void addItem(Movie movie) {
-		movieArrayList.add(movie);
-		notifyItemInserted(movieArrayList.size() - 1);
 	}
 
 	public void removeItem(int position) {
@@ -52,12 +48,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	public void onBindViewHolder(@NonNull final MovieViewHolder holder, int position) {
 		Movie movie = movieArrayList.get(position);
 
+		String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 		Glide.with(holder.itemView.getContext())
-				.load(movie.getPosterPath())
+				.load(IMAGE_BASE_URL + movie.getPosterPath())
 				.into(holder.ivPoster);
 
+		holder.tvDateRelease.setText(movie.getDateRelease().split("-")[0]);
 		holder.tvTitle.setText(movie.getTitle());
-		holder.tvGenre.setText(movie.getGenres());
+		holder.tvGenre.setText(movie.getGenresHelper());
+		holder.tvRating.setText(movie.getUserScore());
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -75,18 +74,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	class MovieViewHolder extends RecyclerView.ViewHolder {
 
 		ImageView ivPoster;
-		TextView tvTitle, tvGenre;
+		TextView tvDateRelease, tvTitle, tvGenre, tvRating;
 
 		MovieViewHolder(@NonNull View itemView) {
 			super(itemView);
 
 			ivPoster = itemView.findViewById(R.id.iv_movie_poster);
+			tvDateRelease = itemView.findViewById(R.id.tv_movie_date_release);
 			tvTitle = itemView.findViewById(R.id.tv_movie_title);
 			tvGenre = itemView.findViewById(R.id.tv_movie_genre);
+			tvRating = itemView.findViewById(R.id.tv_movie_rating);
 		}
-	}
-
-	public interface OnMovieItemClickCallback {
-		void onMovieItemClicked(Movie movie, int position);
 	}
 }
