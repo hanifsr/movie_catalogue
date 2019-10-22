@@ -20,12 +20,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					+ " %s TEXT NOT NULL)",
 			DatabaseContract.TABLE_NAME_MOVIE,
 			DatabaseContract.MovieColumns.MOVIE_ID,
-			DatabaseContract.MovieColumns.POSTER_PATH,
-			DatabaseContract.MovieColumns.TITLE,
-			DatabaseContract.MovieColumns.GENRES,
+			DatabaseContract.POSTER_PATH,
+			DatabaseContract.TITLE,
+			DatabaseContract.GENRES,
 			DatabaseContract.MovieColumns.DATE_RELEASE,
-			DatabaseContract.MovieColumns.USER_SCORE,
-			DatabaseContract.MovieColumns.OVERVIEW
+			DatabaseContract.USER_SCORE,
+			DatabaseContract.OVERVIEW
 	);
 
 	private static final String SQL_CREATE_TABLE_TV_SHOW = String.format("CREATE TABLE %s"
@@ -37,13 +37,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					+ " %s TEXT NOT NULL,"
 					+ " %s TEXT NOT NULL)",
 			DatabaseContract.TABLE_NAME_TV_SHOW,
-			DatabaseContract.TvShowColumns.SHOW_ID,
-			DatabaseContract.TvShowColumns.POSTER_PATH,
-			DatabaseContract.TvShowColumns.TITLE,
-			DatabaseContract.TvShowColumns.GENRES,
+			DatabaseContract.TvShowColumns.TV_SHOW_ID,
+			DatabaseContract.POSTER_PATH,
+			DatabaseContract.TITLE,
+			DatabaseContract.GENRES,
 			DatabaseContract.TvShowColumns.FIRST_AIR_DATE,
-			DatabaseContract.TvShowColumns.USER_SCORE,
-			DatabaseContract.TvShowColumns.OVERVIEW
+			DatabaseContract.USER_SCORE,
+			DatabaseContract.OVERVIEW
 	);
 
 	DatabaseHelper(Context context) {

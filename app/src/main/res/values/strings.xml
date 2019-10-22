@@ -22,4 +22,6 @@
 	<string name="insert_message_failed">Failed to add %1$s to Favourite</string>
 	<string name="movie_backdrop">Movie Backdrop</string>
 	<string name="empty_favourites">Favourites is empty! Try add a movie or tv show to Favourites.</string>
+	<string name="appwidget_text">Favourite Movies &amp; Tv Shows</string>
+	<string name="add_widget">Add widget</string>
 </resources>

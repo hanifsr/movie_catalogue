@@ -23,4 +23,6 @@
 	<string name="insert_message_failed">Gagal menambahkan %1$s ke Favorit</string>
 	<string name="movie_backdrop">Gambar Latar Film</string>
 	<string name="empty_favourites">Favorit kosong! Coba tambahkan sebuah film/serial tv ke Favorit.</string>
+	<string name="appwidget_text">Film &amp; Serial TV Favorit</string>
+	<string name="add_widget">Tambah widget</string>
 </resources>

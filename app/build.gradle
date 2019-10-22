@@ -39,7 +39,6 @@ dependencies {
 
 	// Lifecycle components
 	implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 	// RecyclerView and CardView
 	implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
@@ -48,4 +47,7 @@ dependencies {
 	// Retrofit
 	implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 	implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+
+	// Room
+	// implementation 'androidx.room:room-runtime:2.2.0'
 }

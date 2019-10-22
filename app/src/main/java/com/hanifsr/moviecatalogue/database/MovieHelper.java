@@ -7,28 +7,18 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.hanifsr.moviecatalogue.model.Movie;
-
-import java.util.ArrayList;
-
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.DATE_RELEASE;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.GENRES;
 import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.MOVIE_ID;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.OVERVIEW;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.POSTER_PATH;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.TITLE;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.USER_SCORE;
 import static com.hanifsr.moviecatalogue.database.DatabaseContract.TABLE_NAME_MOVIE;
 import static com.hanifsr.moviecatalogue.database.DatabaseContract.TABLE_NAME_TV_SHOW;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.TvShowColumns.FIRST_AIR_DATE;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.TvShowColumns.SHOW_ID;
+import static com.hanifsr.moviecatalogue.database.DatabaseContract.TITLE;
+import static com.hanifsr.moviecatalogue.database.DatabaseContract.TvShowColumns.TV_SHOW_ID;
 
 public class MovieHelper {
 
 	private static final String DATABASE_TABLE_MOVIE = TABLE_NAME_MOVIE;
 	private static final String DATABASE_TABLE_TV_SHOW = TABLE_NAME_TV_SHOW;
 	private static DatabaseHelper databaseHelper;
-	public static MovieHelper INSTANCE;
+	private static MovieHelper INSTANCE;
 
 	private static SQLiteDatabase database;
 
@@ -59,9 +49,8 @@ public class MovieHelper {
 		}
 	}
 
-	public ArrayList<Movie> getAllMovie() {
-		ArrayList<Movie> arrayList = new ArrayList<>();
-		Cursor cursor = database.query(DATABASE_TABLE_MOVIE, null,
+	public Cursor queryAllMovie() {
+		return database.query(DATABASE_TABLE_MOVIE, null,
 				null,
 				null,
 				null,
@@ -69,29 +58,21 @@ public class MovieHelper {
 				TITLE + " ASC",
 				null
 		);
-		cursor.moveToFirst();
-		Movie movie;
-		if (cursor.getCount() > 0) {
-			do {
-				movie = new Movie();
-				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MOVIE_ID)));
-				movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(POSTER_PATH)));
-				movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));
-				movie.setGenresHelper(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
-				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(DATE_RELEASE)));
-				movie.setUserScore(cursor.getString(cursor.getColumnIndexOrThrow(USER_SCORE)));
-				movie.setOverview(cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW)));
-
-				arrayList.add(movie);
-				cursor.moveToNext();
-			} while (!cursor.isAfterLast());
-		}
-		cursor.close();
-		return arrayList;
 	}
 
-	public int getMovie(int movieId) {
-		Cursor cursor = database.query(DATABASE_TABLE_MOVIE, null,
+	public Cursor queryAllTvShow() {
+		return database.query(DATABASE_TABLE_TV_SHOW, null,
+				null,
+				null,
+				null,
+				null,
+				TITLE + " ASC",
+				null
+		);
+	}
+
+	public Cursor queryMovieById(int movieId) {
+		return database.query(DATABASE_TABLE_MOVIE, null,
 				MOVIE_ID + " = ?",
 				new String[]{String.valueOf(movieId)},
 				null,
@@ -99,87 +80,32 @@ public class MovieHelper {
 				null,
 				null
 		);
-		int result = cursor.getCount();
-		cursor.close();
-		return result;
 	}
 
-	public long insertMovie(Movie movie) {
-		ContentValues args = new ContentValues();
-		args.put(MOVIE_ID, movie.getId());
-		args.put(POSTER_PATH, movie.getPosterPath());
-		args.put(TITLE, movie.getTitle());
-		args.put(GENRES, movie.getGenresHelper());
-		args.put(DATE_RELEASE, movie.getDateRelease());
-		args.put(USER_SCORE, movie.getUserScore());
-		args.put(OVERVIEW, movie.getOverview());
-
-		return database.insert(DATABASE_TABLE_MOVIE, null, args);
+	public Cursor queryTvShowById(int tvShowId) {
+		return database.query(DATABASE_TABLE_TV_SHOW, null,
+				TV_SHOW_ID + " = ?",
+				new String[]{String.valueOf(tvShowId)},
+				null,
+				null,
+				null,
+				null
+		);
 	}
 
-	public int deleteMovie(int movieId) {
+	public long insertMovie(ContentValues values) {
+		return database.insert(DATABASE_TABLE_MOVIE, null, values);
+	}
+
+	public long insertTvShow(ContentValues values) {
+		return database.insert(DATABASE_TABLE_TV_SHOW, null, values);
+	}
+
+	public int deleteMovieById(int movieId) {
 		return database.delete(DATABASE_TABLE_MOVIE, MOVIE_ID + " = ?", new String[]{String.valueOf(movieId)});
 	}
 
-	public ArrayList<Movie> getAllTvShow() {
-		ArrayList<Movie> arrayList = new ArrayList<>();
-		Cursor cursor = database.query(DATABASE_TABLE_TV_SHOW, null,
-				null,
-				null,
-				null,
-				null,
-				TITLE + " ASC",
-				null
-		);
-		cursor.moveToFirst();
-		Movie movie;
-		if (cursor.getCount() > 0) {
-			do {
-				movie = new Movie();
-				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(SHOW_ID)));
-				movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(POSTER_PATH)));
-				movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));
-				movie.setGenresHelper(cursor.getString(cursor.getColumnIndexOrThrow(GENRES)));
-				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(FIRST_AIR_DATE)));
-				movie.setUserScore(cursor.getString(cursor.getColumnIndexOrThrow(USER_SCORE)));
-				movie.setOverview(cursor.getString(cursor.getColumnIndexOrThrow(OVERVIEW)));
-
-				arrayList.add(movie);
-				cursor.moveToNext();
-			} while (!cursor.isAfterLast());
-		}
-		cursor.close();
-		return arrayList;
-	}
-
-	public int getTvShow(int movieId) {
-		Cursor cursor = database.query(DATABASE_TABLE_TV_SHOW, null,
-				SHOW_ID + " = ?",
-				new String[]{String.valueOf(movieId)},
-				null,
-				null,
-				null,
-				null
-		);
-		int result = cursor.getCount();
-		cursor.close();
-		return result;
-	}
-
-	public long insertTvShow(Movie movie) {
-		ContentValues args = new ContentValues();
-		args.put(SHOW_ID, movie.getId());
-		args.put(POSTER_PATH, movie.getPosterPath());
-		args.put(TITLE, movie.getTitle());
-		args.put(GENRES, movie.getGenresHelper());
-		args.put(FIRST_AIR_DATE, movie.getDateRelease());
-		args.put(USER_SCORE, movie.getUserScore());
-		args.put(OVERVIEW, movie.getOverview());
-
-		return database.insert(DATABASE_TABLE_TV_SHOW, null, args);
-	}
-
-	public int deleteTvShow(int movieId) {
-		return database.delete(DATABASE_TABLE_TV_SHOW, SHOW_ID + " = ?", new String[]{String.valueOf(movieId)});
+	public int deleteTvShowById(int tvShowId) {
+		return database.delete(DATABASE_TABLE_TV_SHOW, TV_SHOW_ID + " = ?", new String[]{String.valueOf(tvShowId)});
 	}
 }
