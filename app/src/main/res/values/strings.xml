@@ -10,7 +10,7 @@
 	<string name="tv_shows">TV Shows</string>
 	<string name="movie_poster">Movie Poster</string>
 	<string name="tv_show_poster">TV Show Poster</string>
-	<string name="change_language_setting">Change Language Setting</string>
+	<string name="language_setting">Language Setting</string>
 	<string name="first_air_date">First Air Date</string>
 	<string name="no_overview">There is no Overview for this Movie.</string>
 	<string name="favourites">Favourites</string>
@@ -24,4 +24,20 @@
 	<string name="empty_favourites">Favourites is empty! Try add a movie or tv show to Favourites.</string>
 	<string name="appwidget_text">Favourite Movies &amp; Tv Shows</string>
 	<string name="add_widget">Add widget</string>
+	<string name="settings">Settings</string>
+	<string name="search_movies">Search movies</string>
+	<string name="search_tv_shows">Search tv shows</string>
+
+	<!-- Preference Titles -->
+	<string name="language_header">Language</string>
+	<string name="reminder_header">Reminder</string>
+
+	<!-- Language Preferences -->
+	<string name="language_title">Change language</string>
+
+	<!-- Reminder Preferences -->
+	<string name="daily_title">Enable daily reminder</string>
+	<string name="daily_summary">Send notifications to return to the Movie Catalogue Application</string>
+	<string name="release_today_title">Enable release today reminder</string>
+	<string name="release_today_summary">Send notifications for all movies released today</string>
 </resources>

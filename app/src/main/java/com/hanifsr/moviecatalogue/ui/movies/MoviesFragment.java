@@ -2,13 +2,16 @@ package com.hanifsr.moviecatalogue.ui.movies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -50,8 +53,27 @@ public class MoviesFragment extends Fragment {
 
 		showRecyclerList();
 
-		MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+		final MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
 		moviesViewModel.setMovies();
+
+		final SearchView searchView = view.findViewById(R.id.sv_movies);
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+//				Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
+				moviesViewModel.setQueriedMovies(query);
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				if (newText.isEmpty()) {
+//					Toast.makeText(getContext(), "Text change kosong", Toast.LENGTH_SHORT).show();
+					moviesViewModel.setMovies();
+				}
+				return true;
+			}
+		});
 
 		moviesViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override

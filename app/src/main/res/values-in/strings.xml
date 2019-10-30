@@ -11,7 +11,7 @@
 	<string name="tv_shows">Serial TV</string>
 	<string name="movie_poster">Poster Film</string>
 	<string name="tv_show_poster">Poster Serial TV</string>
-	<string name="change_language_setting">Ubah Pengaturan Bahasa</string>
+	<string name="language_setting">Pengaturan Bahasa</string>
 	<string name="first_air_date">Tayang Perdana</string>
 	<string name="no_overview">Tidak ada Kilasan Singkat untuk Film ini.</string>
 	<string name="favourites">Favorit</string>
@@ -25,4 +25,20 @@
 	<string name="empty_favourites">Favorit kosong! Coba tambahkan sebuah film/serial tv ke Favorit.</string>
 	<string name="appwidget_text">Film &amp; Serial TV Favorit</string>
 	<string name="add_widget">Tambah widget</string>
+	<string name="settings">Pengaturan</string>
+	<string name="search_movies">Cari film</string>
+	<string name="search_tv_shows">Cari serial tv</string>
+
+	<!-- Preference Titles -->
+	<string name="language_header">Bahasa</string>
+	<string name="reminder_header">Pengingat</string>
+
+	<!-- Language Preferences -->
+	<string name="language_title">Ubah bahasa</string>
+
+	<!-- Reminder Preferences -->
+	<string name="daily_title">Aktifkan pengingat harian</string>
+	<string name="daily_summary">Mengirimkan notifikasi untuk kembali ke Aplikasi Katalog Film</string>
+	<string name="release_today_title">Aktifkan pengingat rilis hari ini</string>
+	<string name="release_today_summary">Mengirimkan notifikasi semua film yang rilis hari ini</string>
 </resources>

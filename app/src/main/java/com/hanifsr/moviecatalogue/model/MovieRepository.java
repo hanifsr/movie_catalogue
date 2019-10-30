@@ -156,4 +156,64 @@ public class MovieRepository {
 					}
 				});
 	}
+
+	public void getReleaseTodayMovies(String todayDate, final OnGetMoviesCallback callback) {
+		api.getReleaseTodayMovies(BuildConfig.TMDB_API_KEY, todayDate, todayDate)
+				.enqueue(new Callback<MovieResponse>() {
+					@Override
+					public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+						if (response.isSuccessful()) {
+							MovieResponse movieResponse = response.body();
+							if (movieResponse != null && movieResponse.getMovies() != null) {
+								callback.onSuccess(movieResponse.getMovies());
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Call<MovieResponse> call, Throwable t) {
+						callback.onError(t);
+					}
+				});
+	}
+
+	public void getQueriedMovies(String language, String query, final OnGetMoviesCallback callback) {
+		api.getQueriedMovies(BuildConfig.TMDB_API_KEY, language, query)
+				.enqueue(new Callback<MovieResponse>() {
+					@Override
+					public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+						if (response.isSuccessful()) {
+							MovieResponse movieResponse = response.body();
+							if (movieResponse != null && movieResponse.getMovies() != null) {
+								callback.onSuccess(movieResponse.getMovies());
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Call<MovieResponse> call, Throwable t) {
+						callback.onError(t);
+					}
+				});
+	}
+
+	public void getQueriedTvShows(String language, String query, final OnGetMoviesCallback callback) {
+		api.getQueriedTvShows(BuildConfig.TMDB_API_KEY, language, query)
+				.enqueue(new Callback<MovieResponse>() {
+					@Override
+					public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+						if (response.isSuccessful()) {
+							MovieResponse movieResponse = response.body();
+							if (movieResponse != null && movieResponse.getMovies() != null) {
+								callback.onSuccess(movieResponse.getMovies());
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Call<MovieResponse> call, Throwable t) {
+						callback.onError(t);
+					}
+				});
+	}
 }

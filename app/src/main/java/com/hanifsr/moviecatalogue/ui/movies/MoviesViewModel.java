@@ -49,14 +49,60 @@ public class MoviesViewModel extends ViewModel {
 				Log.d(TAG, error.getMessage());
 			}
 		});
-
-
 	}
 
 	private void getMoviesRetrofit(String language) {
 		final ArrayList<Movie> movieArrayList = new ArrayList<>();
 
 		movieRepository.getMovies(language, new OnGetMoviesCallback() {
+			@Override
+			public void onSuccess(ArrayList<Movie> movies) {
+				for (Movie movie : movies) {
+					ArrayList<String> movieGenres = new ArrayList<>();
+					for (Integer genreIds : movie.getGenreIds()) {
+						if (genreList.containsKey(genreIds)) {
+							movieGenres.add(genreList.get(genreIds));
+						}
+					}
+					movie.setGenresHelper(TextUtils.join(", ", movieGenres));
+					movieArrayList.add(movie);
+				}
+				movieList.postValue(movieArrayList);
+			}
+
+			@Override
+			public void onError(Throwable error) {
+				Log.d(TAG, error.getMessage());
+//				 movieList.postValue(null);
+			}
+		});
+	}
+
+	void setQueriedMovies(final String query) {
+		movieRepository = MovieRepository.getInstance();
+
+		final String language = Locale.getDefault().toString().equals("in_ID") ? "id-ID" : "en-US";
+
+		movieRepository.getMovieGenres(language, new OnGetGenresCallback() {
+			@Override
+			public void onSuccess(ArrayList<Genre> genres) {
+				for (Genre genre : genres) {
+					genreList.put(genre.getId(), genre.getName());
+				}
+				getQueriedMoviesRetrofit(language, query);
+			}
+
+			@Override
+			public void onError(Throwable error) {
+				Log.d(TAG, error.getMessage());
+			}
+		});
+	}
+
+	private void getQueriedMoviesRetrofit(String language, String query) {
+		final ArrayList<Movie> movieArrayList = new ArrayList<>();
+
+		movieRepository.getQueriedMovies(language, query, new OnGetMoviesCallback() {
 			@Override
 			public void onSuccess(ArrayList<Movie> movies) {
 				for (Movie movie : movies) {

@@ -3,9 +3,14 @@
 	package="com.hanifsr.moviecatalogue">
 
 	<uses-permission android:name="android.permission.INTERNET" />
-	
-	<permission android:name="com.hanifsr.moviecatalogue.READ_DATABASE" android:protectionLevel="normal" />
-	<permission android:name="com.hanifsr.moviecatalogue.WRITE_DATABASE" android:protectionLevel="normal" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+
+	<permission
+		android:name="com.hanifsr.moviecatalogue.READ_DATABASE"
+		android:protectionLevel="normal" />
+	<permission
+		android:name="com.hanifsr.moviecatalogue.WRITE_DATABASE"
+		android:protectionLevel="normal" />
 
 	<application
 		android:allowBackup="true"
@@ -14,6 +19,20 @@
 		android:roundIcon="@mipmap/ic_launcher_new_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
+		<receiver
+			android:name=".ReminderReceiver"
+			android:enabled="true"
+			android:exported="true" />
+
+		<activity
+			android:name=".SettingsActivity"
+			android:label="@string/settings"
+			android:parentActivityName=".MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.hanifsr.moviecatalogue.MainActivity" />
+		</activity>
+
 		<provider
 			android:name=".provider.MovieCatalogueProvider"
 			android:authorities="com.hanifsr.moviecatalogue"

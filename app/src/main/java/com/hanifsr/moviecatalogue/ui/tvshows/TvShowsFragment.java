@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -50,8 +51,25 @@ public class TvShowsFragment extends Fragment {
 
 		showRecyclerList();
 
-		TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
+		final TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
 		tvShowsViewModel.setTvShows();
+
+		SearchView searchView = view.findViewById(R.id.sv_tv_shows);
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				tvShowsViewModel.setQueriedTvShows(query);
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				if (newText.isEmpty()) {
+					tvShowsViewModel.setTvShows();
+				}
+				return true;
+			}
+		});
 
 		tvShowsViewModel.getTvShows().observe(this, new Observer<ArrayList<Movie>>() {
 			@Override

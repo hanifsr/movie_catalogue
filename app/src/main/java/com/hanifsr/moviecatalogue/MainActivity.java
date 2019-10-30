@@ -48,11 +48,23 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.action_language_setting) {
-			Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
-			startActivity(intent);
+		if (item.getItemId() == R.id.action_setting) {
+			Intent settingsIntent = new Intent(this, SettingsActivity.class);
+			startActivity(settingsIntent);
 		}
 		return super.onOptionsItemSelected(item);
+		/*switch (item.getItemId()) {
+			case R.id.action_language_setting:
+				Intent languageIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+				startActivity(languageIntent);
+				return true;
+			case R.id.action_setting:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				startActivity(settingsIntent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}*/
 	}
 
 	@Override

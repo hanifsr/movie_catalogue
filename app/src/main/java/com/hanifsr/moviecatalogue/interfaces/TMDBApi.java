@@ -50,4 +50,25 @@ public interface TMDBApi {
 			@Query("api_key") String apiKey,
 			@Query("language") String language
 	);
+
+	@GET("discover/movie")
+	Call<MovieResponse> getReleaseTodayMovies(
+			@Query("api_key") String apiKey,
+			@Query("release_date.gte") String releaseDateGTE,
+			@Query("release_date.lte") String releaseDateLTE
+	);
+
+	@GET("search/movie")
+	Call<MovieResponse> getQueriedMovies(
+			@Query("api_key") String apiKey,
+			@Query("language") String language,
+			@Query("query") String query
+	);
+
+	@GET("search/tv")
+	Call<MovieResponse> getQueriedTvShows(
+			@Query("api_key") String apiKey,
+			@Query("language") String language,
+			@Query("query") String query
+	);
 }
