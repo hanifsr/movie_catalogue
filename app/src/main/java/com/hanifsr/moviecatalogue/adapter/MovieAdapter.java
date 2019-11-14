@@ -53,7 +53,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 				.load(IMAGE_BASE_URL + movie.getPosterPath())
 				.into(holder.ivPoster);
 
-		holder.tvDateRelease.setText(movie.getDateRelease().split("-")[0]);
+		if (movie.getDateRelease() == null) {
+			holder.tvDateRelease.setText("0");
+		} else {
+			holder.tvDateRelease.setText(movie.getDateRelease().split("-")[0]);
+		}
 		holder.tvTitle.setText(movie.getTitle());
 		holder.tvGenre.setText(movie.getGenresHelper());
 		holder.tvRating.setText(movie.getUserScore());

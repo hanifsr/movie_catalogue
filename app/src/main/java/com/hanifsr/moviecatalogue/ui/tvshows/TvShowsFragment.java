@@ -30,6 +30,7 @@ public class TvShowsFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
 	private ProgressBar progressBar;
+	private SearchView searchView;
 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,50 +41,74 @@ public class TvShowsFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		progressBar = view.findViewById(R.id.progress_bar);
-		showLoading(true);
-
-		movieAdapter = new MovieAdapter();
-		movieAdapter.notifyDataSetChanged();
-
 		recyclerView = view.findViewById(R.id.rv_tvshows);
-		recyclerView.setHasFixedSize(true);
+		progressBar = view.findViewById(R.id.progress_bar);
+		searchView = view.findViewById(R.id.sv_tv_shows);
+	}
 
-		showRecyclerList();
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (getActivity() != null) {
+			showLoading(true);
 
-		final TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
-		tvShowsViewModel.setTvShows();
-
-		SearchView searchView = view.findViewById(R.id.sv_tv_shows);
-		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-				tvShowsViewModel.setQueriedTvShows(query);
-				return true;
+			final TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
+			if (tvShowsViewModel.getSearchQuery() != null) {
+				tvShowsViewModel.setQueriedTvShows(tvShowsViewModel.getSearchQuery());
+			} else {
+				tvShowsViewModel.setTvShows();
 			}
 
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				if (newText.isEmpty()) {
-					tvShowsViewModel.setTvShows();
+			movieAdapter = new MovieAdapter();
+			movieAdapter.notifyDataSetChanged();
+
+			searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+				@Override
+				public boolean onQueryTextSubmit(String query) {
+					tvShowsViewModel.setQueriedTvShows(query);
+					tvShowsViewModel.setSearchQuery(query);
+					return true;
 				}
-				return true;
-			}
-		});
 
-		tvShowsViewModel.getTvShows().observe(this, new Observer<ArrayList<Movie>>() {
-			@Override
-			public void onChanged(ArrayList<Movie> movies) {
-				if (movies != null) {
-					movieAdapter.setData(movies);
-					showLoading(false);
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					if (newText.isEmpty()) {
+						tvShowsViewModel.setTvShows();
+						tvShowsViewModel.setSearchQuery(null);
+					}
+					return true;
 				}
+			});
+
+			showRecyclerList();
+
+			tvShowsViewModel.getTvShows().observe(this, new Observer<ArrayList<Movie>>() {
+				@Override
+				public void onChanged(ArrayList<Movie> movies) {
+					if (movies != null) {
+						movieAdapter.setData(movies);
+						showLoading(false);
+					}
+				}
+			});
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
+				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+				showSnackbarMessage(getString(R.string.delete_message_success, title));
 			}
-		});
+		}
 	}
 
 	private void showRecyclerList() {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+		recyclerView.setHasFixedSize(true);
 		recyclerView.setAdapter(movieAdapter);
 
 		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
@@ -107,18 +132,6 @@ public class TvShowsFragment extends Fragment {
 			progressBar.setVisibility(View.VISIBLE);
 		} else {
 			progressBar.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
-				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
-				showSnackbarMessage(getString(R.string.delete_message_success, title));
-			}
 		}
 	}
 

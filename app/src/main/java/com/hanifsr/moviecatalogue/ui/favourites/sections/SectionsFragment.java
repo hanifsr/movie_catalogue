@@ -49,38 +49,59 @@ public class SectionsFragment extends Fragment {
 	public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		int index = 0;
-		if (getArguments() != null) {
-			index = getArguments().getInt(ARG_SECTION_NUMBER);
-		}
-
 		progressBar = view.findViewById(R.id.progress_bar);
-		showLoading(true);
-
-		movieAdapter = new MovieAdapter();
-		movieAdapter.notifyDataSetChanged();
-
 		recyclerView = view.findViewById(R.id.rv_favourites);
-		recyclerView.setHasFixedSize(true);
+	}
 
-		showRecyclerList(index);
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (getActivity() != null) {
+			showLoading(true);
 
-		SectionsViewModel sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
-		sectionsViewModel.setMovie(index);
-
-		sectionsViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
-			@Override
-			public void onChanged(ArrayList<Movie> movies) {
-				if (movies != null) {
-					movieAdapter.setData(movies);
-					showLoading(false);
-				}
+			int index = 0;
+			if (getArguments() != null) {
+				index = getArguments().getInt(ARG_SECTION_NUMBER);
 			}
-		});
+
+			movieAdapter = new MovieAdapter();
+			movieAdapter.notifyDataSetChanged();
+
+			SectionsViewModel sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
+			sectionsViewModel.setMovie(index);
+
+			showRecyclerList(index);
+
+			sectionsViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
+				@Override
+				public void onChanged(ArrayList<Movie> movies) {
+					if (movies != null) {
+						movieAdapter.setData(movies);
+						showLoading(false);
+					}
+				}
+			});
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
+				int position = data.getIntExtra(MovieDetail.EXTRA_POSITION, 0);
+				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+				movieAdapter.removeItem(position);
+
+				showSnackbarMessage(getString(R.string.delete_message_success, title));
+			}
+		}
 	}
 
 	private void showRecyclerList(final int index) {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+		recyclerView.setHasFixedSize(true);
 		recyclerView.setAdapter(movieAdapter);
 
 		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
@@ -104,21 +125,6 @@ public class SectionsFragment extends Fragment {
 			progressBar.setVisibility(View.VISIBLE);
 		} else {
 			progressBar.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
-				int position = data.getIntExtra(MovieDetail.EXTRA_POSITION, 0);
-				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
-				movieAdapter.removeItem(position);
-
-				showSnackbarMessage(getString(R.string.delete_message_success, title));
-			}
 		}
 	}
 

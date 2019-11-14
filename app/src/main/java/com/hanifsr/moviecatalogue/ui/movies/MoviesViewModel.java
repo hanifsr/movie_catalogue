@@ -22,9 +22,18 @@ public class MoviesViewModel extends ViewModel {
 	private static final String TAG = "GGWP";
 
 	private MovieRepository movieRepository;
+	private String searchQuery;
 
 	private MutableLiveData<ArrayList<Movie>> movieList = new MutableLiveData<>();
 	private SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
+
+	String getSearchQuery() {
+		return searchQuery;
+	}
+
+	void setSearchQuery(String searchQuery) {
+		this.searchQuery = searchQuery;
+	}
 
 	LiveData<ArrayList<Movie>> getMovies() {
 		return movieList;

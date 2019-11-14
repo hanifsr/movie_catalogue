@@ -2,12 +2,10 @@ package com.hanifsr.moviecatalogue.ui.movies;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +30,7 @@ public class MoviesFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
 	private ProgressBar progressBar;
+	private SearchView searchView;
 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,52 +41,74 @@ public class MoviesFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		progressBar = view.findViewById(R.id.progress_bar);
-		showLoading(true);
-
-		movieAdapter = new MovieAdapter();
-		movieAdapter.notifyDataSetChanged();
-
 		recyclerView = view.findViewById(R.id.rv_movies);
-		recyclerView.setHasFixedSize(true);
+		progressBar = view.findViewById(R.id.progress_bar);
+		searchView = view.findViewById(R.id.sv_movies);
+	}
 
-		showRecyclerList();
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (getActivity() != null) {
+			showLoading(true);
 
-		final MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
-		moviesViewModel.setMovies();
-
-		final SearchView searchView = view.findViewById(R.id.sv_movies);
-		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-//				Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
-				moviesViewModel.setQueriedMovies(query);
-				return true;
+			final MoviesViewModel moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+			if (moviesViewModel.getSearchQuery() != null) {
+				moviesViewModel.setQueriedMovies(moviesViewModel.getSearchQuery());
+			} else {
+				moviesViewModel.setMovies();
 			}
 
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				if (newText.isEmpty()) {
-//					Toast.makeText(getContext(), "Text change kosong", Toast.LENGTH_SHORT).show();
-					moviesViewModel.setMovies();
+			movieAdapter = new MovieAdapter();
+			movieAdapter.notifyDataSetChanged();
+
+			searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+				@Override
+				public boolean onQueryTextSubmit(String query) {
+					moviesViewModel.setQueriedMovies(query);
+					moviesViewModel.setSearchQuery(query);
+					return true;
 				}
-				return true;
-			}
-		});
 
-		moviesViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
-			@Override
-			public void onChanged(ArrayList<Movie> movies) {
-				if (movies != null) {
-					movieAdapter.setData(movies);
-					showLoading(false);
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					if (newText.isEmpty()) {
+						moviesViewModel.setMovies();
+						moviesViewModel.setSearchQuery(null);
+					}
+					return true;
 				}
+			});
+
+			showRecyclerList();
+
+			moviesViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
+				@Override
+				public void onChanged(ArrayList<Movie> movies) {
+					if (movies != null) {
+						movieAdapter.setData(movies);
+						showLoading(false);
+					}
+				}
+			});
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
+				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+				showSnackbarMessage(getString(R.string.delete_message_success, title));
 			}
-		});
+		}
 	}
 
 	private void showRecyclerList() {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+		recyclerView.setHasFixedSize(true);
 		recyclerView.setAdapter(movieAdapter);
 
 		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
@@ -111,18 +132,6 @@ public class MoviesFragment extends Fragment {
 			progressBar.setVisibility(View.VISIBLE);
 		} else {
 			progressBar.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
-				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
-				showSnackbarMessage(getString(R.string.delete_message_success, title));
-			}
 		}
 	}
 
