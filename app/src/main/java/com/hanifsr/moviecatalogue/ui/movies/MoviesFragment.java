@@ -17,11 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.hanifsr.moviecatalogue.MovieDetail;
 import com.hanifsr.moviecatalogue.R;
-import com.hanifsr.moviecatalogue.adapter.MovieAdapter;
-import com.hanifsr.moviecatalogue.interfaces.OnMovieItemClickCallback;
-import com.hanifsr.moviecatalogue.model.Movie;
+import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
+import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
+import com.hanifsr.moviecatalogue.ui.detail.MovieDetail;
 
 import java.util.ArrayList;
 

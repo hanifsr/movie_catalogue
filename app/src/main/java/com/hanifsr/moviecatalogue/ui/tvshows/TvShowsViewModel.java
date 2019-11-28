@@ -8,11 +8,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.hanifsr.moviecatalogue.interfaces.OnGetGenresCallback;
-import com.hanifsr.moviecatalogue.interfaces.OnGetMoviesCallback;
-import com.hanifsr.moviecatalogue.model.Genre;
-import com.hanifsr.moviecatalogue.model.Movie;
-import com.hanifsr.moviecatalogue.model.MovieRepository;
+import com.hanifsr.moviecatalogue.data.source.remote.OnGetGenresCallback;
+import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
+import com.hanifsr.moviecatalogue.data.source.remote.response.Genre;
+import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.data.source.remote.MovieRepository;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,7 +42,7 @@ public class TvShowsViewModel extends ViewModel {
 	void setTvShows() {
 		movieRepository = MovieRepository.getInstance();
 
-		final String language = Locale.getDefault().toString().equals("in_ID") ? "id-ID" : "en-US" ;
+		final String language = Locale.getDefault().toString().equals("in_ID") ? "id-ID" : "en-US";
 
 		movieRepository.getTvShowGenres(language, new OnGetGenresCallback() {
 			@Override

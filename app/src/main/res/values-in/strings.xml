@@ -5,14 +5,10 @@
 	<string name="genres">Genre</string>
 	<string name="date_release">Tanggal Rilis</string>
 	<string name="rating">Rating</string>
-	<string name="runtime">Durasi</string>
 	<string name="overview">Kilasan Singkat</string>
 	<string name="movies">Film</string>
 	<string name="tv_shows">Serial TV</string>
 	<string name="movie_poster">Poster Film</string>
-	<string name="tv_show_poster">Poster Serial TV</string>
-	<string name="language_setting">Pengaturan Bahasa</string>
-	<string name="first_air_date">Tayang Perdana</string>
 	<string name="no_overview">Tidak ada Kilasan Singkat untuk Film ini.</string>
 	<string name="favourites">Favorit</string>
 	<string name="add_to_favourite">Tambahkan ke Favorit</string>
@@ -24,7 +20,6 @@
 	<string name="movie_backdrop">Gambar Latar Film</string>
 	<string name="empty_favourites">Favorit kosong! Coba tambahkan sebuah film/serial tv ke Favorit.</string>
 	<string name="appwidget_text">Film &amp; Serial TV Favorit</string>
-	<string name="add_widget">Tambah widget</string>
 	<string name="settings">Pengaturan</string>
 	<string name="search_movies">Cari film</string>
 	<string name="search_tv_shows">Cari serial tv</string>

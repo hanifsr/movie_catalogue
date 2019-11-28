@@ -9,13 +9,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hanifsr.moviecatalogue.helper.MappingHelper;
-import com.hanifsr.moviecatalogue.model.Movie;
+import com.hanifsr.moviecatalogue.utils.MappingHelper;
+import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
 import java.util.ArrayList;
 
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
-import static com.hanifsr.moviecatalogue.database.DatabaseContract.TvShowColumns.TV_SHOW_CONTENT_URI;
+import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
+import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.TV_SHOW_CONTENT_URI;
 
 public class SectionsViewModel extends AndroidViewModel {
 

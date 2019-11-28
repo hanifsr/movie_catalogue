@@ -20,28 +20,28 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 		<receiver
-			android:name=".ReminderReceiver"
+			android:name=".ui.settings.ReminderReceiver"
 			android:enabled="true"
 			android:exported="true" />
 
 		<activity
-			android:name=".SettingsActivity"
+			android:name=".ui.settings.SettingsActivity"
 			android:label="@string/settings"
-			android:parentActivityName=".MainActivity">
+			android:parentActivityName=".ui.main.MainActivity">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.hanifsr.moviecatalogue.MainActivity" />
+				android:value="com.hanifsr.moviecatalogue.ui.main.MainActivity" />
 		</activity>
 
 		<provider
-			android:name=".provider.MovieCatalogueProvider"
+			android:name=".utils.MovieCatalogueProvider"
 			android:authorities="com.hanifsr.moviecatalogue"
 			android:enabled="true"
 			android:exported="true"
 			android:readPermission="com.hanifsr.moviecatalogue.READ_DATABASE"
 			android:writePermission="com.hanifsr.moviecatalogue.WRITE_DATABASE" />
 
-		<receiver android:name=".FavouritesWidget">
+		<receiver android:name=".widgets.FavouritesWidget">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
@@ -52,10 +52,10 @@
 		</receiver>
 
 		<activity
-			android:name=".MovieDetail"
-			android:parentActivityName=".MainActivity" />
+			android:name=".ui.detail.MovieDetail"
+			android:parentActivityName=".ui.main.MainActivity" />
 		<activity
-			android:name=".MainActivity"
+			android:name=".ui.main.MainActivity"
 			android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -65,7 +65,7 @@
 		</activity>
 
 		<service
-			android:name=".StackWidgetService"
+			android:name=".widgets.StackWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
 	</application>
 

@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.hanifsr.moviecatalogue.R;
-import com.hanifsr.moviecatalogue.adapter.SectionsPagerAdapter;
+import com.hanifsr.moviecatalogue.ui.favourites.sections.SectionsPagerAdapter;
 
 public class FavouritesFragment extends Fragment {
 
