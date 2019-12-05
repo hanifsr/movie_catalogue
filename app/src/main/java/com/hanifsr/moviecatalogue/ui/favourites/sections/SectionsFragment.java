@@ -30,9 +30,10 @@ public class SectionsFragment extends Fragment {
 
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
+	private SectionsViewModel sectionsViewModel;
 	private ProgressBar progressBar;
 
-	public static SectionsFragment newInstance(int index) {
+	static SectionsFragment newInstance(int index) {
 		SectionsFragment sectionsFragment = new SectionsFragment();
 		Bundle bundle = new Bundle();
 		bundle.putInt(ARG_SECTION_NUMBER, index);
@@ -65,14 +66,13 @@ public class SectionsFragment extends Fragment {
 			}
 
 			movieAdapter = new MovieAdapter();
-			movieAdapter.notifyDataSetChanged();
 
-			SectionsViewModel sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
-			sectionsViewModel.setMovie(index);
+			sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
+//			SectionsViewModel sectionsViewModel = obtainViewModel(this);
 
 			showRecyclerList(index);
 
-			sectionsViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
+			sectionsViewModel.getMovies(index).observe(this, new Observer<ArrayList<Movie>>() {
 				@Override
 				public void onChanged(ArrayList<Movie> movies) {
 					if (movies != null) {
@@ -92,7 +92,9 @@ public class SectionsFragment extends Fragment {
 			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
 				int position = data.getIntExtra(MovieDetail.EXTRA_POSITION, 0);
 				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+
 				movieAdapter.removeItem(position);
+				sectionsViewModel.setDeleted(true);
 
 				showSnackbarMessage(getString(R.string.delete_message_success, title));
 			}
@@ -131,4 +133,9 @@ public class SectionsFragment extends Fragment {
 	private void showSnackbarMessage(String message) {
 		Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
 	}
+
+	/*private static SectionsViewModel obtainViewModel(Fragment fragment) {
+		ViewModelFactory factory = ViewModelFactory.getInstance();
+		return ViewModelProviders.of(fragment, factory).get(SectionsViewModel.class);
+	}*/
 }

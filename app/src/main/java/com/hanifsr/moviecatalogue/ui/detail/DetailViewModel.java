@@ -1,81 +1,34 @@
 package com.hanifsr.moviecatalogue.ui.detail;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.hanifsr.moviecatalogue.data.source.remote.OnGetDetailCallback;
-import com.hanifsr.moviecatalogue.data.source.remote.response.Genre;
+import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
-import com.hanifsr.moviecatalogue.data.source.remote.MovieRepository;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class DetailViewModel extends ViewModel {
 
 	private static final String TAG = "GGWP";
+	private MovieCatalogueRepository movieCatalogueRepository;
 
-	private MovieRepository movieRepository = MovieRepository.getInstance();
+	private LiveData<Movie> movie;
 
-	private MutableLiveData<Movie> movieMutableLiveData = new MutableLiveData<>();
-
-	LiveData<Movie> getDetails() {
-		return movieMutableLiveData;
+	public DetailViewModel(MovieCatalogueRepository movieCatalogueRepository) {
+		this.movieCatalogueRepository = movieCatalogueRepository;
 	}
 
-	void setDetails(int movieId, int index) {
-		String language = Locale.getDefault().toString().equals("in_ID") ? "id-ID" : "en-US";
-
-		if (index == 0) {
-			setMovie(movieId, language);
-		} else if (index == 1) {
-			setTvShow(movieId, language);
+	LiveData<Movie> getDetails(int movieId, int index) {
+		String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
+		if (movie == null) {
+			if (index == 0) {
+				movie = movieCatalogueRepository.getMovieDetail(movieId, language);
+			} else if (index == 1) {
+				movie = movieCatalogueRepository.getTvShowDetail(movieId, language);
+			}
 		}
-	}
 
-	private void setMovie(int movieId, String language) {
-		movieRepository.getMovieDetail(movieId, language, new OnGetDetailCallback() {
-			@Override
-			public void onSuccess(Movie movie) {
-				if (movie.getGenresDetail() != null) {
-					ArrayList<String> movieGenres = new ArrayList<>();
-					for (Genre genre : movie.getGenresDetail()) {
-						movieGenres.add(genre.getName());
-					}
-					movie.setGenresHelper(TextUtils.join(", ", movieGenres));
-				}
-				movieMutableLiveData.postValue(movie);
-			}
-
-			@Override
-			public void onError(Throwable error) {
-				Log.d(TAG, error.getMessage());
-			}
-		});
-	}
-
-	private void setTvShow(int tvShowId, String language) {
-		movieRepository.getTvShowDetail(tvShowId, language, new OnGetDetailCallback() {
-			@Override
-			public void onSuccess(Movie movie) {
-				if (movie.getGenresDetail() != null) {
-					ArrayList<String> tvShowGenres = new ArrayList<>();
-					for (Genre genre : movie.getGenresDetail()) {
-						tvShowGenres.add(genre.getName());
-					}
-					movie.setGenresHelper(TextUtils.join(", ", tvShowGenres));
-				}
-				movieMutableLiveData.postValue(movie);
-			}
-
-			@Override
-			public void onError(Throwable error) {
-				Log.d(TAG, error.getMessage());
-			}
-		});
+		return movie;
 	}
 }

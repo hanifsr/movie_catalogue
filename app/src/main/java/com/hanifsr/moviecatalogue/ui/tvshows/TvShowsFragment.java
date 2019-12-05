@@ -19,8 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
-import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
+import com.hanifsr.moviecatalogue.factory.ViewModelFactory;
 import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
+import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.ui.detail.MovieDetail;
 
 import java.util.ArrayList;
@@ -52,28 +53,20 @@ public class TvShowsFragment extends Fragment {
 		if (getActivity() != null) {
 			showLoading(true);
 
-			final TvShowsViewModel tvShowsViewModel = ViewModelProviders.of(this).get(TvShowsViewModel.class);
-			if (tvShowsViewModel.getSearchQuery() != null) {
-				tvShowsViewModel.setQueriedTvShows(tvShowsViewModel.getSearchQuery());
-			} else {
-				tvShowsViewModel.setTvShows();
-			}
+			final TvShowsViewModel tvShowsViewModel = obtainViewModel(this);
 
 			movieAdapter = new MovieAdapter();
-			movieAdapter.notifyDataSetChanged();
 
 			searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 				@Override
 				public boolean onQueryTextSubmit(String query) {
-					tvShowsViewModel.setQueriedTvShows(query);
 					tvShowsViewModel.setSearchQuery(query);
 					return true;
 				}
 
 				@Override
 				public boolean onQueryTextChange(String newText) {
-					if (newText.isEmpty()) {
-						tvShowsViewModel.setTvShows();
+					if (newText.isEmpty() && tvShowsViewModel.isReadyToDelete()) {
 						tvShowsViewModel.setSearchQuery(null);
 					}
 					return true;
@@ -137,5 +130,10 @@ public class TvShowsFragment extends Fragment {
 
 	private void showSnackbarMessage(String message) {
 		Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
+	}
+
+	private static TvShowsViewModel obtainViewModel(Fragment fragment) {
+		ViewModelFactory factory = ViewModelFactory.getInstance();
+		return ViewModelProviders.of(fragment, factory).get(TvShowsViewModel.class);
 	}
 }

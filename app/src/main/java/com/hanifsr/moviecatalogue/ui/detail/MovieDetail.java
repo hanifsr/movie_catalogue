@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.factory.ViewModelFactory;
 import com.hanifsr.moviecatalogue.widgets.FavouritesWidget;
 
 import java.text.ParseException;
@@ -54,8 +55,14 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 	public static final int RESULT_DELETE = 201;
 
 	private ProgressBar progressBar;
-	private Button btnFavourite;
+	private ImageView ivPoster;
+	private ImageView ivBackdrop;
+	private TextView tvTitle;
+	private TextView tvGenres;
+	private TextView tvDateRelease;
 	private RatingBar ratingBar;
+	private TextView tvOverview;
+	private Button btnFavourite;
 
 	private int position;
 	private int index;
@@ -69,19 +76,8 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_movie_detail);
 
-		progressBar = findViewById(R.id.progress_bar_detail);
-		btnFavourite = findViewById(R.id.btn_favourite);
-		ratingBar = findViewById(R.id.rating_bar_movie);
+		bind();
 		showLoading(true);
-
-		final ImageView ivPoster = findViewById(R.id.iv_movie_poster_detail);
-		final ImageView ivBackdrop = findViewById(R.id.iv_movie_backdrop);
-		final TextView tvTitle = findViewById(R.id.tv_movie_title_detail);
-		final TextView tvGenres = findViewById(R.id.tv_movie_genres_detail);
-		final TextView tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
-		final TextView tvOverview = findViewById(R.id.tv_movie_overview_detail);
-
-		btnFavourite.setOnClickListener(this);
 
 		int movieId = getIntent().getIntExtra(EXTRA_MOVIE, 0);
 		position = getIntent().getIntExtra(EXTRA_POSITION, 0);
@@ -100,9 +96,8 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 			cursor.close();
 		}
 
-		DetailViewModel detailViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
-		detailViewModel.setDetails(movieId, index);
-		detailViewModel.getDetails().observe(this, new Observer<Movie>() {
+		DetailViewModel detailViewModel = obtainViewModel(this);
+		detailViewModel.getDetails(movieId, index).observe(this, new Observer<Movie>() {
 			@Override
 			public void onChanged(Movie movie) {
 				String dateRelease = dateFormat(movie.getDateRelease());
@@ -113,7 +108,6 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 				tvGenres.setText(movie.getGenresHelper());
 				tvDateRelease.setText(dateRelease);
 				ratingBar.setRating(Float.parseFloat(movie.getUserScore()) / 2);
-
 				if (movie.getOverview().isEmpty()) {
 					tvOverview.setText(R.string.no_overview);
 				} else {
@@ -192,6 +186,20 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		}
 	}
 
+	private void bind() {
+		progressBar = findViewById(R.id.progress_bar_detail);
+		ivPoster = findViewById(R.id.iv_movie_poster_detail);
+		ivBackdrop = findViewById(R.id.iv_movie_backdrop);
+		tvTitle = findViewById(R.id.tv_movie_title_detail);
+		tvGenres = findViewById(R.id.tv_movie_genres_detail);
+		tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
+		ratingBar = findViewById(R.id.rating_bar_movie);
+		tvOverview = findViewById(R.id.tv_movie_overview_detail);
+		btnFavourite = findViewById(R.id.btn_favourite);
+
+		btnFavourite.setOnClickListener(this);
+	}
+
 	private void setActionBarTitle(String title) {
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setTitle(title);
@@ -232,5 +240,10 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		ComponentName movieWidget = new ComponentName(this, FavouritesWidget.class);
 		int[] appWidgetIds = appWidgetManager.getAppWidgetIds(movieWidget);
 		appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_view);
+	}
+
+	private static DetailViewModel obtainViewModel(AppCompatActivity activity) {
+		ViewModelFactory factory = ViewModelFactory.getInstance();
+		return ViewModelProviders.of(activity, factory).get(DetailViewModel.class);
 	}
 }

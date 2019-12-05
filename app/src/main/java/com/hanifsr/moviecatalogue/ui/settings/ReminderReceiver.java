@@ -19,9 +19,11 @@ import androidx.core.content.ContextCompat;
 
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.model.NotificationItem;
-import com.hanifsr.moviecatalogue.data.source.remote.MovieRepository;
+import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
+import com.hanifsr.moviecatalogue.data.source.remote.RemoteRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.di.Injection;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,6 +36,7 @@ import java.util.Locale;
 public class ReminderReceiver extends BroadcastReceiver {
 
 	private static final String TAG = "GGWP";
+	private MovieCatalogueRepository movieCatalogueRepository;
 
 	public static final String TYPE_DAILY = "Daily Reminder";
 	public static final String TYPE_RELEASE_TODAY = "Release Today Reminder";
@@ -63,8 +66,9 @@ public class ReminderReceiver extends BroadcastReceiver {
 			showReminderNotification(context, title, message, notifId);
 		} else if (type.equalsIgnoreCase(TYPE_RELEASE_TODAY)) {
 			String todayDate = intent.getStringExtra(EXTRA_DATE);
-			MovieRepository movieRepository = MovieRepository.getInstance();
-			movieRepository.getReleaseTodayMovies(todayDate, new OnGetMoviesCallback() {
+			movieCatalogueRepository = Injection.provideRepository();
+			/*RemoteRepository remoteRepository = RemoteRepository.getInstance();
+			remoteRepository.getReleaseTodayMovies(todayDate, new OnGetMoviesCallback() {
 				@Override
 				public void onSuccess(ArrayList<Movie> movies) {
 					String message;
@@ -80,7 +84,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 				public void onError(Throwable error) {
 					Log.d(TAG, "onError: ");
 				}
-			});
+			});*/
 		}
 	}
 

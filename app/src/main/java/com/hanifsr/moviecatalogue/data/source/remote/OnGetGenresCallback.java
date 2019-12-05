@@ -5,8 +5,7 @@ import com.hanifsr.moviecatalogue.data.source.remote.response.Genre;
 import java.util.ArrayList;
 
 public interface OnGetGenresCallback {
+	void onGetGenresSuccess(ArrayList<Genre> genres);
 
-	void onSuccess(ArrayList<Genre> genres);
-
-	void onError(Throwable error);
+	void onGetGenresError(Throwable error);
 }
