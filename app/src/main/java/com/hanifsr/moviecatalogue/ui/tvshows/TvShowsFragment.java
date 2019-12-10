@@ -22,7 +22,7 @@ import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 import com.hanifsr.moviecatalogue.factory.ViewModelFactory;
 import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
 import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
-import com.hanifsr.moviecatalogue.ui.detail.MovieDetail;
+import com.hanifsr.moviecatalogue.ui.detail.MovieDetailActivity;
 
 import java.util.ArrayList;
 
@@ -92,8 +92,8 @@ public class TvShowsFragment extends Fragment {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (data != null) {
-			if (requestCode == MovieDetail.REQUEST_DELETE && resultCode == MovieDetail.RESULT_DELETE) {
-				String title = data.getStringExtra(MovieDetail.EXTRA_TITLE);
+			if (requestCode == MovieDetailActivity.REQUEST_DELETE && resultCode == MovieDetailActivity.RESULT_DELETE) {
+				String title = data.getStringExtra(MovieDetailActivity.EXTRA_TITLE);
 				showSnackbarMessage(getString(R.string.delete_message_success, title));
 			}
 		}
@@ -113,11 +113,11 @@ public class TvShowsFragment extends Fragment {
 	}
 
 	private void showSelectedMovie(Movie movie, int position) {
-		Intent intent = new Intent(this.getActivity(), MovieDetail.class);
-		intent.putExtra(MovieDetail.EXTRA_MOVIE, movie.getId());
-		intent.putExtra(MovieDetail.EXTRA_POSITION, position);
-		intent.putExtra(MovieDetail.EXTRA_INDEX, 1);
-		startActivityForResult(intent, MovieDetail.REQUEST_DELETE);
+		Intent intent = new Intent(this.getActivity(), MovieDetailActivity.class);
+		intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie.getId());
+		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
+		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, 1);
+		startActivityForResult(intent, MovieDetailActivity.REQUEST_DELETE);
 	}
 
 	private void showLoading(Boolean state) {

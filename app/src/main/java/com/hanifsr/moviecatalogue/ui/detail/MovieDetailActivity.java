@@ -31,9 +31,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.GENRES;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.DATE_RELEASE;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_ID;
+import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.RELEASE_DATE;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.OVERVIEW;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.POSTER_PATH;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TITLE;
@@ -42,7 +42,7 @@ import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvSh
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.TV_SHOW_ID;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.USER_SCORE;
 
-public class MovieDetail extends AppCompatActivity implements View.OnClickListener {
+public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
 	public static final String EXTRA_MOVIE = "extra_movie";
 	public static final String EXTRA_POSITION = "extra_position";
@@ -59,7 +59,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 	private ImageView ivBackdrop;
 	private TextView tvTitle;
 	private TextView tvGenres;
-	private TextView tvDateRelease;
+	private TextView tvReleaseDate;
 	private RatingBar ratingBar;
 	private TextView tvOverview;
 	private Button btnFavourite;
@@ -100,13 +100,13 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		detailViewModel.getDetails(movieId, index).observe(this, new Observer<Movie>() {
 			@Override
 			public void onChanged(Movie movie) {
-				String dateRelease = dateFormat(movie.getDateRelease());
+				String releaseDate = dateFormat(movie.getReleaseDate());
 
-				Glide.with(MovieDetail.this).load(IMAGE_BASE_URL + movie.getBackdropPath()).into(ivBackdrop);
-				Glide.with(MovieDetail.this).load(IMAGE_BASE_URL + movie.getPosterPath()).into(ivPoster);
+				Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getBackdropPath()).into(ivBackdrop);
+				Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getPosterPath()).into(ivPoster);
 				tvTitle.setText(movie.getTitle());
 				tvGenres.setText(movie.getGenresHelper());
-				tvDateRelease.setText(dateRelease);
+				tvReleaseDate.setText(releaseDate);
 				ratingBar.setRating(Float.parseFloat(movie.getUserScore()) / 2);
 				if (movie.getOverview().isEmpty()) {
 					tvOverview.setText(R.string.no_overview);
@@ -116,7 +116,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 
 				setActionBarTitle(movie.getTitle());
 
-				MovieDetail.this.movie = movie;
+				MovieDetailActivity.this.movie = movie;
 				showLoading(false);
 			}
 		});
@@ -158,11 +158,11 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 				Uri uriResult = null;
 				if (index == 0) {
 					values.put(MOVIE_ID, movie.getId());
-					values.put(DATE_RELEASE, movie.getDateRelease());
+					values.put(RELEASE_DATE, movie.getReleaseDate());
 					uriResult = getContentResolver().insert(MOVIE_CONTENT_URI, values);
 				} else if (index == 1) {
 					values.put(TV_SHOW_ID, movie.getId());
-					values.put(FIRST_AIR_DATE, movie.getDateRelease());
+					values.put(FIRST_AIR_DATE, movie.getReleaseDate());
 					uriResult = getContentResolver().insert(TV_SHOW_CONTENT_URI, values);
 				}
 
@@ -192,7 +192,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 		ivBackdrop = findViewById(R.id.iv_movie_backdrop);
 		tvTitle = findViewById(R.id.tv_movie_title_detail);
 		tvGenres = findViewById(R.id.tv_movie_genres_detail);
-		tvDateRelease = findViewById(R.id.tv_movie_date_release_detail);
+		tvReleaseDate = findViewById(R.id.tv_movie_release_date_detail);
 		ratingBar = findViewById(R.id.rating_bar_movie);
 		tvOverview = findViewById(R.id.tv_movie_overview_detail);
 		btnFavourite = findViewById(R.id.btn_favourite);

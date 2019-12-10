@@ -52,7 +52,7 @@
 		</receiver>
 
 		<activity
-			android:name=".ui.detail.MovieDetail"
+			android:name=".ui.detail.MovieDetailActivity"
 			android:parentActivityName=".ui.main.MainActivity" />
 		<activity
 			android:name=".ui.main.MainActivity"

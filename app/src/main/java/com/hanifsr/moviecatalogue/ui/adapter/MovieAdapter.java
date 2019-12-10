@@ -51,15 +51,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		Glide.with(holder.itemView.getContext())
 				.load(IMAGE_BASE_URL + movie.getPosterPath())
 				.into(holder.ivPoster);
-
-		if (movie.getDateRelease() == null) {
-			holder.tvDateRelease.setText("0");
-		} else {
-			holder.tvDateRelease.setText(movie.getDateRelease().split("-")[0]);
-		}
 		holder.tvTitle.setText(movie.getTitle());
 		holder.tvGenre.setText(movie.getGenresHelper());
-		holder.tvRating.setText(movie.getUserScore());
+		if (movie.getReleaseDate() == null) {
+			holder.tvReleaseDate.setText("0");
+		} else {
+			holder.tvReleaseDate.setText(movie.getReleaseDate().split("-")[0]);
+		}
+		holder.tvUserScore.setText(movie.getUserScore());
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -77,16 +76,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	class MovieViewHolder extends RecyclerView.ViewHolder {
 
 		ImageView ivPoster;
-		TextView tvDateRelease, tvTitle, tvGenre, tvRating;
+		TextView tvTitle, tvGenre, tvReleaseDate, tvUserScore;
 
 		MovieViewHolder(@NonNull View itemView) {
 			super(itemView);
 
 			ivPoster = itemView.findViewById(R.id.iv_movie_poster);
-			tvDateRelease = itemView.findViewById(R.id.tv_movie_date_release);
 			tvTitle = itemView.findViewById(R.id.tv_movie_title);
 			tvGenre = itemView.findViewById(R.id.tv_movie_genre);
-			tvRating = itemView.findViewById(R.id.tv_movie_rating);
+			tvReleaseDate = itemView.findViewById(R.id.tv_movie_release_date);
+			tvUserScore = itemView.findViewById(R.id.tv_movie_user_score);
 		}
 	}
 }

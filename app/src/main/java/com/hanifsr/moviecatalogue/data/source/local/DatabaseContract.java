@@ -19,7 +19,7 @@ public class DatabaseContract {
 	public static final class MovieColumns implements BaseColumns {
 
 		public static String MOVIE_ID = "movie_id";
-		public static String DATE_RELEASE = "date_release";
+		public static String RELEASE_DATE = "release_date";
 
 
 		public static final Uri MOVIE_CONTENT_URI = new Uri.Builder().scheme(SCHEME)

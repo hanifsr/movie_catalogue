@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			DatabaseContract.POSTER_PATH,
 			DatabaseContract.TITLE,
 			DatabaseContract.GENRES,
-			DatabaseContract.MovieColumns.DATE_RELEASE,
+			DatabaseContract.MovieColumns.RELEASE_DATE,
 			DatabaseContract.USER_SCORE,
 			DatabaseContract.OVERVIEW
 	);

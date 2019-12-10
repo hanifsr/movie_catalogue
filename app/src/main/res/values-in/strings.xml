@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Katalog Film</string>
-	<string name="title">Judul</string>
-	<string name="genres">Genre</string>
-	<string name="date_release">Tanggal Rilis</string>
-	<string name="rating">Rating</string>
-	<string name="overview">Kilasan Singkat</string>
 	<string name="movies">Film</string>
 	<string name="tv_shows">Serial TV</string>
 	<string name="movie_poster">Poster Film</string>
+	<string name="movie_backdrop">Gambar Latar Film</string>
+	<string name="title">Judul</string>
+	<string name="genres">Genre</string>
+	<string name="release_date">Tanggal Rilis</string>
+	<string name="user_score">Penilaian Pengguna</string>
+	<string name="overview">Kilasan Singkat</string>
 	<string name="no_overview">Tidak ada Kilasan Singkat untuk Film ini.</string>
 	<string name="favourites">Favorit</string>
 	<string name="add_to_favourite">Tambahkan ke Favorit</string>
@@ -17,7 +18,6 @@
 	<string name="delete_message_failed">Gagal menghapus %1$s dari Favorit</string>
 	<string name="insert_message_success">%1$s telah ditambahkan ke Favorit</string>
 	<string name="insert_message_failed">Gagal menambahkan %1$s ke Favorit</string>
-	<string name="movie_backdrop">Gambar Latar Film</string>
 	<string name="empty_favourites">Favorit kosong! Coba tambahkan sebuah film/serial tv ke Favorit.</string>
 	<string name="appwidget_text">Film &amp; Serial TV Favorit</string>
 	<string name="settings">Pengaturan</string>

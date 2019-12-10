@@ -25,7 +25,7 @@ public class TvShowsViewModel extends ViewModel {
 		@Override
 		public LiveData<ArrayList<Movie>> apply(String input) {
 			String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
-			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
+//			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
 			if (input != null) {
 				return movieCatalogueRepository.getQueriedTvShows(language, input);
 			}
@@ -37,7 +37,7 @@ public class TvShowsViewModel extends ViewModel {
 		this.movieCatalogueRepository = movieCatalogueRepository;
 	}
 
-	public boolean isReadyToDelete() {
+	boolean isReadyToDelete() {
 		return readyToDelete;
 	}
 
@@ -46,10 +46,21 @@ public class TvShowsViewModel extends ViewModel {
 		this.searchQuery.postValue(searchQuery);
 	}
 
+	// TODO: Fix this method
 	LiveData<ArrayList<Movie>> getTvShows() {
+		/*
+		 * This codes should be the right implementation of viewmodel
+		 * but the Unit Test failed
+		 */
 		if (tvShows.getValue() == null) {
 			searchQuery.postValue(null);
 		}
 		return tvShows;
+
+		/*
+		 * This codes should be the wrong implementation of viewmodel
+		 * but the Unit Test succeed
+		 */
+//		return movieCatalogueRepository.getTvShows("en-GB");
 	}
 }

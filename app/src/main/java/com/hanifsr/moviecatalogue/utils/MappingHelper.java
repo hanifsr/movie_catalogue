@@ -7,8 +7,8 @@ import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 import java.util.ArrayList;
 
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.GENRES;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.DATE_RELEASE;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_ID;
+import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.RELEASE_DATE;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.OVERVIEW;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.POSTER_PATH;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TITLE;
@@ -27,10 +27,10 @@ public class MappingHelper {
 
 			if (index == 0) {
 				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MOVIE_ID)));
-				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(DATE_RELEASE)));
+				movie.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(RELEASE_DATE)));
 			} else if (index == 1) {
 				movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(TV_SHOW_ID)));
-				movie.setDateRelease(cursor.getString(cursor.getColumnIndexOrThrow(FIRST_AIR_DATE)));
+				movie.setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(FIRST_AIR_DATE)));
 			}
 			movie.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(POSTER_PATH)));
 			movie.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));

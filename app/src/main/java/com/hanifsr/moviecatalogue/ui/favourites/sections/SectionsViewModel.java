@@ -29,8 +29,8 @@ public class SectionsViewModel extends AndroidViewModel {
 		context = application.getApplicationContext();
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	void setDeleted() {
+		this.deleted = true;
 	}
 
 	LiveData<ArrayList<Movie>> getMovies(int index) {

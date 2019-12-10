@@ -1,4 +1,4 @@
-package com.hanifsr.moviecatalogue.ui.movies;
+package com.hanifsr.moviecatalogue.ui.tvshows;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
@@ -14,14 +14,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class MoviesViewModelTest {
+public class TvShowsViewModelTest {
 
-	private MoviesViewModel moviesViewModel;
+	private TvShowsViewModel tvShowsViewModel;
 	private MovieCatalogueRepository movieCatalogueRepository = mock(MovieCatalogueRepository.class);
 
 	@Rule
@@ -29,25 +28,23 @@ public class MoviesViewModelTest {
 
 	@Before
 	public void setUp() {
-		moviesViewModel = new MoviesViewModel(movieCatalogueRepository);
+		tvShowsViewModel = new TvShowsViewModel(movieCatalogueRepository);
 	}
 
 	@Test
-	public void getMovies() {
+	public void getTvShows() {
 		String language = "en-GB";
-		ArrayList<Movie> dummyMovies = DataDummy.generateDummyMovies();
+		ArrayList<Movie> dummyTvShows = DataDummy.generateDummyTvShows();
 
-		MutableLiveData<ArrayList<Movie>> movies = new MutableLiveData<>();
-		movies.postValue(dummyMovies);
+		MutableLiveData<ArrayList<Movie>> tvShows = new MutableLiveData<>();
+		tvShows.postValue(dummyTvShows);
 
-		when(movieCatalogueRepository.getMovies(language)).thenReturn(movies);
-
-		moviesViewModel.setSearchQuery(null); // <-- Recently added
+		when(movieCatalogueRepository.getTvShows(language)).thenReturn(tvShows);
 
 		Observer<ArrayList<Movie>> observer = mock(Observer.class);
 
-		moviesViewModel.getMovies().observeForever(observer);
+		tvShowsViewModel.getTvShows().observeForever(observer);
 
-		verify(observer).onChanged(dummyMovies);
+		verify(observer).onChanged(dummyTvShows);
 	}
 }
