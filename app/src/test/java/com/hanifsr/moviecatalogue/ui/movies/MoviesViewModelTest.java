@@ -42,7 +42,7 @@ public class MoviesViewModelTest {
 
 		when(movieCatalogueRepository.getMovies(language)).thenReturn(movies);
 
-		moviesViewModel.setSearchQuery(null); // <-- Recently added
+		moviesViewModel.setSearchQuery("interstellar"); // <-- Recently added
 
 		Observer<ArrayList<Movie>> observer = mock(Observer.class);
 

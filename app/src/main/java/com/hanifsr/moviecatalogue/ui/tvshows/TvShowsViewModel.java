@@ -25,7 +25,7 @@ public class TvShowsViewModel extends ViewModel {
 		@Override
 		public LiveData<ArrayList<Movie>> apply(String input) {
 			String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
-//			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
+			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
 			if (input != null) {
 				return movieCatalogueRepository.getQueriedTvShows(language, input);
 			}
