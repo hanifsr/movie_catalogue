@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,11 +41,9 @@ public class MoviesViewModelTest {
 
 		when(movieCatalogueRepository.getMovies(language)).thenReturn(movies);
 
-		moviesViewModel.setSearchQuery("interstellar"); // <-- Recently added
-
 		Observer<ArrayList<Movie>> observer = mock(Observer.class);
 
-		moviesViewModel.getMovies().observeForever(observer);
+		moviesViewModel.getMovies(language).observeForever(observer);
 
 		verify(observer).onChanged(dummyMovies);
 	}

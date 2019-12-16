@@ -12,19 +12,18 @@ import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MoviesViewModel extends ViewModel {
 
 	private static final String TAG = "GGWP";
 	private MovieCatalogueRepository movieCatalogueRepository;
 	private boolean readyToDelete = false;
+	private String language;
 
 	private MutableLiveData<String> searchQuery = new MutableLiveData<>();
 	private LiveData<ArrayList<Movie>> movies = Transformations.switchMap(searchQuery, new Function<String, LiveData<ArrayList<Movie>>>() {
 		@Override
 		public LiveData<ArrayList<Movie>> apply(String input) {
-			String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
 			Log.d(TAG, "movies.Transformations -> language: " + language + ", searchQuery: " + input);
 			if (input != null) {
 				return movieCatalogueRepository.getQueriedMovies(language, input);
@@ -46,22 +45,12 @@ public class MoviesViewModel extends ViewModel {
 		this.searchQuery.postValue(searchQuery);
 	}
 
-
-	// TODO: Fix this method
-	LiveData<ArrayList<Movie>> getMovies() {
-		/*
-		 * This codes should be the right implementation of viewmodel
-		 * but the Unit Test failed
-		 */
+	LiveData<ArrayList<Movie>> getMovies(String language) {
 		if (movies.getValue() == null) {
 			searchQuery.postValue(null);
 		}
-		return movies;
+		this.language = language;
 
-		/*
-		 * This codes should be the wrong implementation of viewmodel
-		 * but the Unit Test succeed
-		 */
-//		return movieCatalogueRepository.getMovies("en-GB");
+		return movies;
 	}
 }

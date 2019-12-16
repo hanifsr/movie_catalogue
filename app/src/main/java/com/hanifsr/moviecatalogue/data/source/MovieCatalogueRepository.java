@@ -39,6 +39,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<ArrayList<Movie>> getMovies(final String language) {
+		Log.d(TAG, "getMovies: INVOKED");
 		final MutableLiveData<ArrayList<Movie>> moviesResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
@@ -84,6 +85,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<ArrayList<Movie>> getTvShows(final String language) {
+		Log.d(TAG, "getTvShows: INVOKED");
 		final MutableLiveData<ArrayList<Movie>> tvShowsResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
@@ -129,6 +131,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<Movie> getMovieDetail(int movieId, String language) {
+		Log.d(TAG, "getMovieDetail: INVOKED");
 		final MutableLiveData<Movie> movieResult = new MutableLiveData<>();
 
 		remoteRepository.getMovieDetail(movieId, language, new OnGetDetailCallback() {
@@ -155,6 +158,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<Movie> getTvShowDetail(int tvShowId, String language) {
+		Log.d(TAG, "getTvShowDetail: INVOKED");
 		final MutableLiveData<Movie> tvShowResult = new MutableLiveData<>();
 
 		remoteRepository.getTvShowDetail(tvShowId, language, new OnGetDetailCallback() {
@@ -181,6 +185,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<ArrayList<Movie>> getReleaseTodayMovies(String todayDate) {
+		Log.d(TAG, "getReleaseTodayMovies: INVOKED");
 		final MutableLiveData<ArrayList<Movie>> todayMoviesResult = new MutableLiveData<>();
 
 		remoteRepository.getReleaseTodayMovies(todayDate, new OnGetMoviesCallback() {
@@ -200,6 +205,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<ArrayList<Movie>> getQueriedMovies(final String language, final String query) {
+		Log.d(TAG, "getQueriedMovies: INVOKED");
 		final MutableLiveData<ArrayList<Movie>> queriedMoviesResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
@@ -245,6 +251,7 @@ public class MovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	@Override
 	public LiveData<ArrayList<Movie>> getQueriedTvShows(final String language, final String query) {
+		Log.d(TAG, "getQueriedTvShows: INVOKED");
 		final MutableLiveData<ArrayList<Movie>> queriedTvShowsResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 

@@ -8,7 +8,6 @@ import com.hanifsr.moviecatalogue.data.source.remote.OnGetGenresCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.RemoteRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.TMDBApi;
-import com.hanifsr.moviecatalogue.data.source.remote.response.Genre;
 import com.hanifsr.moviecatalogue.data.source.remote.response.GenreResponse;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 import com.hanifsr.moviecatalogue.data.source.remote.response.MovieResponse;
@@ -23,19 +22,15 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;

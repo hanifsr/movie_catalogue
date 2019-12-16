@@ -25,6 +25,7 @@ import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.ui.detail.MovieDetailActivity;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TvShowsFragment extends Fragment {
 
@@ -75,7 +76,8 @@ public class TvShowsFragment extends Fragment {
 
 			showRecyclerList();
 
-			tvShowsViewModel.getTvShows().observe(this, new Observer<ArrayList<Movie>>() {
+			String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
+			tvShowsViewModel.getTvShows(language).observe(this, new Observer<ArrayList<Movie>>() {
 				@Override
 				public void onChanged(ArrayList<Movie> movies) {
 					if (movies != null) {

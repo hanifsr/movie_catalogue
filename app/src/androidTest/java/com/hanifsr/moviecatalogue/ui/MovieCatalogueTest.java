@@ -39,7 +39,7 @@ public class MovieCatalogueTest {
 	public void toMovieDetailActivityTest() {
 		onView(withId(R.id.rv_movies)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-		onView(withId(R.id.tv_movie_title_detail)).check(matches(withText("Frozen II")));
+		onView(withId(R.id.tv_movie_title_detail)).check(matches(withText("Jumanji: The Next Level")));
 	}
 
 	@Test

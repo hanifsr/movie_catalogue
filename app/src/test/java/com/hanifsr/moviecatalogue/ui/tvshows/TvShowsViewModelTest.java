@@ -43,7 +43,7 @@ public class TvShowsViewModelTest {
 
 		Observer<ArrayList<Movie>> observer = mock(Observer.class);
 
-		tvShowsViewModel.getTvShows().observeForever(observer);
+		tvShowsViewModel.getTvShows(language).observeForever(observer);
 
 		verify(observer).onChanged(dummyTvShows);
 	}

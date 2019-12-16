@@ -97,7 +97,9 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 		}
 
 		DetailViewModel detailViewModel = obtainViewModel(this);
-		detailViewModel.getDetails(movieId, index).observe(this, new Observer<Movie>() {
+
+		String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
+		detailViewModel.getDetails(movieId, index, language).observe(this, new Observer<Movie>() {
 			@Override
 			public void onChanged(Movie movie) {
 				String releaseDate = dateFormat(movie.getReleaseDate());

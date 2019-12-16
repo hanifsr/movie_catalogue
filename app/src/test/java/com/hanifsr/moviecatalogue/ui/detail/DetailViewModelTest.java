@@ -41,7 +41,7 @@ public class DetailViewModelTest {
 
 		Observer<Movie> observer = mock(Observer.class);
 
-		detailViewModel.getDetails(dummyMovie.getId(), 0).observeForever(observer);
+		detailViewModel.getDetails(dummyMovie.getId(), 0, language).observeForever(observer);
 
 		verify(observer).onChanged(dummyMovie);
 	}
@@ -55,7 +55,7 @@ public class DetailViewModelTest {
 
 		Observer<Movie> observer = mock(Observer.class);
 
-		detailViewModel.getDetails(dummyTvShow.getId(), 1).observeForever(observer);
+		detailViewModel.getDetails(dummyTvShow.getId(), 1, language).observeForever(observer);
 
 		verify(observer).onChanged(dummyTvShow);
 	}
