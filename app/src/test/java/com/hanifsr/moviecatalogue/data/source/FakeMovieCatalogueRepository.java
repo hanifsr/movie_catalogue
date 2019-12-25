@@ -7,6 +7,10 @@ import androidx.collection.SimpleArrayMap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.hanifsr.moviecatalogue.data.source.local.LocalRepository;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
+import com.hanifsr.moviecatalogue.data.source.local.room.MovieCatalogueDatabase;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetDetailCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetGenresCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
@@ -15,22 +19,27 @@ import com.hanifsr.moviecatalogue.data.source.remote.response.Genre;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 
 	private static final String TAG = "GGWP";
+
 	private volatile static FakeMovieCatalogueRepository INSTANCE;
+
+	private final LocalRepository localRepository;
 	private final RemoteRepository remoteRepository;
 
-	FakeMovieCatalogueRepository(RemoteRepository remoteRepository) {
+	FakeMovieCatalogueRepository(LocalRepository localRepository, RemoteRepository remoteRepository) {
+		this.localRepository = localRepository;
 		this.remoteRepository = remoteRepository;
 	}
 
-	public static FakeMovieCatalogueRepository getInstance(RemoteRepository remoteData) {
+	public static FakeMovieCatalogueRepository getInstance(LocalRepository localRepository, RemoteRepository remoteData) {
 		if (INSTANCE == null) {
 			synchronized (FakeMovieCatalogueRepository.class) {
 				if (INSTANCE == null) {
-					INSTANCE = new FakeMovieCatalogueRepository(remoteData);
+					INSTANCE = new FakeMovieCatalogueRepository(localRepository, remoteData);
 				}
 			}
 		}
@@ -38,8 +47,8 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<ArrayList<Movie>> getMovies(final String language) {
-		final MutableLiveData<ArrayList<Movie>> moviesResult = new MutableLiveData<>();
+	public LiveData<List<Movie>> getMovies(final String language) {
+		final MutableLiveData<List<Movie>> moviesResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
 		remoteRepository.getMovieGenres(language, new OnGetGenresCallback() {
@@ -83,8 +92,8 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<ArrayList<Movie>> getTvShows(final String language) {
-		final MutableLiveData<ArrayList<Movie>> tvShowsResult = new MutableLiveData<>();
+	public LiveData<List<Movie>> getTvShows(final String language) {
+		final MutableLiveData<List<Movie>> tvShowsResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
 		remoteRepository.getTvShowGenres(language, new OnGetGenresCallback() {
@@ -180,8 +189,8 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<ArrayList<Movie>> getReleaseTodayMovies(String todayDate) {
-		final MutableLiveData<ArrayList<Movie>> todayMoviesResult = new MutableLiveData<>();
+	public LiveData<List<Movie>> getReleaseTodayMovies(String todayDate) {
+		final MutableLiveData<List<Movie>> todayMoviesResult = new MutableLiveData<>();
 
 		remoteRepository.getReleaseTodayMovies(todayDate, new OnGetMoviesCallback() {
 			@Override
@@ -199,8 +208,8 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<ArrayList<Movie>> getQueriedMovies(final String language, final String query) {
-		final MutableLiveData<ArrayList<Movie>> queriedMoviesResult = new MutableLiveData<>();
+	public LiveData<List<Movie>> getQueriedMovies(final String language, final String query) {
+		final MutableLiveData<List<Movie>> queriedMoviesResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
 		remoteRepository.getMovieGenres(language, new OnGetGenresCallback() {
@@ -221,7 +230,7 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 									movieGenres.add(genreList.get(genreIds));
 								}
 							}
-//							movie.setGenresHelper(TextUtils.join(", ", movieGenres));
+							movie.setGenresHelper(TextUtils.join(", ", movieGenres));
 							movieArrayList.add(movie);
 						}
 						queriedMoviesResult.postValue(movieArrayList);
@@ -244,8 +253,8 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<ArrayList<Movie>> getQueriedTvShows(final String language, final String query) {
-		final MutableLiveData<ArrayList<Movie>> queriedTvShowsResult = new MutableLiveData<>();
+	public LiveData<List<Movie>> getQueriedTvShows(final String language, final String query) {
+		final MutableLiveData<List<Movie>> queriedTvShowsResult = new MutableLiveData<>();
 		final SimpleArrayMap<Integer, String> genreList = new SimpleArrayMap<>();
 
 		remoteRepository.getTvShowGenres(language, new OnGetGenresCallback() {
@@ -266,7 +275,7 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 									tvShowGenres.add(genreList.get(genreIds));
 								}
 							}
-//							tvShow.setGenresHelper(TextUtils.join(", ", tvShowGenres));
+							tvShow.setGenresHelper(TextUtils.join(", ", tvShowGenres));
 							tvShowArrayList.add(tvShow);
 						}
 						queriedTvShowsResult.postValue(tvShowArrayList);
@@ -286,5 +295,52 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 		});
 
 		return queriedTvShowsResult;
+	}
+
+	@Override
+	public void insertFavouriteMovie(FavouriteMovieEntity favouriteMovieEntity) {
+		Log.d(TAG, "insertFavouriteMovie: INVOKED");
+		MovieCatalogueDatabase.databaseWriteExecutor.execute(() -> localRepository.insertFavouriteMovie(favouriteMovieEntity));
+	}
+
+	@Override
+	public void insertFavouriteTvShow(FavouriteTvShowEntity favouriteTvShowEntity) {
+		Log.d(TAG, "insertFavouriteTvShow: INVOKED");
+		MovieCatalogueDatabase.databaseWriteExecutor.execute(() -> localRepository.insertFavouriteTvShow(favouriteTvShowEntity));
+	}
+
+	@Override
+	public void deleteFavouriteMovie(FavouriteMovieEntity favouriteMovieEntity) {
+		Log.d(TAG, "deleteFavouriteMovie: INVOKED");
+		MovieCatalogueDatabase.databaseWriteExecutor.execute(() -> localRepository.deleteFavouriteMovie(favouriteMovieEntity));
+	}
+
+	@Override
+	public void deleteFavouriteTvShow(FavouriteTvShowEntity favouriteTvShowEntity) {
+		Log.d(TAG, "deleteFavouriteTvShow: INVOKED");
+		MovieCatalogueDatabase.databaseWriteExecutor.execute(() -> localRepository.deleteFavouriteTvShow(favouriteTvShowEntity));
+	}
+
+	@Override
+	public LiveData<List<FavouriteMovieEntity>> getFavouriteMovies() {
+//		Log.d(TAG, "getFavouriteMovies: INVOKED");
+		return localRepository.getFavouriteMovies();
+	}
+
+	@Override
+	public LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows() {
+//		Log.d(TAG, "getFavouriteTvShows: INVOKED");
+		return localRepository.getFavouriteTvShows();
+	}
+
+	@Override
+	public LiveData<FavouriteMovieEntity> getFavouriteMovie(int id) {
+		return localRepository.getFavouriteMovie(id);
+	}
+
+	@Override
+	public LiveData<FavouriteTvShowEntity> getFavouriteTvShow(int id) {
+//		Log.d(TAG, "getFavouriteTvShow: INVOKED");
+		return localRepository.getFavouriteTvShow(id);
 	}
 }

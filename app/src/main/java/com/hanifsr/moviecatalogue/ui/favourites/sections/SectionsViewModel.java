@@ -1,62 +1,47 @@
 package com.hanifsr.moviecatalogue.ui.favourites.sections;
 
-import android.app.Application;
-import android.content.Context;
-import android.database.Cursor;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 
-import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
-import com.hanifsr.moviecatalogue.utils.MappingHelper;
+import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.TV_SHOW_CONTENT_URI;
-
-public class SectionsViewModel extends AndroidViewModel {
+public class SectionsViewModel extends ViewModel {
 
 	private static final String TAG = "GGWP";
-	private Context context;
-	private MutableLiveData<ArrayList<Movie>> movieList;
-	private boolean deleted = false;
 
-	public SectionsViewModel(@NonNull Application application) {
-		super(application);
-		context = application.getApplicationContext();
+	private MovieCatalogueRepository movieCatalogueRepository;
+
+	private MutableLiveData<Boolean> deleted = new MutableLiveData<>();
+	private LiveData<List<FavouriteMovieEntity>> favouriteMovies = Transformations.switchMap(deleted, input -> movieCatalogueRepository.getFavouriteMovies());
+	private LiveData<List<FavouriteTvShowEntity>> favouriteTvShows = Transformations.switchMap(deleted, input -> movieCatalogueRepository.getFavouriteTvShows());
+
+	public SectionsViewModel(MovieCatalogueRepository movieCatalogueRepository) {
+		this.movieCatalogueRepository = movieCatalogueRepository;
 	}
 
 	void setDeleted() {
-		this.deleted = true;
+		deleted.postValue(true);
 	}
 
-	LiveData<ArrayList<Movie>> getMovies(int index) {
-		if (movieList == null) {
-			movieList = new MutableLiveData<>();
-			setMovie(index);
-		} else if (deleted) {
-			setMovie(index);
-			deleted = false;
+	LiveData<List<FavouriteMovieEntity>> getFavouriteMovies() {
+		if (favouriteMovies.getValue() == null) {
+			deleted.postValue(false);
 		}
-		return movieList;
+
+		return favouriteMovies;
 	}
 
-	void setMovie(int index) {
-		ArrayList<Movie> movies = new ArrayList<>();
-		Cursor cursor = null;
-		if (index == 0) {
-			cursor = context.getContentResolver().query(MOVIE_CONTENT_URI, null, null, null, null);
-		} else if (index == 1) {
-			cursor = context.getContentResolver().query(TV_SHOW_CONTENT_URI, null, null, null, null);
+	LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows() {
+		if (favouriteTvShows.getValue() == null) {
+			deleted.postValue(false);
 		}
 
-		if (cursor != null) {
-			movies = MappingHelper.mapCursorToArrayList(cursor, index);
-		}
-
-		movieList.postValue(movies);
+		return favouriteTvShows;
 	}
 }

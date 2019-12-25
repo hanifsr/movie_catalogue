@@ -15,10 +15,13 @@ import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class MovieCatalogueTest {
 
@@ -39,7 +42,7 @@ public class MovieCatalogueTest {
 	public void toMovieDetailActivityTest() {
 		onView(withId(R.id.rv_movies)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-		onView(withId(R.id.tv_movie_title_detail)).check(matches(withText("Jumanji: The Next Level")));
+		onView(withId(R.id.tv_movie_title_detail)).check(matches(withText("Star Wars: The Rise of Skywalker")));
 	}
 
 	@Test
@@ -51,5 +54,23 @@ public class MovieCatalogueTest {
 		onView(withId(R.id.rv_tvshows)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
 		onView(withId(R.id.tv_movie_title_detail)).check(matches(withText("The Mandalorian")));
+	}
+
+	@Test
+	public void toFavouriteMoviesFragmentTest() {
+		onView(withId(R.id.navigation_favourites)).perform(click());
+
+		onView(allOf(withId(R.id.rv_favourites), withContentDescription(R.string.movies))).check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void toFavouriteTvShowsFragmentTest() {
+		onView(withId(R.id.navigation_favourites)).perform(click());
+
+		onView(allOf(withId(R.id.rv_favourites), withContentDescription(R.string.movies))).check(matches(isDisplayed()));
+
+		onView(withId(R.id.view_pager)).perform(swipeLeft());
+
+		onView(allOf(withId(R.id.rv_favourites), withContentDescription(R.string.tv_shows))).check(matches(isDisplayed()));
 	}
 }

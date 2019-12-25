@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -20,10 +19,6 @@ import androidx.core.content.ContextCompat;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.model.NotificationItem;
 import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
-import com.hanifsr.moviecatalogue.data.source.remote.RemoteRepository;
-import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
-import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
-import com.hanifsr.moviecatalogue.di.Injection;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -66,7 +61,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 			showReminderNotification(context, title, message, notifId);
 		} else if (type.equalsIgnoreCase(TYPE_RELEASE_TODAY)) {
 			String todayDate = intent.getStringExtra(EXTRA_DATE);
-			movieCatalogueRepository = Injection.provideRepository();
+//			movieCatalogueRepository = Injection.provideRepository();
 			/*RemoteRepository remoteRepository = RemoteRepository.getInstance();
 			remoteRepository.getReleaseTodayMovies(todayDate, new OnGetMoviesCallback() {
 				@Override

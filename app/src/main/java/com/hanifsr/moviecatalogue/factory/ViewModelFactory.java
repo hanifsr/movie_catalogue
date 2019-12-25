@@ -1,5 +1,7 @@
 package com.hanifsr.moviecatalogue.factory;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.di.Injection;
 import com.hanifsr.moviecatalogue.ui.detail.DetailViewModel;
+import com.hanifsr.moviecatalogue.ui.favourites.sections.SectionsViewModel;
 import com.hanifsr.moviecatalogue.ui.movies.MoviesViewModel;
 import com.hanifsr.moviecatalogue.ui.tvshows.TvShowsViewModel;
 
@@ -19,11 +22,11 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 		this.movieCatalogueRepository = movieCatalogueRepository;
 	}
 
-	public static ViewModelFactory getInstance() {
+	public static ViewModelFactory getInstance(Application application) {
 		if (INSTANCE == null) {
 			synchronized (ViewModelFactory.class) {
 				if (INSTANCE == null) {
-					INSTANCE = new ViewModelFactory(Injection.provideRepository());
+					INSTANCE = new ViewModelFactory(Injection.provideRepository(application));
 				}
 			}
 		}
@@ -40,9 +43,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 			return (T) new TvShowsViewModel(movieCatalogueRepository);
 		} else if (modelClass.isAssignableFrom(DetailViewModel.class)) {
 			return (T) new DetailViewModel(movieCatalogueRepository);
-		} /*else if (modelClass.isAssignableFrom(SectionsViewModel.class)) {
+		} else if (modelClass.isAssignableFrom(SectionsViewModel.class)) {
 			return (T) new SectionsViewModel(movieCatalogueRepository);
-		}*/
+		}
 
 		throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
 	}

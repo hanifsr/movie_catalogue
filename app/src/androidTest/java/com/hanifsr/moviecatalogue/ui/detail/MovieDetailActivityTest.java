@@ -55,7 +55,7 @@ public class MovieDetailActivityTest {
 	private Intent createIntentWithExtras(int id, int index) {
 		Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 		Intent intent = new Intent(targetContext, MovieDetailActivity.class);
-		intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, id);
+		intent.putExtra(MovieDetailActivity.EXTRA_ID, id);
 		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, 0);
 		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, index);
 

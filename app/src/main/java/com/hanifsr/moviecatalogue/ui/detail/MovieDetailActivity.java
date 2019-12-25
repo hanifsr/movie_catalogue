@@ -2,10 +2,7 @@ package com.hanifsr.moviecatalogue.ui.detail;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +12,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -30,21 +26,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.GENRES;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_ID;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.RELEASE_DATE;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.OVERVIEW;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.POSTER_PATH;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TITLE;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.FIRST_AIR_DATE;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.TV_SHOW_CONTENT_URI;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.TvShowColumns.TV_SHOW_ID;
-import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.USER_SCORE;
-
 public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-	public static final String EXTRA_MOVIE = "extra_movie";
+	private static final String TAG = "GGWP";
+
+	public static final String EXTRA_ID = "extra_movie";
 	public static final String EXTRA_POSITION = "extra_position";
 	public static final String EXTRA_INDEX = "extra_index";
 	public static final String EXTRA_TITLE = "extra_title";
@@ -66,10 +52,9 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 
 	private int position;
 	private int index;
-	private int isFavourite;
-	private Uri uriWithId;
 
 	private Movie movie;
+	private DetailViewModel detailViewModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,54 +64,54 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 		bind();
 		showLoading(true);
 
-		int movieId = getIntent().getIntExtra(EXTRA_MOVIE, 0);
+		int movieId = getIntent().getIntExtra(EXTRA_ID, 0);
 		position = getIntent().getIntExtra(EXTRA_POSITION, 0);
 		index = getIntent().getIntExtra(EXTRA_INDEX, 0);
 
-
-		if (index == 0) {
-			uriWithId = Uri.parse(MOVIE_CONTENT_URI + "/" + movieId);
-		} else if (index == 1) {
-			uriWithId = Uri.parse(TV_SHOW_CONTENT_URI + "/" + movieId);
-		}
-
-		Cursor cursor = getContentResolver().query(uriWithId, null, null, null, null);
-		if (cursor != null) {
-			isFavourite = cursor.getCount();
-			cursor.close();
-		}
-
-		DetailViewModel detailViewModel = obtainViewModel(this);
+		detailViewModel = obtainViewModel(this);
 
 		String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
-		detailViewModel.getDetails(movieId, index, language).observe(this, new Observer<Movie>() {
-			@Override
-			public void onChanged(Movie movie) {
-				String releaseDate = dateFormat(movie.getReleaseDate());
+		detailViewModel.getDetails(movieId, index, language).observe(this, movie -> {
+			String releaseDate = dateFormat(movie.getReleaseDate());
 
-				Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getBackdropPath()).into(ivBackdrop);
-				Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getPosterPath()).into(ivPoster);
-				tvTitle.setText(movie.getTitle());
-				tvGenres.setText(movie.getGenresHelper());
-				tvReleaseDate.setText(releaseDate);
-				ratingBar.setRating(Float.parseFloat(movie.getUserScore()) / 2);
-				if (movie.getOverview().isEmpty()) {
-					tvOverview.setText(R.string.no_overview);
-				} else {
-					tvOverview.setText(movie.getOverview());
-				}
-
-				setActionBarTitle(movie.getTitle());
-
-				MovieDetailActivity.this.movie = movie;
-				showLoading(false);
+			Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getBackdropPath()).into(ivBackdrop);
+			Glide.with(MovieDetailActivity.this).load(IMAGE_BASE_URL + movie.getPosterPath()).into(ivPoster);
+			tvTitle.setText(movie.getTitle());
+			tvGenres.setText(movie.getGenresHelper());
+			tvReleaseDate.setText(releaseDate);
+			ratingBar.setRating(Float.parseFloat(movie.getUserScore()) / 2);
+			if (movie.getOverview().isEmpty()) {
+				tvOverview.setText(R.string.no_overview);
+			} else {
+				tvOverview.setText(movie.getOverview());
 			}
+
+			setActionBarTitle(movie.getTitle());
+
+			MovieDetailActivity.this.movie = movie;
+			showLoading(false);
 		});
 
-		if (isFavourite == 1) {
-			btnFavourite.setText(R.string.remove_from_favourite);
-		} else {
-			btnFavourite.setText(R.string.add_to_favourite);
+		if (index == 0) {
+			detailViewModel.getFavouriteMovie(movieId).observe(this, favouriteMovieEntity -> {
+				if (favouriteMovieEntity != null) {
+					detailViewModel.setFavourite(true);
+					btnFavourite.setText(R.string.remove_from_favourite);
+				} else {
+					detailViewModel.setFavourite(false);
+					btnFavourite.setText(R.string.add_to_favourite);
+				}
+			});
+		} else if (index == 1) {
+			detailViewModel.getFavouriteTvShow(movieId).observe(this, favouriteTvShowEntity -> {
+				if (favouriteTvShowEntity != null) {
+					detailViewModel.setFavourite(true);
+					btnFavourite.setText(R.string.remove_from_favourite);
+				} else {
+					detailViewModel.setFavourite(false);
+					btnFavourite.setText(R.string.add_to_favourite);
+				}
+			});
 		}
 	}
 
@@ -137,11 +122,10 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 			intent.putExtra(EXTRA_POSITION, position);
 			intent.putExtra(EXTRA_TITLE, movie.getTitle());
 
-			if (isFavourite == 1) {
-				int result = getContentResolver().delete(uriWithId, null, null);
+			if (detailViewModel.isFavourite()) {
+				int affectedRows = detailViewModel.deleteFromFavourite(movie, index);
 
-				if (result > 0) {
-					btnFavourite.setText(R.string.add_to_favourite);
+				if (affectedRows > 0) {
 					setResult(RESULT_DELETE, intent);
 					updateWidget();
 					finish();
@@ -149,36 +133,9 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 					showSnackbarMessage(getString(R.string.delete_message_failed, movie.getTitle()), v);
 				}
 			} else {
-				long result = 0;
-				ContentValues values = new ContentValues();
-				values.put(POSTER_PATH, movie.getPosterPath());
-				values.put(TITLE, movie.getTitle());
-				values.put(GENRES, movie.getGenresHelper());
-				values.put(USER_SCORE, movie.getUserScore());
-				values.put(OVERVIEW, movie.getOverview());
+				long rowId = detailViewModel.insertToFavourite(movie, index);
 
-				Uri uriResult = null;
-				if (index == 0) {
-					values.put(MOVIE_ID, movie.getId());
-					values.put(RELEASE_DATE, movie.getReleaseDate());
-					uriResult = getContentResolver().insert(MOVIE_CONTENT_URI, values);
-				} else if (index == 1) {
-					values.put(TV_SHOW_ID, movie.getId());
-					values.put(FIRST_AIR_DATE, movie.getReleaseDate());
-					uriResult = getContentResolver().insert(TV_SHOW_CONTENT_URI, values);
-				}
-
-				if (uriResult != null) {
-					Cursor cursorResult = getContentResolver().query(uriResult, null, null, null, null);
-					if (cursorResult != null) {
-						result = cursorResult.getCount();
-						cursorResult.close();
-					}
-				}
-
-				if (result > 0) {
-					isFavourite = 1;
-					btnFavourite.setText(R.string.remove_from_favourite);
+				if (rowId > 0) {
 					updateWidget();
 					showSnackbarMessage(getString(R.string.insert_message_success, movie.getTitle()), v);
 				} else {
@@ -245,7 +202,7 @@ public class MovieDetailActivity extends AppCompatActivity implements View.OnCli
 	}
 
 	private static DetailViewModel obtainViewModel(AppCompatActivity activity) {
-		ViewModelFactory factory = ViewModelFactory.getInstance();
+		ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
 		return ViewModelProviders.of(activity, factory).get(DetailViewModel.class);
 	}
 }

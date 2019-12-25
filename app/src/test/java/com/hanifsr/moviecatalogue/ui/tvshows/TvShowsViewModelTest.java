@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -34,14 +35,14 @@ public class TvShowsViewModelTest {
 	@Test
 	public void getTvShows() {
 		String language = "en-GB";
-		ArrayList<Movie> dummyTvShows = DataDummy.generateDummyTvShows();
+		List<Movie> dummyTvShows = DataDummy.generateDummyTvShows();
 
-		MutableLiveData<ArrayList<Movie>> tvShows = new MutableLiveData<>();
+		MutableLiveData<List<Movie>> tvShows = new MutableLiveData<>();
 		tvShows.postValue(dummyTvShows);
 
 		when(movieCatalogueRepository.getTvShows(language)).thenReturn(tvShows);
 
-		Observer<ArrayList<Movie>> observer = mock(Observer.class);
+		Observer<List<Movie>> observer = mock(Observer.class);
 
 		tvShowsViewModel.getTvShows(language).observeForever(observer);
 

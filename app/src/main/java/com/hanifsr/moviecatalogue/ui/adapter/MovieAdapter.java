@@ -14,13 +14,14 @@ import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
 	private final ArrayList<Movie> movieArrayList = new ArrayList<>();
 	private OnMovieItemClickCallback onMovieItemClickCallback;
 
-	public void setData(ArrayList<Movie> movies) {
+	public void setData(List<Movie> movies) {
 		movieArrayList.clear();
 		movieArrayList.addAll(movies);
 		notifyDataSetChanged();

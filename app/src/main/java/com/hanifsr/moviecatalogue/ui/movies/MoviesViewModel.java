@@ -1,7 +1,5 @@
 package com.hanifsr.moviecatalogue.ui.movies;
 
-import android.util.Log;
-
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,20 +9,21 @@ import androidx.lifecycle.ViewModel;
 import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesViewModel extends ViewModel {
 
 	private static final String TAG = "GGWP";
+
 	private MovieCatalogueRepository movieCatalogueRepository;
 	private boolean readyToDelete = false;
 	private String language;
 
 	private MutableLiveData<String> searchQuery = new MutableLiveData<>();
-	private LiveData<ArrayList<Movie>> movies = Transformations.switchMap(searchQuery, new Function<String, LiveData<ArrayList<Movie>>>() {
+	private LiveData<List<Movie>> movies = Transformations.switchMap(searchQuery, new Function<String, LiveData<List<Movie>>>() {
 		@Override
-		public LiveData<ArrayList<Movie>> apply(String input) {
-			Log.d(TAG, "movies.Transformations -> language: " + language + ", searchQuery: " + input);
+		public LiveData<List<Movie>> apply(String input) {
+//			Log.d(TAG, "movies.Transformations -> language: " + language + ", searchQuery: " + input);
 			if (input != null) {
 				return movieCatalogueRepository.getQueriedMovies(language, input);
 			}
@@ -45,7 +44,7 @@ public class MoviesViewModel extends ViewModel {
 		this.searchQuery.postValue(searchQuery);
 	}
 
-	LiveData<ArrayList<Movie>> getMovies(String language) {
+	LiveData<List<Movie>> getMovies(String language) {
 		if (movies.getValue() == null) {
 			searchQuery.postValue(null);
 		}

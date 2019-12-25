@@ -1,7 +1,5 @@
 package com.hanifsr.moviecatalogue.ui.tvshows;
 
-import android.util.Log;
-
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TvShowsViewModel extends ViewModel {
 
@@ -21,10 +19,10 @@ public class TvShowsViewModel extends ViewModel {
 	private String language;
 
 	private MutableLiveData<String> searchQuery = new MutableLiveData<>();
-	private LiveData<ArrayList<Movie>> tvShows = Transformations.switchMap(searchQuery, new Function<String, LiveData<ArrayList<Movie>>>() {
+	private LiveData<List<Movie>> tvShows = Transformations.switchMap(searchQuery, new Function<String, LiveData<List<Movie>>>() {
 		@Override
-		public LiveData<ArrayList<Movie>> apply(String input) {
-			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
+		public LiveData<List<Movie>> apply(String input) {
+//			Log.d(TAG, "tvShows.Transformations -> language: " + language + ", searchQuery: " + input);
 			if (input != null) {
 				return movieCatalogueRepository.getQueriedTvShows(language, input);
 			}
@@ -45,7 +43,7 @@ public class TvShowsViewModel extends ViewModel {
 		this.searchQuery.postValue(searchQuery);
 	}
 
-	LiveData<ArrayList<Movie>> getTvShows(String language) {
+	LiveData<List<Movie>> getTvShows(String language) {
 		if (tvShows.getValue() == null) {
 			searchQuery.postValue(null);
 		}

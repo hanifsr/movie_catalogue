@@ -2,9 +2,12 @@ package com.hanifsr.moviecatalogue.utils;
 
 import android.database.Cursor;
 
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.GENRES;
 import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.MovieColumns.MOVIE_ID;
@@ -18,8 +21,8 @@ import static com.hanifsr.moviecatalogue.data.source.local.DatabaseContract.USER
 
 public class MappingHelper {
 
-	public static ArrayList<Movie> mapCursorToArrayList(Cursor cursor, int index) {
-		ArrayList<Movie> movies = new ArrayList<>();
+	public static List<Movie> mapCursorToArrayList(Cursor cursor, int index) {
+		List<Movie> movies = new ArrayList<>();
 		Movie movie;
 
 		while (cursor.moveToNext()) {
@@ -42,5 +45,39 @@ public class MappingHelper {
 		}
 
 		return movies;
+	}
+
+	public static List<Movie> mapListFavouriteMovieEntityToListMovie(List<FavouriteMovieEntity> favouriteMovieEntities) {
+		List<Movie> movies = new ArrayList<>();
+
+		for (FavouriteMovieEntity favouriteMovieEntity : favouriteMovieEntities) {
+			movies.add(new Movie(favouriteMovieEntity.getId(),
+					favouriteMovieEntity.getPosterPath(),
+					favouriteMovieEntity.getBackdropPath(),
+					favouriteMovieEntity.getTitle(),
+					favouriteMovieEntity.getGenre(),
+					favouriteMovieEntity.getReleaseDate(),
+					favouriteMovieEntity.getUserScore(),
+					favouriteMovieEntity.getOverview()));
+		}
+
+		return movies;
+	}
+
+	public static List<Movie> mapListFavouriteTvShowEntityToListMovie(List<FavouriteTvShowEntity> favouriteTvShowEntities) {
+		List<Movie> tvShows = new ArrayList<>();
+
+		for (FavouriteTvShowEntity favouriteTvShowEntity : favouriteTvShowEntities) {
+			tvShows.add(new Movie(favouriteTvShowEntity.getId(),
+					favouriteTvShowEntity.getPosterPath(),
+					favouriteTvShowEntity.getBackdropPath(),
+					favouriteTvShowEntity.getTitle(),
+					favouriteTvShowEntity.getGenre(),
+					favouriteTvShowEntity.getFirstAirDate(),
+					favouriteTvShowEntity.getUserScore(),
+					favouriteTvShowEntity.getOverview()));
+		}
+
+		return tvShows;
 	}
 }

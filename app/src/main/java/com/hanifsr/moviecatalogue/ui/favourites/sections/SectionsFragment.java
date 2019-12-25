@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.R;
 import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.factory.ViewModelFactory;
 import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
 import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.ui.detail.MovieDetailActivity;
-
-import java.util.ArrayList;
+import com.hanifsr.moviecatalogue.utils.MappingHelper;
 
 public class SectionsFragment extends Fragment {
 
@@ -67,20 +66,25 @@ public class SectionsFragment extends Fragment {
 
 			movieAdapter = new MovieAdapter();
 
-			sectionsViewModel = ViewModelProviders.of(this).get(SectionsViewModel.class);
-//			SectionsViewModel sectionsViewModel = obtainViewModel(this);
+			sectionsViewModel = obtainViewModel(this);
 
 			showRecyclerList(index);
 
-			sectionsViewModel.getMovies(index).observe(this, new Observer<ArrayList<Movie>>() {
-				@Override
-				public void onChanged(ArrayList<Movie> movies) {
-					if (movies != null) {
-						movieAdapter.setData(movies);
+			if (index == 0) {
+				sectionsViewModel.getFavouriteMovies().observe(this, favouriteMovieEntities -> {
+					if (favouriteMovieEntities != null) {
+						movieAdapter.setData(MappingHelper.mapListFavouriteMovieEntityToListMovie(favouriteMovieEntities));
 						showLoading(false);
 					}
-				}
-			});
+				});
+			} else if (index == 1) {
+				sectionsViewModel.getFavouriteTvShows().observe(this, favouriteTvShowEntities -> {
+					if (favouriteTvShowEntities != null) {
+						movieAdapter.setData(MappingHelper.mapListFavouriteTvShowEntityToListMovie(favouriteTvShowEntities));
+						showLoading(false);
+					}
+				});
+			}
 		}
 	}
 
@@ -104,6 +108,7 @@ public class SectionsFragment extends Fragment {
 	private void showRecyclerList(final int index) {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 		recyclerView.setHasFixedSize(true);
+		recyclerView.setContentDescription(index == 0 ? getString(R.string.movies) : getString(R.string.tv_shows));
 		recyclerView.setAdapter(movieAdapter);
 
 		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
@@ -116,7 +121,7 @@ public class SectionsFragment extends Fragment {
 
 	private void showSelectedMovie(Movie movie, int index, int position) {
 		Intent intent = new Intent(this.getActivity(), MovieDetailActivity.class);
-		intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie.getId());
+		intent.putExtra(MovieDetailActivity.EXTRA_ID, movie.getId());
 		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
 		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, index);
 		startActivityForResult(intent, MovieDetailActivity.REQUEST_DELETE);
@@ -134,8 +139,8 @@ public class SectionsFragment extends Fragment {
 		Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
 	}
 
-	/*private static SectionsViewModel obtainViewModel(Fragment fragment) {
-		ViewModelFactory factory = ViewModelFactory.getInstance();
+	private static SectionsViewModel obtainViewModel(Fragment fragment) {
+		ViewModelFactory factory = ViewModelFactory.getInstance(fragment.getActivity().getApplication());
 		return ViewModelProviders.of(fragment, factory).get(SectionsViewModel.class);
-	}*/
+	}
 }

@@ -1,8 +1,12 @@
 package com.hanifsr.moviecatalogue.data.source;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.MutableLiveData;
 
 import com.hanifsr.moviecatalogue.BuildConfig;
+import com.hanifsr.moviecatalogue.data.source.local.LocalRepository;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetDetailCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetGenresCallback;
 import com.hanifsr.moviecatalogue.data.source.remote.OnGetMoviesCallback;
@@ -23,6 +27,7 @@ import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Response;
@@ -37,13 +42,17 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MovieCatalogueRepositoryTest {
 
+	private LocalRepository localRepository = mock(LocalRepository.class);
 	private RemoteRepository remoteRepository = mock(RemoteRepository.class);
-	private FakeMovieCatalogueRepository fakeMovieCatalogueRepository = new FakeMovieCatalogueRepository(remoteRepository);
+	private FakeMovieCatalogueRepository fakeMovieCatalogueRepository = new FakeMovieCatalogueRepository(localRepository, remoteRepository);
 	private Movie dummyMovie = DataDummy.generateDummyMovies().get(0);
 	private Movie dummyTvShow = DataDummy.generateDummyTvShows().get(0);
+	private FavouriteMovieEntity dummyFavouriteMovieEntity = DataDummy.generateDummyFavouriteMovies().get(0);
+	private FavouriteTvShowEntity dummyFavouriteTvShowEntity = DataDummy.generateDummyFavouriteTvShows().get(0);
 	private MockWebServer mockWebServer = new MockWebServer();
 	private TMDBApi api;
 
@@ -91,7 +100,7 @@ public class MovieCatalogueRepositoryTest {
 			}
 		}).when(remoteRepository).getMovies(eq("en-GB"), any(OnGetMoviesCallback.class));
 
-		ArrayList<Movie> movies = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getMovies("en-GB"));
+		List<Movie> movies = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getMovies("en-GB"));
 
 		verify(remoteRepository, times(1)).getMovieGenres(eq("en-GB"), any(OnGetGenresCallback.class));
 		verify(remoteRepository, times(1)).getMovies(eq("en-GB"), any(OnGetMoviesCallback.class));
@@ -126,7 +135,7 @@ public class MovieCatalogueRepositoryTest {
 			}
 		}).when(remoteRepository).getTvShows(eq("en-GB"), any(OnGetMoviesCallback.class));
 
-		ArrayList<Movie> tvShows = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getTvShows("en-GB"));
+		List<Movie> tvShows = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getTvShows("en-GB"));
 
 		verify(remoteRepository, times(1)).getTvShowGenres(eq("en-GB"), any(OnGetGenresCallback.class));
 		verify(remoteRepository, times(1)).getTvShows(eq("en-GB"), any(OnGetMoviesCallback.class));
@@ -179,5 +188,65 @@ public class MovieCatalogueRepositoryTest {
 
 		assertNotNull(tvShow);
 		assertEquals(dummyTvShow.getTitle(), tvShow.getTitle());
+	}
+
+	@Test
+	public void getFavouriteMovies() {
+		MutableLiveData<List<FavouriteMovieEntity>> dummyFavouriteMovies = new MutableLiveData<>();
+		dummyFavouriteMovies.postValue(DataDummy.generateDummyFavouriteMovies());
+
+		when(localRepository.getFavouriteMovies()).thenReturn(dummyFavouriteMovies);
+
+		List<FavouriteMovieEntity> result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteMovies());
+
+		verify(localRepository, times(1)).getFavouriteMovies();
+
+		assertNotNull(result);
+		assertEquals(DataDummy.generateDummyFavouriteMovies().size(), result.size());
+	}
+
+	@Test
+	public void getFavouriteTvShows() {
+		MutableLiveData<List<FavouriteTvShowEntity>> dummyFavouriteTvShows = new MutableLiveData<>();
+		dummyFavouriteTvShows.postValue(DataDummy.generateDummyFavouriteTvShows());
+
+		when(localRepository.getFavouriteTvShows()).thenReturn(dummyFavouriteTvShows);
+
+		List<FavouriteTvShowEntity> result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteTvShows());
+
+		verify(localRepository, times(1)).getFavouriteTvShows();
+
+		assertNotNull(result);
+		assertEquals(DataDummy.generateDummyFavouriteTvShows().size(), result.size());
+	}
+
+	@Test
+	public void getFavouriteMovie() {
+		MutableLiveData<FavouriteMovieEntity> dummyFavouriteMovie = new MutableLiveData<>();
+		dummyFavouriteMovie.postValue(dummyFavouriteMovieEntity);
+
+		when(localRepository.getFavouriteMovie(dummyFavouriteMovieEntity.getId())).thenReturn(dummyFavouriteMovie);
+
+		FavouriteMovieEntity result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteMovie(dummyFavouriteMovieEntity.getId()));
+
+		verify(localRepository, times(1)).getFavouriteMovie(dummyFavouriteMovieEntity.getId());
+
+		assertNotNull(result);
+		assertEquals(dummyFavouriteMovieEntity.getId(), result.getId());
+	}
+
+	@Test
+	public void getFavouriteTvShow() {
+		MutableLiveData<FavouriteTvShowEntity> dummyFavouriteTvShow = new MutableLiveData<>();
+		dummyFavouriteTvShow.postValue(dummyFavouriteTvShowEntity);
+
+		when(localRepository.getFavouriteTvShow(dummyFavouriteTvShowEntity.getId())).thenReturn(dummyFavouriteTvShow);
+
+		FavouriteTvShowEntity result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteTvShow(dummyFavouriteTvShowEntity.getId()));
+
+		verify(localRepository, times(1)).getFavouriteTvShow(dummyFavouriteTvShowEntity.getId());
+
+		assertNotNull(result);
+		assertEquals(dummyFavouriteTvShowEntity.getId(), result.getId());
 	}
 }

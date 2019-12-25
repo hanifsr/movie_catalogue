@@ -13,12 +13,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hanifsr.moviecatalogue.R;
-import com.hanifsr.moviecatalogue.data.source.local.MovieHelper;
 import com.hanifsr.moviecatalogue.ui.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-	private MovieHelper movieHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setElevation(0);
 		}
-
-		movieHelper = MovieHelper.getInstance(getApplicationContext());
-		movieHelper.open();
 	}
 
 	@Override
@@ -59,6 +53,5 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		movieHelper.close();
 	}
 }

@@ -24,7 +24,7 @@ import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
 import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
 import com.hanifsr.moviecatalogue.ui.detail.MovieDetailActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MoviesFragment extends Fragment {
@@ -77,9 +77,9 @@ public class MoviesFragment extends Fragment {
 			showRecyclerList();
 
 			String language = Locale.getDefault().getISO3Language().substring(0, 2) + "-" + Locale.getDefault().getISO3Country().substring(0, 2);
-			moviesViewModel.getMovies(language).observe(this, new Observer<ArrayList<Movie>>() {
+			moviesViewModel.getMovies(language).observe(this, new Observer<List<Movie>>() {
 				@Override
-				public void onChanged(ArrayList<Movie> movies) {
+				public void onChanged(List<Movie> movies) {
 					if (movies != null) {
 						movieAdapter.setData(movies);
 						showLoading(false);
@@ -116,7 +116,7 @@ public class MoviesFragment extends Fragment {
 
 	private void showSelectedMovie(Movie movie, int position) {
 		Intent intent = new Intent(this.getActivity(), MovieDetailActivity.class);
-		intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie.getId());
+		intent.putExtra(MovieDetailActivity.EXTRA_ID, movie.getId());
 		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
 		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, 0);
 		startActivityForResult(intent, MovieDetailActivity.REQUEST_DELETE);
@@ -135,7 +135,7 @@ public class MoviesFragment extends Fragment {
 	}
 
 	private static MoviesViewModel obtainViewModel(Fragment fragment) {
-		ViewModelFactory factory = ViewModelFactory.getInstance();
+		ViewModelFactory factory = ViewModelFactory.getInstance(fragment.getActivity().getApplication());
 		return ViewModelProviders.of(fragment, factory).get(MoviesViewModel.class);
 	}
 }
