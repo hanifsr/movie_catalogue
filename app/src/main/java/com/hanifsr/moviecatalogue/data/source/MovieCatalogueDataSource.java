@@ -1,6 +1,7 @@
 package com.hanifsr.moviecatalogue.data.source;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
@@ -34,9 +35,9 @@ public interface MovieCatalogueDataSource {
 
 	void deleteFavouriteTvShow(FavouriteTvShowEntity favouriteTvShowEntity);
 
-	LiveData<List<FavouriteMovieEntity>> getFavouriteMovies();
+	LiveData<PagedList<FavouriteMovieEntity>> getFavouriteMovies();
 
-	LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows();
+	LiveData<PagedList<FavouriteTvShowEntity>> getFavouriteTvShows();
 
 	LiveData<FavouriteMovieEntity> getFavouriteMovie(int id);
 

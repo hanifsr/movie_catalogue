@@ -2,6 +2,8 @@ package com.hanifsr.moviecatalogue.data.source;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 
 import com.hanifsr.moviecatalogue.BuildConfig;
 import com.hanifsr.moviecatalogue.data.source.local.LocalRepository;
@@ -17,6 +19,7 @@ import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
 import com.hanifsr.moviecatalogue.data.source.remote.response.MovieResponse;
 import com.hanifsr.moviecatalogue.utils.DataDummy;
 import com.hanifsr.moviecatalogue.utils.LiveDataTestUtil;
+import com.hanifsr.moviecatalogue.utils.PagedListUtil;
 
 import org.junit.After;
 import org.junit.Before;
@@ -192,12 +195,12 @@ public class MovieCatalogueRepositoryTest {
 
 	@Test
 	public void getFavouriteMovies() {
-		MutableLiveData<List<FavouriteMovieEntity>> dummyFavouriteMovies = new MutableLiveData<>();
-		dummyFavouriteMovies.postValue(DataDummy.generateDummyFavouriteMovies());
+		DataSource.Factory<Integer, FavouriteMovieEntity> factory = mock(DataSource.Factory.class);
 
-		when(localRepository.getFavouriteMovies()).thenReturn(dummyFavouriteMovies);
+		when(localRepository.getFavouriteMovies()).thenReturn(factory);
 
-		List<FavouriteMovieEntity> result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteMovies());
+		fakeMovieCatalogueRepository.getFavouriteMovies();
+		PagedList<FavouriteMovieEntity> result = PagedListUtil.mockPagedList(DataDummy.generateDummyFavouriteMovies());
 
 		verify(localRepository, times(1)).getFavouriteMovies();
 
@@ -207,12 +210,12 @@ public class MovieCatalogueRepositoryTest {
 
 	@Test
 	public void getFavouriteTvShows() {
-		MutableLiveData<List<FavouriteTvShowEntity>> dummyFavouriteTvShows = new MutableLiveData<>();
-		dummyFavouriteTvShows.postValue(DataDummy.generateDummyFavouriteTvShows());
+		DataSource.Factory<Integer, FavouriteTvShowEntity> factory = mock(DataSource.Factory.class);
 
-		when(localRepository.getFavouriteTvShows()).thenReturn(dummyFavouriteTvShows);
+		when(localRepository.getFavouriteTvShows()).thenReturn(factory);
 
-		List<FavouriteTvShowEntity> result = LiveDataTestUtil.getValue(fakeMovieCatalogueRepository.getFavouriteTvShows());
+		fakeMovieCatalogueRepository.getFavouriteTvShows();
+		PagedList<FavouriteTvShowEntity> result = PagedListUtil.mockPagedList(DataDummy.generateDummyFavouriteTvShows());
 
 		verify(localRepository, times(1)).getFavouriteTvShows();
 

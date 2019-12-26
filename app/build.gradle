@@ -91,4 +91,7 @@ dependencies {
 
 	// Retrofit unit test
 	testImplementation 'com.squareup.okhttp3:mockwebserver:4.2.2'
+
+	// Paging
+	implementation 'androidx.paging:paging-runtime:2.1.1'
 }

@@ -1,12 +1,11 @@
 package com.hanifsr.moviecatalogue.data.source.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
 import com.hanifsr.moviecatalogue.data.source.local.room.MovieCatalogueDao;
-
-import java.util.List;
 
 public class LocalRepository {
 
@@ -42,11 +41,11 @@ public class LocalRepository {
 		movieCatalogueDao.deleteFavouriteTvShow(favouriteTvShowEntity);
 	}
 
-	public LiveData<List<FavouriteMovieEntity>> getFavouriteMovies() {
+	public DataSource.Factory<Integer, FavouriteMovieEntity> getFavouriteMovies() {
 		return movieCatalogueDao.getFavouriteMovies();
 	}
 
-	public LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows() {
+	public DataSource.Factory<Integer, FavouriteTvShowEntity> getFavouriteTvShows() {
 		return movieCatalogueDao.getFavouriteTvShows();
 	}
 

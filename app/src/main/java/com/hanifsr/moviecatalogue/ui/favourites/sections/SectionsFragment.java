@@ -16,19 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hanifsr.moviecatalogue.R;
-import com.hanifsr.moviecatalogue.data.source.remote.response.Movie;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
+import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
 import com.hanifsr.moviecatalogue.factory.ViewModelFactory;
-import com.hanifsr.moviecatalogue.ui.adapter.MovieAdapter;
-import com.hanifsr.moviecatalogue.ui.adapter.OnMovieItemClickCallback;
+import com.hanifsr.moviecatalogue.ui.adapter.FavouriteMoviePagedAdapter;
+import com.hanifsr.moviecatalogue.ui.adapter.FavouriteTvShowPagedAdapter;
 import com.hanifsr.moviecatalogue.ui.detail.MovieDetailActivity;
-import com.hanifsr.moviecatalogue.utils.MappingHelper;
 
 public class SectionsFragment extends Fragment {
 
 	private static final String ARG_SECTION_NUMBER = "section_number";
 
 	private RecyclerView recyclerView;
-	private MovieAdapter movieAdapter;
+	private FavouriteMoviePagedAdapter favouriteMoviePagedAdapter;
+	private FavouriteTvShowPagedAdapter favouriteTvShowPagedAdapter;
 	private SectionsViewModel sectionsViewModel;
 	private ProgressBar progressBar;
 
@@ -64,27 +65,29 @@ public class SectionsFragment extends Fragment {
 				index = getArguments().getInt(ARG_SECTION_NUMBER);
 			}
 
-			movieAdapter = new MovieAdapter();
-
 			sectionsViewModel = obtainViewModel(this);
 
-			showRecyclerList(index);
-
 			if (index == 0) {
+				favouriteMoviePagedAdapter = new FavouriteMoviePagedAdapter();
 				sectionsViewModel.getFavouriteMovies().observe(this, favouriteMovieEntities -> {
 					if (favouriteMovieEntities != null) {
-						movieAdapter.setData(MappingHelper.mapListFavouriteMovieEntityToListMovie(favouriteMovieEntities));
+						favouriteMoviePagedAdapter.submitList(favouriteMovieEntities);
+						favouriteMoviePagedAdapter.notifyDataSetChanged();
 						showLoading(false);
 					}
 				});
 			} else if (index == 1) {
+				favouriteTvShowPagedAdapter = new FavouriteTvShowPagedAdapter();
 				sectionsViewModel.getFavouriteTvShows().observe(this, favouriteTvShowEntities -> {
 					if (favouriteTvShowEntities != null) {
-						movieAdapter.setData(MappingHelper.mapListFavouriteTvShowEntityToListMovie(favouriteTvShowEntities));
+						favouriteTvShowPagedAdapter.submitList(favouriteTvShowEntities);
+						favouriteTvShowPagedAdapter.notifyDataSetChanged();
 						showLoading(false);
 					}
 				});
 			}
+
+			showRecyclerList(index);
 		}
 	}
 
@@ -97,7 +100,6 @@ public class SectionsFragment extends Fragment {
 				int position = data.getIntExtra(MovieDetailActivity.EXTRA_POSITION, 0);
 				String title = data.getStringExtra(MovieDetailActivity.EXTRA_TITLE);
 
-				movieAdapter.removeItem(position);
 				sectionsViewModel.setDeleted();
 
 				showSnackbarMessage(getString(R.string.delete_message_success, title));
@@ -109,21 +111,28 @@ public class SectionsFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setContentDescription(index == 0 ? getString(R.string.movies) : getString(R.string.tv_shows));
-		recyclerView.setAdapter(movieAdapter);
+		recyclerView.setAdapter(index == 0 ? favouriteMoviePagedAdapter : favouriteTvShowPagedAdapter);
 
-		movieAdapter.setOnMovieItemClickCallback(new OnMovieItemClickCallback() {
-			@Override
-			public void onMovieItemClicked(Movie movie, int position) {
-				showSelectedMovie(movie, index, position);
-			}
-		});
+		if (index == 0) {
+			favouriteMoviePagedAdapter.setOnFavouriteMovieItemClickCallback(this::showSelectedFavouriteMovie);
+		} else if (index == 1) {
+			favouriteTvShowPagedAdapter.setOnFavouriteTvShowItemClickCallback(this::showSelectedFavouriteTvShow);
+		}
 	}
 
-	private void showSelectedMovie(Movie movie, int index, int position) {
+	private void showSelectedFavouriteMovie(FavouriteMovieEntity favouriteMovieEntity, int position) {
 		Intent intent = new Intent(this.getActivity(), MovieDetailActivity.class);
-		intent.putExtra(MovieDetailActivity.EXTRA_ID, movie.getId());
+		intent.putExtra(MovieDetailActivity.EXTRA_ID, favouriteMovieEntity.getId());
 		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
-		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, index);
+		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, 0);
+		startActivityForResult(intent, MovieDetailActivity.REQUEST_DELETE);
+	}
+
+	private void showSelectedFavouriteTvShow(FavouriteTvShowEntity favouriteTvShowEntity, int position) {
+		Intent intent = new Intent(this.getActivity(), MovieDetailActivity.class);
+		intent.putExtra(MovieDetailActivity.EXTRA_ID, favouriteTvShowEntity.getId());
+		intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
+		intent.putExtra(MovieDetailActivity.EXTRA_INDEX, 1);
 		startActivityForResult(intent, MovieDetailActivity.REQUEST_DELETE);
 	}
 

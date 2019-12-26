@@ -3,6 +3,7 @@ package com.hanifsr.moviecatalogue.ui.favourites.sections;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.paging.PagedList;
 
 import com.hanifsr.moviecatalogue.data.source.MovieCatalogueRepository;
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
@@ -34,33 +35,31 @@ public class SectionsViewModelTest {
 
 	@Test
 	public void getFavouriteMovies() {
-		List<FavouriteMovieEntity> favouriteMovieEntities = DataDummy.generateDummyFavouriteMovies();
-
-		MutableLiveData<List<FavouriteMovieEntity>> favouriteMovies = new MutableLiveData<>();
-		favouriteMovies.postValue(favouriteMovieEntities);
+		MutableLiveData<PagedList<FavouriteMovieEntity>> favouriteMovies = new MutableLiveData<>();
+		PagedList<FavouriteMovieEntity> pagedList = mock(PagedList.class);
+		favouriteMovies.postValue(pagedList);
 
 		when(movieCatalogueRepository.getFavouriteMovies()).thenReturn(favouriteMovies);
 
-		Observer<List<FavouriteMovieEntity>> observer = mock(Observer.class);
+		Observer<PagedList<FavouriteMovieEntity>> observer = mock(Observer.class);
 
 		sectionsViewModel.getFavouriteMovies().observeForever(observer);
 
-		verify(observer).onChanged(favouriteMovieEntities);
+		verify(observer).onChanged(pagedList);
 	}
 
 	@Test
 	public void getFavouriteTvShows() {
-		List<FavouriteTvShowEntity> favouriteTvShowEntities = DataDummy.generateDummyFavouriteTvShows();
-
-		MutableLiveData<List<FavouriteTvShowEntity>> favouriteTvShows = new MutableLiveData<>();
-		favouriteTvShows.postValue(favouriteTvShowEntities);
+		MutableLiveData<PagedList<FavouriteTvShowEntity>> favouriteTvShows = new MutableLiveData<>();
+		PagedList<FavouriteTvShowEntity> pagedList = mock(PagedList.class);
+		favouriteTvShows.postValue(pagedList);
 
 		when(movieCatalogueRepository.getFavouriteTvShows()).thenReturn(favouriteTvShows);
 
-		Observer<List<FavouriteTvShowEntity>> observer = mock(Observer.class);
+		Observer<PagedList<FavouriteTvShowEntity>> observer = mock(Observer.class);
 
 		sectionsViewModel.getFavouriteTvShows().observeForever(observer);
 
-		verify(observer).onChanged(favouriteTvShowEntities);
+		verify(observer).onChanged(pagedList);
 	}
 }

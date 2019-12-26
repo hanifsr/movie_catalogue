@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.collection.SimpleArrayMap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.hanifsr.moviecatalogue.data.source.local.LocalRepository;
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
@@ -322,15 +324,15 @@ public class FakeMovieCatalogueRepository implements MovieCatalogueDataSource {
 	}
 
 	@Override
-	public LiveData<List<FavouriteMovieEntity>> getFavouriteMovies() {
+	public LiveData<PagedList<FavouriteMovieEntity>> getFavouriteMovies() {
 //		Log.d(TAG, "getFavouriteMovies: INVOKED");
-		return localRepository.getFavouriteMovies();
+		return new LivePagedListBuilder<>(localRepository.getFavouriteMovies(), 20).build();
 	}
 
 	@Override
-	public LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows() {
+	public LiveData<PagedList<FavouriteTvShowEntity>> getFavouriteTvShows() {
 //		Log.d(TAG, "getFavouriteTvShows: INVOKED");
-		return localRepository.getFavouriteTvShows();
+		return new LivePagedListBuilder<>(localRepository.getFavouriteTvShows(), 20).build();
 	}
 
 	@Override

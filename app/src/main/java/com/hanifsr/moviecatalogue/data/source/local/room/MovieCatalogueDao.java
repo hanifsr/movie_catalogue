@@ -1,6 +1,7 @@
 package com.hanifsr.moviecatalogue.data.source.local.room;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,8 +9,6 @@ import androidx.room.Query;
 
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteMovieEntity;
 import com.hanifsr.moviecatalogue.data.source.local.entity.FavouriteTvShowEntity;
-
-import java.util.List;
 
 @Dao
 public interface MovieCatalogueDao {
@@ -27,10 +26,10 @@ public interface MovieCatalogueDao {
 	void deleteFavouriteTvShow(FavouriteTvShowEntity favouriteTvShowEntity);
 
 	@Query("SELECT * FROM favourite_movie ORDER BY title ASC")
-	LiveData<List<FavouriteMovieEntity>> getFavouriteMovies();
+	DataSource.Factory<Integer, FavouriteMovieEntity> getFavouriteMovies();
 
 	@Query("SELECT * FROM favourite_tv_show ORDER BY title ASC")
-	LiveData<List<FavouriteTvShowEntity>> getFavouriteTvShows();
+	DataSource.Factory<Integer, FavouriteTvShowEntity> getFavouriteTvShows();
 
 	@Query("SELECT * FROM favourite_movie WHERE id = :id")
 	LiveData<FavouriteMovieEntity> getFavouriteMovie(int id);
